@@ -1,5 +1,10 @@
 Week1
-
 I join Jira project of our group creaated by scrum master.
+Join the meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest.
 
-Join the meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest. 
+
+Week2
+I write Login/Sign up section of user stories in proposal.
+
+Week3
+I construct the storyboard in Figma which covered the section of Login/Sign up of user stories.
