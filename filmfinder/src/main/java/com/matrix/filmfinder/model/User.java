@@ -1,7 +1,7 @@
 package com.matrix.filmfinder.model;
 
 import com.alibaba.fastjson.JSON;
-import io.micrometer.core.lang.NonNull;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Objects;
