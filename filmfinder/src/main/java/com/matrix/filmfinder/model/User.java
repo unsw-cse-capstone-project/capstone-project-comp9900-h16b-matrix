@@ -1,5 +1,8 @@
 package com.matrix.filmfinder.model;
 
+import com.alibaba.fastjson.JSON;
+import io.micrometer.core.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,8 +11,13 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue
+    @NonNull
     private UUID id;
     @Column
+//    @NonNull
+    private String name;
+    @Column
+    @NonNull
     private String email;
     @Column
     private String password;
@@ -19,11 +27,20 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String email, String password, String oauth2_token) {
+    public User(UUID id, String name, String email, String password, String oauth2_token) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.oauth2_token = oauth2_token;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public UUID getId() {
@@ -58,5 +75,36 @@ public class User {
         this.oauth2_token = oauth2_token;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id) &&
+                Objects.equals(name, user.name) &&
+                email.equals(user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(oauth2_token, user.oauth2_token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, password, oauth2_token);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id.toString() +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+//    public JSON toJson() {
+//
+//    }
+
 
 }
+
+
