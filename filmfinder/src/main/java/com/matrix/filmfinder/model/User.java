@@ -27,6 +27,11 @@ public class User {
     public User() {
     }
 
+    public User(String name, @NonNull String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public User(UUID id, String name, String email, String password, String oauth2_token) {
         this.id = id;
         this.name = name;
