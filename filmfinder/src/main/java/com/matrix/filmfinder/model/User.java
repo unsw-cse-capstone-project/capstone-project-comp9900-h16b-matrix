@@ -1,6 +1,7 @@
 package com.matrix.filmfinder.model;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -12,16 +13,19 @@ public class User {
     @Id
     @GeneratedValue
     @NonNull
+    @JsonIgnore
     private UUID id;
-    @Column
-//    @NonNull
+    @Column(unique = true)
+    @NonNull
     private String name;
-    @Column
+    @Column(unique = true)
     @NonNull
     private String email;
     @Column
+    @JsonIgnore
     private String password;
     @Column
+    @JsonIgnore
     private String oauth2_token;
 
     public User() {
