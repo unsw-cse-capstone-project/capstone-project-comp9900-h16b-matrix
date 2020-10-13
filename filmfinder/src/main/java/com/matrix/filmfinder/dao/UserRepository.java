@@ -11,5 +11,7 @@ public interface UserRepository extends CrudRepository<User, UUID> {
 //    User save(User user);
 //    Optional<User> findById(Integer Id);
 //    List<User>v
+    User findByName(String name);
+    User findByEmail(String email);
 
 }
