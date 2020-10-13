@@ -32,11 +32,11 @@ const Home = props =>{
             <Divider/>  
             <br/>
             <Typography variant='h4' style={{paddingLeft: '3%'}}>
-                New/Upcomming Movie
+                New Movie
             </Typography>
-            <TopMovie history={history} />
+            <TopMovie history={history} type={0} />
             </Grid>
-            <Grid item   justify='center'>
+            {/* <Grid item   justify='center'>
             <br/><br/>
             <Divider/>  
             <br/>
@@ -44,7 +44,7 @@ const Home = props =>{
                 Recommendation
             </Typography>
             <TopMovie  history={history}/>
-            </Grid>
+            </Grid> */}
             </Grid>
         </div>
     )
