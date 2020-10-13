@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,6 +8,8 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchBar from "./component/SearchBar";
 
 import { Link } from "react-router-dom";
+import { DialogTitle } from "@material-ui/core";
+import Logindialog from "../Login & Sign up/Login";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -37,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = (props) => {
   const classes = useStyles();
     const {history,barValue} = props
+    const [open,setOpen]=useState(false)
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
   return (
     <div className={classes.root} >
       <AppBar position="static">
@@ -55,9 +64,12 @@ const NavBar = (props) => {
 
          <SearchBar />
           
-          <Button color="inherit">Login/Sign up</Button>
+          
+          <Button onClick={handleClickOpen} color="inherit">Login/Sign up</Button>
+
         </Toolbar>
       </AppBar>
+      <Logindialog handleClose={handleClose} open={open} handleClickOpen={handleClickOpen}/>
     </div>
   );
 };
