@@ -17,7 +17,7 @@ import { FaApple } from "react-icons/fa";
 import Grid from '@material-ui/core/Grid';
 import { Link } from "@material-ui/core";
 import Signupdialog from "../Login & Sign up/Signup";
-
+import * as userAPI from "../../api/userAPI"
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -87,24 +87,35 @@ const useStyles3 = makeStyles((theme) => ({
       color: theme.palette.text.secondary,
     },
   }));
-
+const jwt = require("jwt-simple");
 export default function Logindialog(props) {
-    const {open,handleClose,handleClickOpen}=props
+    const {open,handleClose,handleClickOpen,SignupClose,SignupOpen,handleSignupOpen}=props
     console.log(props,open)
     const classes = useStyles2();
     const classes3 = useStyles3();
     
-    const [SignupOpen,SignupsetOpen]=useState(false)
-    const handleSignupOpen = () => {
-      SignupsetOpen(true);
-      handleClose()
-    };
-    const SignupClose = () => {
-      SignupsetOpen(false);
-    };
+    const [userInfo,setUserInfo]= useState({
+      'name':"",
+      'password':""
+    })
+    const userLogin = async()=>{
+      const data = {'name':userInfo.name,'password':userInfo.password}
+        const res = await userAPI.login(data)
+        console.log(res)
+        if(res){
+          const secreatInfo = jwt.encode(res,process.env.REACT_APP_TOKEN_SECRET)
+          localStorage.setItem("userInfo",secreatInfo)
+          handleClose()
+        }
+        
+    }
 
-
- 
+    const handleChange = (e)=>{
+      setUserInfo(
+       { ...userInfo,
+        [e.target.name]:e.target.value}
+      )
+    }
   return (
     <div>
      
@@ -125,14 +136,14 @@ export default function Logindialog(props) {
 
           
           <Typography gutterBottom>
-            <TextField id="outlined-basic" label="Username or Email address" variant="outlined" fullWidth={true} size="small"/>
+            <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="name"/>
           </Typography>
 
           <Typography gutterBottom>
-            <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} size="small"/>
+            <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="password" type="password"/>
           </Typography>
 
-          <Button variant="contained" color="primary" fullWidth={true} >
+          <Button variant="contained" color="primary" fullWidth={true} onClick={userLogin} >
             Confirm
           </Button>
 
