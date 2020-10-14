@@ -1,7 +1,9 @@
 import {
   Box,
+  Button,
   Divider,
   Grid,
+  IconButton,
   Link,
   List,
   ListSubheader,
@@ -19,7 +21,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import CRTabs from "./component/CRTabs"
 import { Link as RouteLink } from "react-router-dom";
+import * as Empty from "../../component/Empty"
+import Logindialog from "../Login & Sign up/Login";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "90%",
@@ -31,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
 }));
+const jwt = require("jwt-simple");
 export default function MovieDetail(props) {
   const apiKey = process.env.REACT_APP_KEY;
   const { id } = props.match.params;
@@ -40,6 +46,28 @@ export default function MovieDetail(props) {
   const [hidden, setHidden] = useState(true);
   const [video, setVideo] = useState({});
   const classes = useStyles();
+  let decoded;
+  const token = localStorage.getItem("userInfo")
+  if (token) {
+    decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
+  }
+  const [open, setOpen] = useState(false);
+  const [SignupOpen, SignupsetOpen] = useState(false);
+  const [logout,setLogout] = useState(false)
+  const rederLogout = ()=>setLogout(!logout)
+  const handleSignupOpen = () => {
+    SignupsetOpen(true);
+    handleClose();
+  };
+  const SignupClose = () => {
+    SignupsetOpen(false);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   useEffect(() => {
     const getInfo = async () => {
       console.log(id);
@@ -87,26 +115,20 @@ export default function MovieDetail(props) {
     let DateArray = date.toUTCString().split(" ");
     return `${DateArray[1]} ${DateArray[2]}, ${DateArray[3]}`;
   };
-  const isEmpty = (obj) => {
-    if (!obj && obj !== 0 && obj !== "") {
-      return true;
-    }
-    //检验数组
-    if (Array.prototype.isPrototypeOf(obj) && obj.length === 0) {
-      return true;
-    }
-    //检验对象
-    if (Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length === 0) {
-      return true;
-    }
-    return false;
-  };
   return (
     <div>
       {console.log(video)}
       <Grid container spacing={3} justify="center" alignItems="center">
         <Grid item xs={12}>
-          <NavBar />
+          <NavBar handleClose={handleClose}
+        open={open}
+        handleClickOpen={handleClickOpen}
+        SignupClose={SignupClose}
+        SignupOpen={SignupOpen}
+        handleSignupOpen={handleSignupOpen}
+        rederLogout={rederLogout}
+        />
+       
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2}>
@@ -123,26 +145,25 @@ export default function MovieDetail(props) {
                   }
                 />
                 {video.key?
-                <List
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                  <ListSubheader component="div" id="nested-list-subheader">
-                    Trailer
-                  </ListSubheader>
-                }
+                <div
+               
                 className={classes.root}
               >
-                <ListItem button  >
-                  <ListItemIcon>
+                <Typography variant='body2'>
+                    Trailer
+                  </Typography>
+                  <Typography>
+                <IconButton  >
+
+                  {/* <ListItemIcon> */}
                     <YouTubeIcon style={{ color: "red" }} />
-                  </ListItemIcon>
-                  <ListItemText >
+                  {/* </ListItemIcon> */}
+                  </IconButton >
                     
                     <a href={`https://www.youtube.com/watch?v=${video.key}`}>Youtube</a>
-                  </ListItemText>
-                </ListItem>
-              </List>
+                 
+                </Typography>
+              </div>
               :null}
                 
               </div>
@@ -171,17 +192,17 @@ export default function MovieDetail(props) {
                 <Grid item xs={4} alignItems="center" justify="center">
                   <Typography align="right">
                     {console.log(JSON.stringify(info.genres) === "[]")}
-                    {!isEmpty(director) ? (
+                    {!Empty.isEmpty(director) ? (
                       <Typography>
                         <b style={{ color: "gray" }}>Director : </b>
                       </Typography>
                     ) : null}
-                    {!isEmpty(info.genres) ? (
+                    {!Empty.isEmpty(info.genres) ? (
                       <Typography>
                         <b style={{ color: "gray" }}>Genres : </b>
                       </Typography>
                     ) : null}
-                    {!isEmpty(info.spoken_languages) ? (
+                    {!Empty.isEmpty(info.spoken_languages) ? (
                       <Typography>
                         <b style={{ color: "gray" }}>Language : </b>
                       </Typography>
@@ -191,7 +212,7 @@ export default function MovieDetail(props) {
                         <b style={{ color: "gray" }}>Runtime : </b>
                       </Typography>
                     ) : null}
-                    {!isEmpty(info.production_companies) ? (
+                    {!Empty.isEmpty(info.production_companies) ? (
                       <Typography>
                         <b style={{ color: "gray" }}>Production Co : </b>
                       </Typography>
@@ -200,10 +221,10 @@ export default function MovieDetail(props) {
                 </Grid>
                 <Grid item xs={8} alignItems="center" justify="center">
                   <Typography align="left">
-                    {!isEmpty(director) ? (
+                    {!Empty.isEmpty(director) ? (
                       <Typography>{director.toString()}</Typography>
                     ) : null}
-                    {!isEmpty(info.genres) ? (
+                    {!Empty.isEmpty(info.genres) ? (
                       <Typography>
                         {info.genres.map((item, index) =>
                           index < info.genres.length - 1
@@ -212,7 +233,7 @@ export default function MovieDetail(props) {
                         )}
                       </Typography>
                     ) : null}
-                    {!isEmpty(info.spoken_languages) ? (
+                    {!Empty.isEmpty(info.spoken_languages) ? (
                       <Typography>
                         {info.spoken_languages.map((item, index) =>
                           index < info.spoken_languages.length - 1
@@ -224,7 +245,7 @@ export default function MovieDetail(props) {
                     {info.runtime ? (
                       <Typography>{info.runtime} min</Typography>
                     ) : null}
-                    {!isEmpty(info.production_companies) > 0 ? (
+                    {!Empty.isEmpty(info.production_companies) > 0 ? (
                       <Typography>
                         {info.production_companies.map((item, index) =>
                           index < info.production_companies.length - 1
@@ -273,11 +294,16 @@ export default function MovieDetail(props) {
                       setHidden(!hidden);
                     }}
                   >
-                    <Link href="#">
+                    <Link component="button">
                       {" "}
                       {hidden ? "Show All Casts" : "Hidden"}{" "}
                     </Link>
                   </Typography>
+                </Grid>
+                <Grid item xs={12} justify="center">
+                  <br/>
+                  <Divider/>
+                  <CRTabs decoded={decoded} handleClickOpen={handleClickOpen}/>
                 </Grid>
               </Grid>
             </Grid>
@@ -286,12 +312,20 @@ export default function MovieDetail(props) {
               <div
                 style={{ position: "fixed", top: "50px", paddingTop: "100px" }}
               >
-                <Rate />
+                <Rate decoded={decoded} vote_average={info.vote_average} vote_count = {info.vote_count} handleClickOpen={handleClickOpen}/>
               </div>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <Logindialog
+        handleClose={handleClose}
+        open={open}
+        handleClickOpen={handleClickOpen}
+        SignupClose={SignupClose}
+        SignupOpen={SignupOpen}
+        handleSignupOpen={handleSignupOpen}
+      />
     </div>
   );
 }
