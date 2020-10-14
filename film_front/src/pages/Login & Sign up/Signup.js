@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,7 +17,7 @@ import { FaApple } from "react-icons/fa";
 import Grid from '@material-ui/core/Grid';
 import { Link } from "@material-ui/core";
 import Logindialog from "../Login & Sign up/Login";
-
+import * as userAPI from "../../api/userAPI";
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -30,7 +30,7 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
-
+const jwt = require("jwt-simple");
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
@@ -93,7 +93,34 @@ export default function Signupdialog(props) {
     console.log(props)
     const classes = useStyles2();
     const classes3 = useStyles3();
- 
+    const [userInfo,setUserInfo]= useState({
+      'name':"",
+      'email':"",
+      'password':""
+    })
+    const userRegister = async()=>{
+      const data = {'name':userInfo.name,'email':userInfo.email,'password':userInfo.password}
+      console.log(data)
+      const res = await userAPI.register(data)
+      console.log(res)
+      if (res){
+        const logindata = {'name':userInfo.name,'password':userInfo.password}
+        const userRes = await userAPI.login(logindata)
+
+        const secreatInfo = jwt.encode(userRes,process.env.REACT_APP_TOKEN_SECRET)
+        localStorage.setItem("userInfo",secreatInfo)
+        SignupClose()
+      }
+      
+     
+     
+    }
+    const handleChange = (e)=>{
+      setUserInfo(
+       { ...userInfo,
+        [e.target.name]:e.target.value}
+      )
+    }
   return (
     <div>
      
@@ -114,18 +141,18 @@ export default function Signupdialog(props) {
 
           
           <Typography gutterBottom>
-            <TextField id="outlined-basic" label="Email address" variant="outlined" fullWidth={true} size="small"/>
+            <TextField id="outlined-basic" label="Email address" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="email"/>
           </Typography>
 
           <Typography gutterBottom>
-            <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth={true} size="small"/>
+            <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="name" />
           </Typography>
 
           <Typography gutterBottom>
-            <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} size="small"/>
+            <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} size="small" type="password"  onChange={handleChange} name="password"/>
           </Typography>
 
-          <Button variant="contained" color="primary" fullWidth={true} >
+          <Button variant="contained" color="primary" fullWidth={true} onClick={userRegister} >
             Sign up
           </Button>
 
