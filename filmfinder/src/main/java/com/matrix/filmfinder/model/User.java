@@ -3,62 +3,89 @@ package com.matrix.filmfinder.model;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.UUID;
+import javax.validation.constraints.NotBlank;
+import java.util.*;
 
 @Entity(name = "User")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NonNull
-    @JsonIgnore
-    private UUID id;
+    private int id;
     @Column(unique = true)
     @NonNull
+    @NotBlank(message = "username is necessary")
     private String name;
     @Column(unique = true)
     @NonNull
+    @NotBlank(message = "email is necessary")
     private String email;
     @Column
-    @JsonIgnore
+    @NotBlank(message = "password cannot be blank")
     private String password;
     @Column
     @JsonIgnore
     private String oauth2_token;
+    @Column
+    private Boolean isActive;
 
     public User() {
+        this.isActive = true;
     }
 
-    public User(String name, @NonNull String email) {
-        this.name = name;
-        this.email = email;
-    }
+//    public User(String name, @NonNull String email) {
+//        this.name = name;
+//        this.email = email;
+//        this.isActive = true;
+//        this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+//    }
+//
+//    public User(@NonNull String name, @NonNull String email, String password, String role) {
+//        this.name = name;
+//        this.email = email;
+//        this.password = password;
+//    }
 
-    public User(UUID id, String name, String email, String password, String oauth2_token) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.oauth2_token = oauth2_token;
-    }
+//    public User(int id, String name, String email, String password, String oauth2_token) {
+//        this.id = id;
+//        this.name = name;
+//        this.email = email;
+//        this.password = password;
+//        this.oauth2_token = oauth2_token;
+//        this.isActive = true;
+//    }
 
-    public String getName() {
-        return name;
+    public String getName() { return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+
 
     public String getEmail() {
         return email;
@@ -74,6 +101,7 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+;
     }
 
     public String getOauth2_token() {
@@ -89,8 +117,8 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) &&
-                Objects.equals(name, user.name) &&
+        return id == user.id &&
+                name.equals(user.name) &&
                 email.equals(user.email) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(oauth2_token, user.oauth2_token);
@@ -104,7 +132,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id.toString() +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -112,6 +140,8 @@ public class User {
 //    public JSON toJson() {
 //
 //    }
+
+
 
 
 }
