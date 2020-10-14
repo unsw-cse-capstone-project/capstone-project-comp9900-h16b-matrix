@@ -48,7 +48,7 @@ public class WebMockTest {
     @Test
     @Order(2)
     public void addCharlesAsUser() throws Exception {
-        User u = new User("charles", "charles@sample.com");
+        User u = new User();
         ObjectMapper om = new ObjectMapper();
         //TODO
         String responseString = mockMvc.perform(
