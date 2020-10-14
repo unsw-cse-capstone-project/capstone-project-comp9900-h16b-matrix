@@ -87,7 +87,7 @@ export default function Rate(props) {
        
             }
          
-          {value !== null && labels[hover !== -1 ? hover : value]}
+          {decoded?value !== null && labels[hover !== -1 ? hover : value]:null}
         </Grid>
       </Grid>
     </div>
