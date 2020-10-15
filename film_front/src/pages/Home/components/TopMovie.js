@@ -104,8 +104,8 @@ const Media = props=>{
               </Tooltip>
              
               <Typography display="block" variant="caption" color="textSecondary">
-                Rating: {item.rating}
-                <Rating name="read-only" value={item.rating} readOnly precision={0.5} />
+                Rating: {item.vote_average}
+                <Rating name="read-only" value={item.vote_average/2} readOnly precision={0.5} />
               </Typography>
               {/* <Typography variant="caption" color="textSecondary">
                 {`${item.views} • ${item.createdAt}`}
