@@ -9,10 +9,10 @@ Week3
 I construct the storyboard in Figma which covered the section of Login/Sign up of user stories.
 
 Week4
-Accomplish the primary fronted development based on the UI designed in Figma.
+Accomplish the primary frontend development based on the UI designed in Figma.
 
 Week5
-Keep doing the fronted work and join the first presentation in lab.
+Keep doing the fronted work and join the first presentation in the lab.
 
 Week6
-Discuss retrospective with teamates, summary and reflection the inadequacy.
+Did the retrospective with teammates. summary and reflection the inadequacy.
