@@ -2,7 +2,6 @@ Week1
 I join Jira project of our group creaated by scrum master.
 Join the meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest.
 
-
 Week2
 I write Login/Sign up section of user stories in proposal.
 
@@ -14,3 +13,6 @@ Accomplish the primary fronted development based on the UI designed in Figma.
 
 Week5
 Keep doing the fronted work and join the first presentation in lab.
+
+Week6
+Discuss retrospective with teamates, summary and reflection the inadequacy.
