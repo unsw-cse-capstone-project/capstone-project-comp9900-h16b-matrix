@@ -11,6 +11,23 @@ export default function Search(props) {
 
   console.log("search", name, search, props);
   console.log(history);
+  const [open, setOpen] = useState(false);
+  const [SignupOpen, SignupsetOpen] = useState(false);
+  const [logout,setLogout] = useState(false)
+  const rederLogout = ()=>setLogout(!logout)
+  const handleSignupOpen = () => {
+    SignupsetOpen(true);
+    handleClose();
+  };
+  const SignupClose = () => {
+    SignupsetOpen(false);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   useEffect(() => {
     setName(search);
   }, [search]);
@@ -18,7 +35,14 @@ export default function Search(props) {
     <div>
       <Grid container justify="center">
         <Grid item xs={12}>
-          <NavBar barValue={name} />
+        <NavBar handleClose={handleClose}
+        open={open}
+        handleClickOpen={handleClickOpen}
+        SignupClose={SignupClose}
+        SignupOpen={SignupOpen}
+        handleSignupOpen={handleSignupOpen}
+        rederLogout={rederLogout}
+        />
         </Grid>
 
         <Grid item xs={12}>
