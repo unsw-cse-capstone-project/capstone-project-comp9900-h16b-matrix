@@ -1,5 +1,5 @@
 // import { Divider } from '@material-ui/core'
-import React from 'react'
+import React,{useState} from 'react'
 import NavBar from '../NavBar/NavBar'
 import TopMovie from './components/TopMovie'
 import Divider from '@material-ui/core/Divider'
@@ -10,11 +10,35 @@ import SectionCarousel from './components/testTrend'
 const Home = props =>{
     const {history}=props;
     console.log('home',props,history)
+    const [open, setOpen] = useState(false);
+  const [SignupOpen, SignupsetOpen] = useState(false);
+  const [logout,setLogout] = useState(false)
+  const rederLogout = ()=>setLogout(!logout)
+  const handleSignupOpen = () => {
+    SignupsetOpen(true);
+    handleClose();
+  };
+  const SignupClose = () => {
+    SignupsetOpen(false);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
     return (
         <div>
             <Grid container spacing={3} justify='center'>
             <Grid item xs={12} >
-            <NavBar />
+            <NavBar handleClose={handleClose}
+        open={open}
+        handleClickOpen={handleClickOpen}
+        SignupClose={SignupClose}
+        SignupOpen={SignupOpen}
+        handleSignupOpen={handleSignupOpen}
+        rederLogout={rederLogout}
+        />
             </Grid>
             <Grid item >
             <Divider/>
@@ -32,11 +56,11 @@ const Home = props =>{
             <Divider/>  
             <br/>
             <Typography variant='h4' style={{paddingLeft: '3%'}}>
-                New/Upcomming Movie
+                New Movie
             </Typography>
-            <TopMovie history={history} />
+            <TopMovie history={history} type={0} />
             </Grid>
-            <Grid item   justify='center'>
+            {/* <Grid item   justify='center'>
             <br/><br/>
             <Divider/>  
             <br/>
@@ -44,7 +68,7 @@ const Home = props =>{
                 Recommendation
             </Typography>
             <TopMovie  history={history}/>
-            </Grid>
+            </Grid> */}
             </Grid>
         </div>
     )
