@@ -1,9 +1,9 @@
 package com.matrix.filmfinder.model;
 
-import io.micrometer.core.lang.NonNull;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
