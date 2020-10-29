@@ -1,18 +1,17 @@
 package com.matrix.filmfinder.model;
 
-import com.alibaba.fastjson.JSON;
+//import com.alibaba.fastjson.JSON;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity(name = "User")
 public class User {
     @Id
     @GeneratedValue
     @NonNull
-    private UUID id;
+    private Integer id;
     @Column
 //    @NonNull
     private String name;
@@ -27,7 +26,7 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String name, String email, String password, String oauth2_token) {
+    public User(Integer id, String name, String email, String password, String oauth2_token) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -43,11 +42,11 @@ public class User {
         this.name = name;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
