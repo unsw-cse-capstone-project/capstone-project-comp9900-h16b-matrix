@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import Home from './pages/Home/Home';
 import MovieDetail from './pages/MovieDetail/MovieDetail';
 import Search from './pages/Search/Search';
+import ReviewEdit from './pages/Review/ReviewEdit';
 const API_URL = process.env.REACT_APP_API_URL;
 var hist = createBrowserHistory()
 axios.defaults.baseURL = API_URL;
@@ -38,6 +39,7 @@ ReactDOM.render(
       <Route path='/home' component={Home}/>
       <Route path='/movieDetail/:id' component={MovieDetail}/>
       <Route path='/search/:search' component={Search}/>
+      <Route path='/editReview/:id' component={ReviewEdit}/>
     </Switch>
   </Router>
   ,

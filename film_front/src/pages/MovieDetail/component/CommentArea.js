@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Button, Grid, IconButton, Typography,Link } from '@material-ui/core';
-import { AiOutlineLike,AiOutlineDislike } from "react-icons/ai";
+import { AiOutlineLike,AiOutlineDislike,AiFillLike,AiFillDislike } from "react-icons/ai";
 import * as Empty from "../../../component/Empty"
 import * as  moment from 'moment'
 export default function CommentArea(props) {
