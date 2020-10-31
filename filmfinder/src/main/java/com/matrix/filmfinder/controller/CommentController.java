@@ -3,14 +3,19 @@ package com.matrix.filmfinder.controller;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.matrix.filmfinder.dao.CommentRepository;
 import com.matrix.filmfinder.model.Comment;
+import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/comment")
 public class CommentController {
-    @Autowired
+
     private CommentRepository commentRepository;
+    @Autowired
+    public CommentController(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
     // add comment
     @PostMapping(path = "/addcomment")
@@ -18,13 +23,17 @@ public class CommentController {
     String addComment(@RequestBody ObjectNode jsonNode) {
         Comment comment = new Comment();
         Integer uid = jsonNode.get("uid").asInt();
+        User user = new User(uid);
+
         Integer movie_id = jsonNode.get("movie_id").asInt();
         Integer n_likes = jsonNode.get("n_likes").asInt();
         String content = jsonNode.get("content").asText();
-        comment.setUid(uid);
+
+        comment.setUser(user);
         comment.setMovie_id(movie_id);
         comment.setN_likes(n_likes);
         comment.setContent(content);
+
         commentRepository.save(comment);
         String res = "Comment " + comment.toString() + " saved.";
         return res;
