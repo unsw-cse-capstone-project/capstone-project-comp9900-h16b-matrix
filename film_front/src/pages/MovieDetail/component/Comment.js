@@ -47,6 +47,7 @@ export default function Comment(props) {
   return (
       <div>
     <TextareaAutosize
+        rows={3}
       rowsMax={3}
       placeholder="Write your comment here"
       defaultValue=""

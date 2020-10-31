@@ -4,6 +4,7 @@ import {Box,Typography} from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Comment from './Comment';
+import Review from './Review';
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +31,7 @@ const TabPanel=(props)=>{
 }
 export default function CRTabs(props) {
   const classes = useStyles();
-  const {decoded,handleClickOpen} = props
+  const {decoded,handleClickOpen,movieId} = props
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -48,16 +49,16 @@ export default function CRTabs(props) {
         centered
       >
         <Tab label="Comments" />
-        {/* <Tab label="Reviews" /> */}
+        <Tab label="Reviews" />
         
       </Tabs>
       <TabPanel value={value} index={0}>
       
       <Comment decoded={decoded} handleClickOpen={handleClickOpen}/>
     </TabPanel>
-    {/* <TabPanel value={value} index={1}>
-      Reviews
-    </TabPanel> */}
+    <TabPanel value={value} index={1}>
+      <Review movieId={movieId} decoded={decoded} handleClickOpen={handleClickOpen}/>
+    </TabPanel>
     </div>
     // </Paper>
   );

@@ -45,6 +45,7 @@ export default function MovieDetail(props) {
   const [casts, setCasts] = useState([]);
   const [hidden, setHidden] = useState(true);
   const [video, setVideo] = useState({});
+  const [like,setLike] = useState(false)
   const classes = useStyles();
   let decoded;
   const token = localStorage.getItem("userInfo")
@@ -75,7 +76,7 @@ export default function MovieDetail(props) {
         `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
       );
       const data = await res.json();
-      console.log(data);
+      console.log('detail',data);
       setInfo(data);
       const cre = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
@@ -115,6 +116,14 @@ export default function MovieDetail(props) {
     let DateArray = date.toUTCString().split(" ");
     return `${DateArray[1]} ${DateArray[2]}, ${DateArray[3]}`;
   };
+  const handleLike=()=>{
+    if(decoded){
+      setLike(!like)
+    }
+    else{
+      handleClickOpen()
+    }
+  }
   return (
     <div>
       {console.log(video)}
@@ -175,7 +184,11 @@ export default function MovieDetail(props) {
                   <Typography variant="h3">
                     {info.title}
                     &nbsp;&nbsp;
-                    <FavoriteBorderIcon color="secondary" fontSize="large" />
+                    <IconButton onClick={handleLike}>
+                      {like?<FavoriteIcon color="secondary" fontSize="large"/>:<FavoriteBorderIcon color="secondary" fontSize="large" />}
+                      
+                    </IconButton>
+                    
                   </Typography>
                   <Typography>
                     {info.status === "Released"
@@ -303,7 +316,7 @@ export default function MovieDetail(props) {
                 <Grid item xs={12} justify="center">
                   <br/>
                   <Divider/>
-                  <CRTabs decoded={decoded} handleClickOpen={handleClickOpen}/>
+                  <CRTabs decoded={decoded} handleClickOpen={handleClickOpen} movieId={info.id}/>
                 </Grid>
               </Grid>
             </Grid>
