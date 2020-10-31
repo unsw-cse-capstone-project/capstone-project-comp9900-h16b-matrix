@@ -1,11 +1,10 @@
 package com.matrix.filmfinder.controller;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.matrix.filmfinder.dao.CommentRepository;
 import com.matrix.filmfinder.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
 
 @RestController
 @RequestMapping(path = "/comment")
@@ -14,36 +13,43 @@ public class CommentController {
     private CommentRepository commentRepository;
 
     // add comment
-    @PostMapping(path="/comment/add")
-    public Comment addComment(
-            @RequestParam(name = "id") Integer id,
-            @RequestParam(name = "uid") Integer uid,
-            @RequestParam(name = "movie_id") Integer movie_id,
-            @RequestParam(name = "submit_time") Timestamp submit_time,
-            @RequestParam(name = "n_likes") Integer n_likes,
-            @RequestParam(name = "content") String content){
+    @PostMapping(path = "/addcomment")
+    public @ResponseBody
+    String addComment(@RequestBody ObjectNode jsonNode) {
         Comment comment = new Comment();
-        comment.setId(id);
+        Integer uid = jsonNode.get("uid").asInt();
+        Integer movie_id = jsonNode.get("movie_id").asInt();
+        Integer n_likes = jsonNode.get("n_likes").asInt();
+        String content = jsonNode.get("content").asText();
         comment.setUid(uid);
         comment.setMovie_id(movie_id);
-        comment.setSubmit_time(submit_time);
         comment.setN_likes(n_likes);
         comment.setContent(content);
         commentRepository.save(comment);
-        return (Comment) commentRepository.findAll();
-    }
-//    update comment
-//    @PutMapping("/{id}")
-    public void updateComment(int id){
-        //how to get the id which have new value
-        Comment record = commentRepository.findById(id).get();
-        record.setN_likes(record.getN_likes());
-        commentRepository.save(record);
+        String res = "Comment " + comment.toString() + " saved.";
+        return res;
     }
 
-    // delete one list
-//    @DeleteMapping(value = "/comment/{id}")
-//    public String deleteComment(@PathVariable Interger id) {
-//      comment.remove(id);
-//      return "success";
+    //    update n_likes
+    @PutMapping(value = "udLike/{id}")
+    public Comment updateLikes(@PathVariable Integer id, @RequestParam("n_likes") Integer n_likes) {
+        //how to get the id which have new value
+        Comment record_n = commentRepository.findById(id).get();
+        record_n.setN_likes(n_likes);
+        return commentRepository.save(record_n);
+    }
+
+    // Update comment
+    @PutMapping(value = "udComment/{id}")
+    public Comment updateComment(@PathVariable Integer id, @RequestParam("content") String content) {
+        Comment record = commentRepository.findById(id).get();
+        record.setContent((content));
+        return commentRepository.save(record);
+    }
+
+    // Delete data
+    @DeleteMapping(value = "/delComment/{id}")
+    public void deleteComment(@PathVariable Integer id) {
+        commentRepository.deleteById(id);
+    }
 }

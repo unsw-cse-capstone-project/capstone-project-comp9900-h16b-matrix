@@ -1,12 +1,15 @@
 package com.matrix.filmfinder.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "rate")
 public class Rate {
-    @Column
+    @Id
+    @GeneratedValue
+    private Integer id;
+    @JoinColumn(name = "User_id")
+    @ManyToOne()
     private Integer uid;
     @Column
     private Integer movie_id;

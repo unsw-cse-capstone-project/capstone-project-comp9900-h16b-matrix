@@ -1,28 +1,25 @@
 package com.matrix.filmfinder.model;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-@Entity
-@DynamicInsert
-@DynamicUpdate
+@Entity(name = "Comment")
 public class Comment {
     @Id
     @NonNull
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
+    @NotEmpty
     private Integer uid;
     @Column
+    @NotEmpty
     private Integer movie_id;
     @Column
     @CreatedDate
@@ -30,6 +27,7 @@ public class Comment {
     @Column
     private Integer n_likes;
     @Column
+    @NotBlank
     private String content;
 
     public Comment() {
@@ -44,7 +42,6 @@ public class Comment {
         this.content = content;
     }
 
-    @NonNull
     public Integer getId() {
         return id;
     }
@@ -69,7 +66,7 @@ public class Comment {
         return content;
     }
 
-    public void setId(@NonNull Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
