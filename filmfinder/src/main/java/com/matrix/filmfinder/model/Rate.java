@@ -1,6 +1,7 @@
 package com.matrix.filmfinder.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "rate")
@@ -8,9 +9,8 @@ public class Rate {
     @Id
     @GeneratedValue
     private Integer id;
-    @JoinColumn(name = "User_id")
-    @ManyToOne()
-    private Integer uid;
+    @ManyToOne
+    private User uid;
     @Column
     private Integer movie_id;
     @Column
@@ -19,13 +19,13 @@ public class Rate {
     public Rate() {
     }
 
-    public Rate(Integer uid, Integer movie_id, Integer rating) {
-        this.uid = uid;
-        this.movie_id = movie_id;
-        this.rating = rating;
-    }
+//    public Rate(Integer uid, Integer movie_id, Integer rating) {
+//        this.uid = uid;
+//        this.movie_id = movie_id;
+//        this.rating = rating;
+//    }
 
-    public void setUid(Integer uid) {
+    public void setUid(User uid) {
         this.uid = uid;
     }
 
@@ -37,7 +37,7 @@ public class Rate {
         this.rating = rating;
     }
 
-    public Integer getUid() {
+    public User getUid() {
         return uid;
     }
 
