@@ -2,6 +2,7 @@ package com.matrix.filmfinder.controller;
 
 import com.matrix.filmfinder.dao.RateRepository;
 import com.matrix.filmfinder.model.Rate;
+import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,13 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path="/rate")
 public class RateController {
-    @Autowired
     private RateRepository rateRepository;
+    @Autowired
+    public RateController(RateRepository rateRepository) {
+        this.rateRepository = rateRepository;
+    }
 
 //    add
     @PostMapping(path="/addrate")
-    public Rate addRate(
-            @RequestParam(name = "uid") Integer uid,
+    public String addRate(
+            @RequestParam(name = "uid") User uid,
             @RequestParam(name = "movie_id") Integer movie_id,
             @RequestParam(name = "rating") Integer rating)
     {
@@ -26,7 +30,7 @@ public class RateController {
         rate.setMovie_id(movie_id);
         rate.setRating(rating);
         rateRepository.save(rate);
-        return (Rate) rateRepository.findAll();
+        return "Rate successfully";
     }
 
     //    update
