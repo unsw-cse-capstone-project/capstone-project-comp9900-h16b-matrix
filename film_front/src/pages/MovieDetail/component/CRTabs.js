@@ -54,7 +54,7 @@ export default function CRTabs(props) {
       </Tabs>
       <TabPanel value={value} index={0}>
       
-      <Comment decoded={decoded} handleClickOpen={handleClickOpen}/>
+      <Comment  movieId={movieId} decoded={decoded} handleClickOpen={handleClickOpen}/>
     </TabPanel>
     <TabPanel value={value} index={1}>
       <Review movieId={movieId} decoded={decoded} handleClickOpen={handleClickOpen}/>

@@ -325,7 +325,7 @@ export default function MovieDetail(props) {
               <div
                 style={{ position: "fixed", top: "50px", paddingTop: "100px" }}
               >
-                <Rate decoded={decoded} vote_average={info.vote_average} vote_count = {info.vote_count} handleClickOpen={handleClickOpen}/>
+                <Rate decoded={decoded} vote_average={info.vote_average} vote_count = {info.vote_count} handleClickOpen={handleClickOpen} movieId={info.id}/>
               </div>
             </Grid>
           </Grid>
