@@ -25,14 +25,8 @@ public class CommentController {
 //    }
 
     // add comment
-<<<<<<< Updated upstream
     @PostMapping(path = "/addcomment")
     public ResponseEntity<String> addComment(@RequestBody ObjectNode jsonNode) {
-=======
-    @PostMapping(path = "/addComment")
-    public @ResponseBody
-    String addComment(@RequestBody ObjectNode jsonNode) {
->>>>>>> Stashed changes
         Comment comment = new Comment();
 
         try {
