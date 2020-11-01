@@ -40,8 +40,7 @@ ReactDOM.render(
       <Route path='/home' component={Home}/>
       <Route path='/movieDetail/:id' component={MovieDetail}/>
       <Route path='/search/:search' component={Search}/>
-      <Route path='/Setting' component={Link}
-            to = {'/home'}/> 
+      <Route path='/Setting' component={Setting}/> 
     </Switch>
   </Router>
   ,
