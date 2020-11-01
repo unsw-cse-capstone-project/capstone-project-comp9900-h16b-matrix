@@ -16,7 +16,7 @@ import java.util.*;
 @Entity(name = "User")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NonNull
     private int id;
     @Column(unique = true)
@@ -37,6 +37,11 @@ public class User {
     private Boolean isActive;
 
     public User() {
+        this.isActive = true;
+    }
+
+    public User(Integer id) {
+        this.id = id;
         this.isActive = true;
     }
 
@@ -101,7 +106,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-;
     }
 
     public String getOauth2_token() {
