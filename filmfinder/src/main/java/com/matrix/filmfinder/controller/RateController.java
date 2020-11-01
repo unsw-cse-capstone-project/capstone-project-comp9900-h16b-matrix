@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path="/rate")
 public class RateController {
-    private RateRepository rateRepository;
     @Autowired
-    public RateController(RateRepository rateRepository) {
-        this.rateRepository = rateRepository;
-    }
+    private RateRepository rateRepository;
+//    @Autowired
+//    public RateController(RateRepository rateRepository) {
+//        this.rateRepository = rateRepository;
+//    }
 
 //    add
     @PostMapping(path="/addrate")
@@ -26,7 +27,7 @@ public class RateController {
             @RequestParam(name = "rating") Integer rating)
     {
         Rate rate = new Rate();
-        rate.setUid(uid);
+        rate.setUser(uid);
         rate.setMovie_id(movie_id);
         rate.setRating(rating);
         rateRepository.save(rate);
