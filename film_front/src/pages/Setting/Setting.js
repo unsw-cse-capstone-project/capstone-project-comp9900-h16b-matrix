@@ -67,7 +67,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const jwt = require("jwt-simple");
+
 export default function VerticalTabs() {
+
+  let decoded;
+  const token = localStorage.getItem("userInfo");
+  if (token) {
+    decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
+  } else {
+    window.location.href = `${process.env.REACT_APP_HOST_URL}`;
+  }
+
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
