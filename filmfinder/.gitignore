@@ -61,3 +61,16 @@ bin/
 
 ### idea ###
 .idea/
+
+### Eclipse ###
+.classpath
+.project
+
+### vscode ###
+bin/
+
+### idea ###
+.idea/
+
+### properties ###
+application.properties
