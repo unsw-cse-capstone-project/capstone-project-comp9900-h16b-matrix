@@ -89,6 +89,14 @@ public class Comment {
         this.content = content;
     }
 
+    public void incLike() {
+        this.n_likes += 1;
+    }
+
+    public void decLike() {
+        this.n_likes -= 1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
