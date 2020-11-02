@@ -10,7 +10,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import default_img from "../../../image/No_picture_available.png";
 const useStyles = makeStyles({
   root: {
-    width: 300,
+    width: 350,
     height: 450,
   },
   media: {
@@ -40,13 +40,13 @@ export default function SearchList(props) {
 
   return (
     <div style={{ margin: "auto" }}>
-      <Grid container spacing={8} justify="center" style={{ margin: "auto" }}>
+      <Grid container spacing={8} justify='flex-start' >
         {movie.length > 0
           ? movie.map((item) => (
               <Grid
                 item
-                xs={movie.length % 3 ? 3 : 4}
-                style={{ margin: "auto" }}
+                xs={4}
+                // style={{ margin: "auto" }}
               >
                 <Card>
                   <CardActionArea className={classes.root}>
