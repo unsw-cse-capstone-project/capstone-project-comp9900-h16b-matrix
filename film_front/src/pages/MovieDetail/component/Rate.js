@@ -47,7 +47,7 @@ export default function Rate(props) {
       setNew(false)
     }
     console.log('newRate',newRate)
-    if(newRate==true){
+    if(newRate==true&&decoded){
       addRate();
       
     }

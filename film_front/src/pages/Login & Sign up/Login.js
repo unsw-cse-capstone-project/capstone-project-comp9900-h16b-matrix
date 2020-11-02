@@ -93,7 +93,7 @@ export default function Logindialog(props) {
   console.log(props, open)
   const classes = useStyles2();
   const classes3 = useStyles3();
-
+  const [loginerror,setLoginerror] = useState(false)
   const [userInfo, setUserInfo] = useState({
     'name': "",
     'password': ""
@@ -101,10 +101,15 @@ export default function Logindialog(props) {
   const userLogin = async () => {
     const data = { 'name': userInfo.name, 'password': userInfo.password }
     const res = await userAPI.login(data)
-    console.log(res)
-    if (res) {
+    console.log(res,typeof(res))
+    if(res == "Wrong password"){
+      console.log(res)
+      setLoginerror(true)
+    }
+    else if (res) {
       const secreatInfo = jwt.encode(res, process.env.REACT_APP_TOKEN_SECRET)
       localStorage.setItem("userInfo", secreatInfo)
+      setLoginerror(false)
       handleClose()
     }
 
@@ -138,11 +143,11 @@ export default function Logindialog(props) {
 
 
               <Typography gutterBottom>
-                <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="name" />
+                <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="name" error={loginerror} helperText={loginerror?"Incorrect entry.":null}/>
               </Typography>
 
               <Typography gutterBottom>
-                <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="password" type="password" />
+                <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} size="small" onChange={handleChange} name="password" type="password" error={loginerror} helperText={loginerror?"Incorrect entry.":null}/>
               </Typography>
 
               <Button variant="contained" color="primary" fullWidth={true} onClick={userLogin} >
