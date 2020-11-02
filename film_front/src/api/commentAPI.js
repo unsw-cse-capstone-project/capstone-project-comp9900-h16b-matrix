@@ -21,7 +21,7 @@ export function sendComment(data) {
     console.log(data,API_URL)
     return new Promise((resolve, reject) => {
       axios
-        .put(`/comment/udLike/${data.id}/?n_likes=${data.n_like}`)
+        .put(`/comment/likes/${data.id}/?isLike=${data.isLike}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -34,4 +34,17 @@ export function sendComment(data) {
         .catch(reject);
     });
   }
-  
+  export function deleteComment(id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/comment/delete/${id}`)
+        .then(response => {
+          if (response.status >= 200 && response.status < 300) {
+            resolve(response.data);
+          } else {
+            reject(response.response);
+          }
+        })
+        .catch(reject);
+    });
+  }
