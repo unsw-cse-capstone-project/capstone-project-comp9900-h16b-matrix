@@ -19,7 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import NavBar from '../NavBar/NavBar'
-
+import * as userAPI from '../../api/userAPI'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,11 +84,12 @@ export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
 
   const [userInfo, setUserInfo] = useState({
-    'Old password': "",
-    'New password': "",
-    'Confirm New Password': ""
+    'Old_password': "",
+    'New_password': "",
+    'Confirm_New_Password': ""
   })
-
+  const [oldError,setOld] = useState(false)
+  const [newError,setNew] = useState(false)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -138,7 +139,22 @@ export default function VerticalTabs() {
     setOpen(false);
   };
 
-
+const handleConfirm = async() =>{
+  console.log(decoded)
+  const data = { 'name': decoded.name, 'password': userInfo.Old_password }
+  const res = await userAPI.login(data)
+  if(res == "Wrong password"){
+    setOld(true)
+  }
+  else if(userInfo.New_password!=userInfo.Confirm_New_Password){
+    setNew(true)
+    setOld(false)
+  }
+  else{
+    setNew(false)
+    setOld(false)
+  }
+}
 
 
   return (
@@ -182,18 +198,18 @@ export default function VerticalTabs() {
             <Grid container spacing={3} justify='center'>
               <Grid item xs={5}>
                 <Typography gutterBottom>
-                  <TextField id="outlined-basic" label="Old Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="password" type="password" />
+                  <TextField id="outlined-basic" label="Old Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="Old_password" type="password" error={oldError} helperText={oldError?"wrong password":null} />
                 </Typography>
 
                 <Typography gutterBottom>
-                  <TextField id="outlined-basic" label="New Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="password" type="password" />
+                  <TextField id="outlined-basic" label="New Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="New_password" type="password" />
                 </Typography>
 
                 <Typography gutterBottom>
-                  <TextField id="outlined-basic" label="Confirm New Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="password" type="password" />
+                  <TextField id="outlined-basic" label="Confirm New Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="Confirm_New_Password" type="password" error={newError} helperText={newError?"different password":null}/>
                 </Typography>
 
-                <Button variant="contained" color="primary" fullWidth={true}>
+                <Button variant="contained" color="primary" fullWidth={true} onClick={handleConfirm}>
                   Confirm
               </Button>
 
