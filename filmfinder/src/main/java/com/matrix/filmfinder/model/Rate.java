@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-@Entity(name = "rate")
+@Entity(name = "Rate")
 public class Rate {
     @Id
     @GeneratedValue
     private Integer id;
     @ManyToOne
-    private User uid;
+    private User user;
     @Column
     private Integer movie_id;
     @Column
@@ -25,8 +25,8 @@ public class Rate {
 //        this.rating = rating;
 //    }
 
-    public void setUid(User uid) {
-        this.uid = uid;
+    public void setUser(User uid) {
+        this.user = uid;
     }
 
     public void setMovie_id(Integer movie_id) {
@@ -37,8 +37,8 @@ public class Rate {
         this.rating = rating;
     }
 
-    public User getUid() {
-        return uid;
+    public User getUser() {
+        return user;
     }
 
     public Integer getMovie_id() {
@@ -54,13 +54,13 @@ public class Rate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Rate rate = (Rate) o;
-        return Objects.equals(uid, rate.uid) &&
+        return Objects.equals(user, rate.user) &&
                 Objects.equals(movie_id, rate.movie_id) &&
                 Objects.equals(rating, rate.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, movie_id, rating);
+        return Objects.hash(user, movie_id, rating);
     }
 }
