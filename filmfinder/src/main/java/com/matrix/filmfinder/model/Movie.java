@@ -3,7 +3,7 @@ package com.matrix.filmfinder.model;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "Movie")
 public class Movie {
     @Id
     @GeneratedValue
