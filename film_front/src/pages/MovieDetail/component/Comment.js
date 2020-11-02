@@ -18,8 +18,10 @@ export default function Comment(props) {
   const [value, setValue] = useState("");
   const [sended, setSend] = useState([]);
   const { decoded, handleClickOpen, movieId } = props;
-  const handleRemove = (index) => {
+  const handleRemove = async(index) => {
     console.log(index);
+    const res = await commentAPI.deleteComment(sended[index].id)
+    console.log(res)
     let array = [];
     for (let i = 0; i < sended.length; i++) {
       array.push(sended[i]);
@@ -38,6 +40,21 @@ export default function Comment(props) {
       };
       const res = await commentAPI.sendComment(data);
       console.log(res);
+      let array = [];
+      for (let i = 0; i < sended.length; i++) {
+        array.push(sended[i]);
+        console.log(array);
+      }
+      array.push({
+        id: res.id,
+        comment: value,
+        n_like: 0,
+        like: false,
+        release_date: moment().format("DD-MM-YY, hh:mm:ss"),
+      });
+      setSend(array);
+      setValue("");
+      console.log(array);
     };
     if (decoded) {
       if (value === "") {
@@ -45,20 +62,6 @@ export default function Comment(props) {
       } else {
         console.log(value, sended);
         sendComment();
-        let array = [];
-        for (let i = 0; i < sended.length; i++) {
-          array.push(sended[i]);
-          console.log(array);
-        }
-        array.push({
-          comment: value,
-          n_like: 0,
-          like: false,
-          release_date: moment().format("DD-MM-YY, hh:mm:ss"),
-        });
-        setSend(array);
-        setValue("");
-        console.log(array);
       }
     } else {
       handleClickOpen();
@@ -77,7 +80,8 @@ export default function Comment(props) {
           item.n_like += 1;
         }
         console.log(item);
-        // const res = await commentAPI.updateNlike({'id':decoded.id,'n_like':item.n_like})
+        const res = await commentAPI.updateNlike({'id':item.id,'isLike':item.like})
+        console.log(res)
         array.push(item);
       } else {
         array.push(sended[i]);
@@ -87,37 +91,39 @@ export default function Comment(props) {
   };
   return (
     <div>
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-      <TextField
-        rows={3}
-        rowsMax={3}
-        multiline
-        variant="outlined"
-        placeholder="Write your comment here"
-        defaultValue=""
-        value={value}
-        fullWidth
-        inputProps={{ maxLength: '200' }}
-        onChange={(e) => {
-          if (decoded) {
-            setValue(e.target.value);
-          } else {
-            handleClickOpen();
-          }
-        }}
-      />
-      <Typography align='right' variant='body2' color='textSecondary'>{value.length}/200</Typography>
-      <Button onClick={() => handleSend()}>send</Button>
-      </Grid>
-      <Grid item xs={12}>
-      <CommentArea
-        sended={sended}
-        handleRemove={handleRemove}
-        decoded={decoded}
-        handleLike={handleLike}
-      />
-      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            rows={3}
+            rowsMax={3}
+            multiline
+            variant="outlined"
+            placeholder="Write your comment here"
+            defaultValue=""
+            value={value}
+            fullWidth
+            inputProps={{ maxLength: "200" }}
+            onChange={(e) => {
+              if (decoded) {
+                setValue(e.target.value);
+              } else {
+                handleClickOpen();
+              }
+            }}
+          />
+          <Typography align="right" variant="body2" color="textSecondary">
+            {value.length}/200
+          </Typography>
+          <Button onClick={() => handleSend()}>send</Button>
+        </Grid>
+        <Grid item xs={12}>
+          <CommentArea
+            sended={sended}
+            handleRemove={handleRemove}
+            decoded={decoded}
+            handleLike={handleLike}
+          />
+        </Grid>
       </Grid>
     </div>
   );
