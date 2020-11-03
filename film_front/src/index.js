@@ -41,7 +41,7 @@ ReactDOM.render(
       <Route path='/home' component={Home}/>
       <Route path='/movieDetail/:id' component={MovieDetail}/>
       <Route path='/search/:search' component={Search}/>
-      <Route path='/wish' component={Wish}/>
+      <Route path='/wish/:id' component={Wish}/>
 
       <Route path='/editReview/:id' component={ReviewEdit}/>
       <Route path='/Setting' component={Setting}/> 
