@@ -54,7 +54,7 @@ gradle-app.setting
 **/build/
 
 ### application properties ###
-application.properties
+#application.properties
 
 ### vscode ###
 bin/
