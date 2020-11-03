@@ -18,13 +18,11 @@ import poster from "../../image/poster.jpeg";
 import Rate from "./component/Rate";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import CRTabs from "./component/CRTabs"
 import { Link as RouteLink } from "react-router-dom";
 import * as Empty from "../../component/Empty"
 import Logindialog from "../Login & Sign up/Login";
+import * as movieAPI from "../../api/movieAPI"
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "90%",
@@ -78,6 +76,11 @@ export default function MovieDetail(props) {
       const data = await res.json();
       console.log('detail',data);
       setInfo(data);
+      const movie_res = await movieAPI.getMovieByTid(id)
+      console.log('movie res',movie_res)
+      if(!movie_res.description){
+        
+      }
       const cre = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
       );
