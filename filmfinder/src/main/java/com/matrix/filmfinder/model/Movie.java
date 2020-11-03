@@ -20,10 +20,9 @@ public class Movie {
     private String tmdb_id;
     @Column
     private Long n_hits;//review
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     @Column
-    @URL(protocol = "http")
     private String poster;
     @Column
     private String title;
