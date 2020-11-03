@@ -1,7 +1,7 @@
 // import { Divider } from '@material-ui/core'
 import React,{useState} from 'react'
 import NavBar from '../NavBar/NavBar'
-import TopMovie from './components/TopMovie'
+import RecentMoive from './components/RecentMovie'
 import Divider from '@material-ui/core/Divider'
 import TrendMovie from './components/TrendMovie'
 import { Grid } from '@material-ui/core'
@@ -40,35 +40,35 @@ const Home = props =>{
         rederLogout={rederLogout}
         />
             </Grid>
-            <Grid item >
+            <Grid item xs={11}>
             <Divider/>
             <br/>
             {/* <div style={{left: '50%'}}> */}
             <Typography variant='h4' style={{paddingLeft: '3%'}} >
-                Top Movie
+                Popular Movie
             </Typography>
             {/* </div> */}
-            <TrendMovie/>
+            <TrendMovie history={history}/>
             {/* <SectionCarousel/> */}
             </Grid>
-            <Grid item  justify='center' alignItems='center'>
+            <Grid item xs={10} >
                 <br/><br/>
             <Divider/>  
             <br/>
             <Typography variant='h4' style={{paddingLeft: '3%'}}>
                 New Movie
             </Typography>
-            <TopMovie history={history} type={0} />
+            <RecentMoive history={history} type={0} />
             </Grid>
-            {/* <Grid item   justify='center'>
-            <br/><br/>
+            <Grid item xs={10} >
+                <br/><br/>
             <Divider/>  
             <br/>
             <Typography variant='h4' style={{paddingLeft: '3%'}}>
-                Recommendation
+                Top Rated Movie
             </Typography>
-            <TopMovie  history={history}/>
-            </Grid> */}
+            <RecentMoive history={history} type={1} />
+            </Grid>
             </Grid>
         </div>
     )

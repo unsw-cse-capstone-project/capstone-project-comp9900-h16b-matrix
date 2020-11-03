@@ -8,53 +8,6 @@ import Rating from '@material-ui/lab/Rating';
 import poster from '../../../image/poster.jpeg'
 import default_img from '../../../image/No_picture_available.png'
 import Tooltip from '@material-ui/core/Tooltip';
-// import { Button } from '@material-ui/core';
-import { Link } from "react-router-dom";
-const data = [
-    {
-      src:
-        poster,
-      title: 'Sample Movie',
-      rating : 4.8,
-   
-    },
-    {
-      src:
-      poster,
-      title: 'Sample Movie',
-      rating : 4.2,
-    },
-    {
-      src:
-      poster,
-      title: 'Sample Movie',
-      rating : 4.1,
-    },
-    {
-        src:
-        poster,
-        title: 'Sample Movie',
-        rating : 4.1,
-      },
-      {
-        src:
-        poster,
-        title: 'Sample Movie',
-        rating : 4.1,
-      },
-      {
-        src:
-        poster,
-        title: 'Sample Movie',
-        rating : 4.1,
-      },
-      {
-        src:
-        poster,
-        title: 'Sample Movie',
-        rating : 4.1,
-      },
-  ];
 const Media = props=>{
     // const { loading = false } = props;
     const { history,type } = props;
@@ -65,7 +18,15 @@ const Media = props=>{
         console.log(apiKey,type);
         if(type==0){
           const res = await fetch(
-            `https://api.themoviedb.org/3/discover/movie/?api_key=${apiKey}&primary_release_date.gte=2020-10-01`
+            `https://api.themoviedb.org/3/movie/now_playing/?api_key=${apiKey}`
+          )
+          const data = await res.json();
+          console.log(data);
+          setNew(data.results);
+        }
+        else if(type==1){
+          const res = await fetch(
+            `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`
           )
           const data = await res.json();
           console.log(data);
@@ -104,8 +65,8 @@ const Media = props=>{
               </Tooltip>
              
               <Typography display="block" variant="caption" color="textSecondary">
-                Rating: {item.vote_average}
-                <Rating name="read-only" value={item.vote_average/2} readOnly precision={0.5} />
+                Rating: {(item.vote_average/2).toFixed(1)}
+                <Rating name="read-only" value={(item.vote_average/2).toFixed(1)} readOnly precision={0.5} />
               </Typography>
               {/* <Typography variant="caption" color="textSecondary">
                 {`${item.views} • ${item.createdAt}`}
