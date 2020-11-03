@@ -45,28 +45,6 @@ public class User {
         this.isActive = true;
     }
 
-//    public User(String name, @NonNull String email) {
-//        this.name = name;
-//        this.email = email;
-//        this.isActive = true;
-//        this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//    }
-//
-//    public User(@NonNull String name, @NonNull String email, String password, String role) {
-//        this.name = name;
-//        this.email = email;
-//        this.password = password;
-//    }
-
-//    public User(int id, String name, String email, String password, String oauth2_token) {
-//        this.id = id;
-//        this.name = name;
-//        this.email = email;
-//        this.password = password;
-//        this.oauth2_token = oauth2_token;
-//        this.isActive = true;
-//    }
-
     public String getName() { return name;
     }
 
@@ -116,21 +94,18 @@ public class User {
         this.oauth2_token = oauth2_token;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
-                name.equals(user.name) &&
-                email.equals(user.email) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(oauth2_token, user.oauth2_token);
+        return id == user.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, oauth2_token);
+        return Objects.hash(id);
     }
 
     @Override
