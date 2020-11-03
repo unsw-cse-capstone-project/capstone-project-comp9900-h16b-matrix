@@ -11,42 +11,42 @@ public class Blacklist {
     @Id
     @NonNull
     @GeneratedValue
-    private UUID id;
+    private Integer id;
     @Column
-    private UUID uid;
+    private Integer uid;
     @Column
-    private UUID banned_id;
+    private Integer banned_id;
 
     public Blacklist() {
     }
 
-    public Blacklist(UUID id, UUID uid, UUID banned_id) {
+    public Blacklist(Integer id, Integer uid, Integer banned_id) {
         this.id = id;
         this.uid = uid;
         this.banned_id = banned_id;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public UUID getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(UUID uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
-    public UUID getBanned_id() {
+    public Integer getBanned_id() {
         return banned_id;
     }
 
-    public void setBanned_id(UUID banned_id) {
+    public void setBanned_id(Integer banned_id) {
         this.banned_id = banned_id;
     }
 

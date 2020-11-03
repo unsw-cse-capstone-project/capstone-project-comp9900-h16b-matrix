@@ -54,6 +54,7 @@ public class UserController {
     public @ResponseBody String addNewUser(@RequestBody ObjectNode jsonNode) {
         User user = new User();
         String name = jsonNode.get("name").asText();
+
         String email = jsonNode.get("email").asText();
         String password = jsonNode.get("password").asText();
         user.setName(name);
