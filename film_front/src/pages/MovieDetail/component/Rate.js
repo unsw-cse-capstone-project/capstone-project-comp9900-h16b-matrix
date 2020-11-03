@@ -5,16 +5,16 @@ import Logindialog from "../../Login & Sign up/Login";
 import StarRateIcon from '@material-ui/icons/StarRate';
 import * as rateAPI from "../../../api/rateAPI"
 const labels = {
-  0.5: "1",
-  1: "2",
-  1.5: "3",
-  2: "4",
-  2.5: "5",
-  3: "6",
-  3.5: "7",
-  4: "8",
-  4.5: "9",
-  5: "10",
+  0.5: "0.5",
+  1: "1",
+  1.5: "1.5",
+  2: "2",
+  2.5: "2.5",
+  3: "3",
+  3.5: "3.5",
+  4: "4",
+  4.5: "4.5",
+  5: "5",
 };
 
 export default function Rate(props) {
@@ -61,7 +61,7 @@ export default function Rate(props) {
       <Grid container justify="center">
         <Grid item xs={8}>
           <Typography variant="h4">
-            {average}
+            {(average/2).toFixed(1)}
             <Rating
               name="read-only"
               value={average / 2}
