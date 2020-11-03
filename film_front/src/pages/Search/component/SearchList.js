@@ -8,6 +8,11 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import default_img from "../../../image/No_picture_available.png";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 const useStyles = makeStyles({
   root: {
     width: 300,
@@ -23,6 +28,12 @@ export default function SearchList(props) {
   const [movie, setMovie] = useState([]);
   const apiKey = process.env.REACT_APP_KEY;
   const classes = useStyles();
+
+  const [value, setValue] = React.useState('default');
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
   useEffect(() => {
     const getMovie = async () => {
       console.log(apiKey);
@@ -38,9 +49,34 @@ export default function SearchList(props) {
     getMovie();
   }, [queryValue]);
 
+  // sort by name
+  movie.sort(function(a, b) {
+    var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+    var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+
+
   return (
     <div style={{ margin: "auto" }}>
       <Grid container spacing={8} justify="center" style={{ margin: "auto" }}>
+      <Grid item xs={12}>
+        <FormControl component="fieldset">
+          <FormLabel component="legend"> sorting </FormLabel>
+          <RadioGroup row aria-label="sorting" name="sorting1" value={value} onChange={handleChange}>
+            <FormControlLabel value="default" control={<Radio />} label="Default" />
+            <FormControlLabel value="latest" control={<Radio />} label="Latest" />
+            <FormControlLabel value="rating" control={<Radio />} label="Rating" />
+            <FormControlLabel value="hottest" control={<Radio />} label="Hottest" />
+          </RadioGroup>
+        </FormControl>
+      </Grid>
         {movie.length > 0
           ? movie.map((item) => (
               <Grid
