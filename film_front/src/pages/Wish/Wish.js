@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar/NavBar";
 import SearchList from "../Search/component/SearchList";
@@ -13,13 +13,11 @@ export default function Wish(props) {
     window.location.href = `${process.env.REACT_APP_HOST_URL}`;
   }
   const { history } = props;
+  const { id } = props.match.params;
   //const { query } = props.location;
   const { Wish } = "matrix";//props.match.params;
 
-  //const [name, setName] = useState(Wish);
-  const [name, setName] = useState([ ]);
-
-  console.log("Wishlist", name, Wish, props);
+  console.log("Wishlist", Wish, props);
   console.log(history);
   const [open, setOpen] = useState(false);
   const [SignupOpen, SignupsetOpen] = useState(false);
@@ -54,13 +52,17 @@ export default function Wish(props) {
         rederLogout={rederLogout}
         />
         </Grid>
-
+      <Grid item xs={11}>
+        <br/>
+        <Typography variant='h3'>
+          Wish List
+        </Typography>
+      </Grid>
         <Grid item xs={10}>
-          {console.log(name)}
           <br />
           <br />
           {/* <Grid container justify="center"> */}
-            <WishList queryValue={name} />
+            <WishList decoded={decoded} id={id} />
           {/* </Grid> */}
         </Grid>
       </Grid>
