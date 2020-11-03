@@ -1,7 +1,6 @@
 package com.matrix.filmfinder.model;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Rate")
@@ -11,8 +10,8 @@ public class Rate {
     private Integer id;
     @ManyToOne
     private User user;
-    @Column
-    private Integer movie_id;
+    @ManyToOne
+    private Movie movie;
     @Column
     private Integer rating;
 
@@ -25,12 +24,20 @@ public class Rate {
 //        this.rating = rating;
 //    }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setUser(User uid) {
         this.user = uid;
     }
 
-    public void setMovie_id(Integer movie_id) {
-        this.movie_id = movie_id;
+    public void setMovie(Movie movie_id) {
+        this.movie = movie_id;
     }
 
     public void setRating(Integer rating) {
@@ -41,8 +48,8 @@ public class Rate {
         return user;
     }
 
-    public Integer getMovie_id() {
-        return movie_id;
+    public Movie getMovie() {
+        return movie;
     }
 
     public Integer getRating() {
@@ -55,12 +62,21 @@ public class Rate {
         if (o == null || getClass() != o.getClass()) return false;
         Rate rate = (Rate) o;
         return Objects.equals(user, rate.user) &&
-                Objects.equals(movie_id, rate.movie_id) &&
+                Objects.equals(movie, rate.movie) &&
                 Objects.equals(rating, rate.rating);
     }
 
     @Override
+    public String toString() {
+        return "Rate{" +
+                "id=" + id +
+                ", user=" + user +
+                ", rating=" + rating +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(user, movie_id, rating);
+        return Objects.hash(user, movie, rating);
     }
 }
