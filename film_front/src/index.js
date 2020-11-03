@@ -10,6 +10,8 @@ import Home from './pages/Home/Home';
 import MovieDetail from './pages/MovieDetail/MovieDetail';
 import Search from './pages/Search/Search';
 import Wish from './pages/Wish/Wish';
+import ReviewEdit from './pages/Review/ReviewEdit';
+import Setting from './pages/Setting/Setting';
 const API_URL = process.env.REACT_APP_API_URL;
 var hist = createBrowserHistory()
 axios.defaults.baseURL = API_URL;
@@ -41,6 +43,8 @@ ReactDOM.render(
       <Route path='/search/:search' component={Search}/>
       <Route path='/wish' component={Wish}/>
 
+      <Route path='/editReview/:id' component={ReviewEdit}/>
+      <Route path='/Setting' component={Setting}/> 
     </Switch>
   </Router>
   ,
