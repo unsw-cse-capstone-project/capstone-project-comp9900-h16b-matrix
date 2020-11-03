@@ -15,7 +15,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 const useStyles = makeStyles({
   root: {
-    width: 300,
+    width: 350,
     height: 450,
   },
   media: {
@@ -65,7 +65,7 @@ export default function SearchList(props) {
 
   return (
     <div style={{ margin: "auto" }}>
-      <Grid container spacing={8} justify="center" style={{ margin: "auto" }}>
+      <Grid container spacing={8} justify="flex-start" >
       <Grid item xs={12}>
         <FormControl component="fieldset">
           <FormLabel component="legend"> Sorting </FormLabel>
@@ -81,8 +81,8 @@ export default function SearchList(props) {
           ? movie.map((item) => (
               <Grid
                 item
-                xs={movie.length % 3 ? 3 : 4}
-                style={{ margin: "auto" }}
+                xs={4}
+                // style={{ margin: "auto" }}
               >
                 <Card>
                   <CardActionArea className={classes.root}>

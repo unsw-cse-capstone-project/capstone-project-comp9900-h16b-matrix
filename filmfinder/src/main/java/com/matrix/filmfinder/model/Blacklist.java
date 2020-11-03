@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "Backlist")
 public class Blacklist {
     @Id
     @NonNull
