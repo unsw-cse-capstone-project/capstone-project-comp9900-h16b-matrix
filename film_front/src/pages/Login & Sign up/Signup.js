@@ -18,6 +18,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link } from "@material-ui/core";
 import Logindialog from "../Login & Sign up/Login";
 import * as userAPI from "../../api/userAPI";
+// import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -93,14 +94,16 @@ export default function Signupdialog(props) {
     console.log(props)
     const classes = useStyles2();
     const classes3 = useStyles3();
+    // const [processing,setProcessing] = useState(false)
     const [userInfo,setUserInfo]= useState({
       'name':"",
       'email':"",
       'password':""
     })
     const userRegister = async()=>{
+      // setProcessing(true)
       const data = {'name':userInfo.name,'email':userInfo.email,'password':userInfo.password}
-      console.log(data)
+      // console.log(processing,data)
       const res = await userAPI.register(data)
       console.log(res)
       if (res){
@@ -112,7 +115,7 @@ export default function Signupdialog(props) {
         SignupClose()
       }
       
-     
+      // setProcessing(false)
      
     }
     const handleChange = (e)=>{
@@ -151,11 +154,11 @@ export default function Signupdialog(props) {
           <Typography gutterBottom>
             <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} size="small" type="password"  onChange={handleChange} name="password"/>
           </Typography>
-
+         
           <Button variant="contained" color="primary" fullWidth={true} onClick={userRegister} >
             Sign up
           </Button>
-
+          
 
           <Typography gutterBottom align='center'>
             <br/>Or

@@ -3,6 +3,7 @@ import Rating from "@material-ui/lab/Rating";
 import React, { useState, useEffect } from "react";
 import Logindialog from "../../Login & Sign up/Login";
 import StarRateIcon from '@material-ui/icons/StarRate';
+import * as rateAPI from "../../../api/rateAPI"
 const labels = {
   0.5: "1",
   1: "2",
@@ -21,12 +22,12 @@ export default function Rate(props) {
   const [value, setValue] = useState(0);
   const [hover, setHover] = useState(-1);
   const [rating, setRating] = useState(false);
-  const { decoded, vote_average, vote_count,handleClickOpen } = props;
+  const { decoded, vote_average, vote_count,handleClickOpen,movieId } = props;
   const [average, setAverage] = useState(vote_average / 2);
   const [count, setCount] = useState(vote_count);
-  
+  const [newRate,setNew] = useState(true)
   useEffect(() => {
-    console.log("initial");
+    console.log("initial",decoded);
 
     setAverage(vote_average);
     setCount(vote_count);
@@ -35,8 +36,25 @@ export default function Rate(props) {
   useEffect(() => {
     let initial = vote_average;
     const newAvg = (initial * vote_count + value) / (vote_count + 1);
+    const addRate = async()=>{
+      const data = {
+        'uid' : decoded.id,
+        'movie_id' : movieId,
+        'rating' : value
+      }
+      const res = await rateAPI.addRate(data)
+      console.log('ratelog','newRate',res)
+      setNew(false)
+    }
+    console.log('newRate',newRate)
+    if(newRate==true&&decoded){
+      addRate();
+      
+    }
+    
     setAverage(newAvg.toFixed(1));
     setCount(vote_count + 1);
+    
   }, [value]);
   return (
     <div>

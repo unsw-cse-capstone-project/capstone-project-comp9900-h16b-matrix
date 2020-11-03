@@ -2,28 +2,27 @@ package com.matrix.filmfinder.model;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
 
-@Entity
+@Entity(name = "Movie")
 public class Movie {
     @Id
     @GeneratedValue
-    private UUID id;
+    private Integer id;
     @Column
     private String tmdb_id;
     @Column
-    private Integer avg_rate;
+    private Double avg_rate;//review
     @Column
-    private Integer n_hits;
+    private Long n_hits;//review
 
     public Movie() {}
-
-    public Movie(UUID id, String tmdb_id) {
+    //tmdb_id in database is int, not corresponding
+    public Movie(Integer id, String tmdb_id) {
         this.id = id;
         this.tmdb_id = tmdb_id;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -31,23 +30,23 @@ public class Movie {
         return tmdb_id;
     }
 
-    public Integer getAvg_rate() {
+    public Double getAvg_rate() {
         return avg_rate;
     }
 
-    public Integer getN_hits() {
+    public Long getN_hits() {
         return n_hits;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setAvg_rate(Integer avg_rate) {
+    public void setAvg_rate(Double avg_rate) {
         this.avg_rate = avg_rate;
     }
 
-    public void setN_hits(Integer n_hits) {
+    public void setN_hits(Long n_hits) {
         this.n_hits = n_hits;
     }
 

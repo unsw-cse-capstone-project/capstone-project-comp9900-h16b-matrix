@@ -45,13 +45,13 @@ export default function Search(props) {
         />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={10}>
           {console.log(name)}
           <br />
           <br />
-          <Grid container justify="center">
+          {/* <Grid container justify="center"> */}
             <SearchList queryValue={name} />
-          </Grid>
+          {/* </Grid> */}
         </Grid>
       </Grid>
     </div>

@@ -28,6 +28,11 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+//    @Autowired
+//    public UserController(UserRepository userRepository){
+//        this.userRepository = userRepository;
+//    }
+
 //    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //    private final FilmFinderUserDetailService userDetailService = new FilmFinderUserDetailService();
 
