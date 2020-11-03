@@ -8,13 +8,13 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import default_img from "../../../image/No_picture_available.png";
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 
 const useStyles = makeStyles({
   root: {
@@ -27,32 +27,33 @@ const useStyles = makeStyles({
 });
 
 export default function WishList(props) {
-  const { queryValue } = props;
+  const { decoded, id } = props;
   //const [movie, setMovie] = useState([]);
   const [movie, setMovie] = useState([
-    {title: "m1", overview: "this is a good movie", rating: 3},
-    {title: "m2", overview: "this is a good movie", rating: 3},
-    {title: "m3", overview: "this is a good movie", rating: 3},
-    {title: "m4", overview: "this is a good movie", rating: 3},
-    {title: "m5", overview: "this is a good movie", rating: 3},
-    {title: "m6", overview: "this is a good movie", rating: 3},
-    {title: "m7", overview: "this is a good movie", rating: 3},
-    {title: "m8", overview: "this is a good movie", rating: 3},
-
+    { title: "m1", overview: "this is a good movie", rating: 3 },
+    { title: "m2", overview: "this is a good movie", rating: 3 },
+    { title: "m3", overview: "this is a good movie", rating: 3 },
+    { title: "m4", overview: "this is a good movie", rating: 3 },
+    { title: "m5", overview: "this is a good movie", rating: 3 },
+    { title: "m6", overview: "this is a good movie", rating: 3 },
+    { title: "m7", overview: "this is a good movie", rating: 3 },
+    { title: "m8", overview: "this is a good movie", rating: 3 },
   ]);
   const apiKey = process.env.REACT_APP_KEY;
   const classes = useStyles();
 
-  const [value, setValue] = React.useState('default');
+  const [value, setValue] = React.useState("default");
   const handleChange = (event) => {
     setValue(event.target.value);
   };
   const handleDelete = (chipToDelete) => () => {
-    setMovie((chips) => chips.filter((chip) => chip.title !== chipToDelete.title));
+    setMovie((chips) =>
+      chips.filter((chip) => chip.title !== chipToDelete.title)
+    );
   };
 
   // sort by name
-  movie.sort(function(a, b) {
+  movie.sort(function (a, b) {
     var nameA = a.title.toUpperCase(); // ignore upper and lowercase
     var nameB = b.title.toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
@@ -64,11 +65,10 @@ export default function WishList(props) {
     return 0;
   });
 
-
   return (
     <div style={{ margin: "auto" }}>
-      <Grid container spacing={8} justify='flex-start' >
-      {/*<Grid item xs={12}>
+      <Grid container spacing={8} justify="flex-start">
+        {/*<Grid item xs={12}>
         <FormControl component="fieldset">
           <FormLabel component="legend"> Sorting </FormLabel>
           <RadioGroup row aria-label="sorting" name="sorting1" value={value} onChange={handleChange}>
@@ -81,10 +81,7 @@ export default function WishList(props) {
       </Grid>*/}
         {movie.length > 0
           ? movie.map((item) => (
-              <Grid
-                item
-                xs={4}
-              >
+              <Grid item xs={4}>
                 <Card>
                   <CardActionArea className={classes.root}>
                     <CardMedia
@@ -97,7 +94,12 @@ export default function WishList(props) {
                       title={item.title}
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2" noWrap={true}>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        noWrap={true}
+                      >
                         {item.title}
                       </Typography>
                       <Typography
@@ -119,9 +121,15 @@ export default function WishList(props) {
                     >
                       Learn More
                     </Button>
-                    <IconButton aria-label="delete" className={classes.margin} onClick = {handleDelete(item)}>
+                    {decoded.id == id ? (
+                      <IconButton
+                        aria-label="delete"
+                        className={classes.margin}
+                        onClick={handleDelete(item)}
+                      >
                         <DeleteIcon fontSize="large" />
-                    </IconButton>
+                      </IconButton>
+                    ) : null}
                   </CardActions>
                 </Card>
               </Grid>
