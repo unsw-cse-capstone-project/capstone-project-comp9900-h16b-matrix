@@ -23,7 +23,7 @@ public class RateController {
 //    }
 
 //    add
-    @PostMapping(path="/addrate")
+    @PostMapping(path="/add")
     public ResponseEntity<String> addRate(
             @RequestParam(name = "uid") User uid,
             @RequestParam(name = "movie_id") Integer movie_id,
