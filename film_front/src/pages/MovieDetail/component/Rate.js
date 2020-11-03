@@ -18,8 +18,8 @@ const labels = {
 };
 
 export default function Rate(props) {
-  const [rate, setRate] = useState(4.5);
   const [value, setValue] = useState(0);
+  const [lastValue,setLast] = useState(0);
   const [hover, setHover] = useState(-1);
   const [rating, setRating] = useState(false);
   const { decoded, vote_average, vote_count,handleClickOpen,movieId } = props;
@@ -27,15 +27,30 @@ export default function Rate(props) {
   const [count, setCount] = useState(vote_count);
   const [newRate,setNew] = useState(true)
   useEffect(() => {
-    console.log("initial",decoded);
-
-    setAverage(vote_average);
-    setCount(vote_count);
-    console.log("initial", average, count, vote_average);
-  }, [vote_average, vote_count]);
+    console.log("initial",movieId);
+    const getAll = async()=>{
+      const res = await rateAPI.getAll(movieId)
+      console.log('initavg',res)
+      if(res.avg){
+        const avg = (res.avg*(res.count)+vote_average*vote_count)/(vote_count+res.count)
+        const count = vote_count+res.count
+        console.log("initial", average, count, vote_average,vote_count );
+        setAverage(avg);
+        setCount(count);
+      }
+      else{
+        setAverage(vote_average);
+        setCount(vote_count);
+      }
+      
+    }
+    getAll()
+    
+  }, [movieId]);
   useEffect(() => {
-    let initial = vote_average;
-    const newAvg = (initial * vote_count + value) / (vote_count + 1);
+    const newAvg = (average * count-lastValue + value) / (count + (newRate?1:0));
+    const newCount = count +  (newRate?1:0)
+    
     const addRate = async()=>{
       const data = {
         'uid' : decoded.id,
@@ -46,14 +61,28 @@ export default function Rate(props) {
       console.log('ratelog','newRate',res)
       setNew(false)
     }
+    const updateRate = async()=>{
+      
+      const data = {
+        'uid' : decoded.id,
+        'movie_id' : movieId,
+        'rating' : value
+      }
+      const res = await rateAPI.updateRate(data)
+      console.log('ratelog','newRate',res)
+    }
     console.log('newRate',newRate)
     if(newRate==true&&decoded){
       addRate();
       
     }
+    else if(newRate==false&&decoded){
+      updateRate()
+    }
     
+    console.log('test rate',count,newRate,(newRate?1:0))
     setAverage(newAvg.toFixed(1));
-    setCount(vote_count + 1);
+    setCount(newCount);
     
   }, [value]);
   return (
@@ -86,7 +115,7 @@ export default function Rate(props) {
             // disabled = {!decoded}
             // onClick={()=>handleClickOpen()}
             onChange={(event, newValue) => {
-              
+                setLast(value)
                 setValue(newValue * 2);
                 setRating(true);
               

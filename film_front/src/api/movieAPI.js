@@ -16,9 +16,10 @@ export function getMovieByTid(id) {
     });
   }
   export function updateDetail(data) {
+      console.log(data)
     return new Promise((resolve, reject) => {
       axios
-        .put(`/movie/update`,data)
+        .post(`/movie/update`,data)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
