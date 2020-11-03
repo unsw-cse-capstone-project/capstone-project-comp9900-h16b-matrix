@@ -77,7 +77,7 @@ const NavBar = (props) => {
         onClose={()=>setMenu(null)}
       >
         <MenuItem onClick={()=>setMenu(null)} component={Link} to = {'/Setting'}>setting </MenuItem>
-        <MenuItem onClick={()=>setMenu(null)}>wish list</MenuItem>
+        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {'/Wish'}>wish list</MenuItem>
         <MenuItem onClick={()=>handleLogout()}>Logout</MenuItem>
 
       </Menu>
