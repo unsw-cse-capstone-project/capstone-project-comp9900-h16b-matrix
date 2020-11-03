@@ -3,8 +3,15 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar/NavBar";
 import SearchList from "../Search/component/SearchList";
 import WishList from "./component/WishList";
-
+const jwt = require("jwt-simple");
 export default function Wish(props) {
+  let decoded;
+  const token = localStorage.getItem("userInfo");
+  if (token) {
+    decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
+  } else {
+    window.location.href = `${process.env.REACT_APP_HOST_URL}`;
+  }
   const { history } = props;
   //const { query } = props.location;
   const { Wish } = "matrix";//props.match.params;
@@ -48,13 +55,13 @@ export default function Wish(props) {
         />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={10}>
           {console.log(name)}
           <br />
           <br />
-          <Grid container justify="center">
+          {/* <Grid container justify="center"> */}
             <WishList queryValue={name} />
-          </Grid>
+          {/* </Grid> */}
         </Grid>
       </Grid>
     </div>
