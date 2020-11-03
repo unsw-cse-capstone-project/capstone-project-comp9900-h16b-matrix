@@ -25,6 +25,8 @@ public class Movie {
     @Column
     @URL(protocol = "http")
     private String poster;
+    @Column
+    private String title;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
     @JsonIgnore
@@ -46,6 +48,15 @@ public class Movie {
         this.description = description;
         this.poster = poster;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Set<Comment> getComments() {
         return comments;
     }
