@@ -18,11 +18,11 @@ import poster from "../../image/poster.jpeg";
 import Rate from "./component/Rate";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
-import CRTabs from "./component/CRTabs"
+import CRTabs from "./component/CRTabs";
 import { Link as RouteLink } from "react-router-dom";
-import * as Empty from "../../component/Empty"
+import * as Empty from "../../component/Empty";
 import Logindialog from "../Login & Sign up/Login";
-import * as movieAPI from "../../api/movieAPI"
+import * as movieAPI from "../../api/movieAPI";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "90%",
@@ -43,17 +43,18 @@ export default function MovieDetail(props) {
   const [casts, setCasts] = useState([]);
   const [hidden, setHidden] = useState(true);
   const [video, setVideo] = useState({});
-  const [like,setLike] = useState(false)
+  const [like, setLike] = useState(false);
+  const [movieId,setMovieId] = useState(undefined);
   const classes = useStyles();
   let decoded;
-  const token = localStorage.getItem("userInfo")
+  const token = localStorage.getItem("userInfo");
   if (token) {
     decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
   }
   const [open, setOpen] = useState(false);
   const [SignupOpen, SignupsetOpen] = useState(false);
-  const [logout,setLogout] = useState(false)
-  const rederLogout = ()=>setLogout(!logout)
+  const [logout, setLogout] = useState(false);
+  const rederLogout = () => setLogout(!logout);
   const handleSignupOpen = () => {
     SignupsetOpen(true);
     handleClose();
@@ -70,17 +71,26 @@ export default function MovieDetail(props) {
   useEffect(() => {
     const getInfo = async () => {
       console.log(id);
+      
       const res = await fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
       );
       const data = await res.json();
-      console.log('detail',data);
+      console.log("detail", data);
       setInfo(data);
-      const movie_res = await movieAPI.getMovieByTid(id)
-      console.log('movie res',movie_res)
-      if(!movie_res.description){
-        
+      const movie_res = await movieAPI.getMovieByTid(id);
+      setMovieId(movie_res.id)
+      if (!movie_res.description) {
+        const update_res = await movieAPI.updateDetail({
+          id: movie_res.id,
+          description: data.overview,
+          title: data.title,
+          poster: `http://image.tmdb.org/t/p/w185${data.poster_path}`,
+        });
+        console.log(update_res);
       }
+      
+
       const cre = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
       );
@@ -95,14 +105,16 @@ export default function MovieDetail(props) {
       setCasts(credits.cast);
       console.log(credits.cast);
       // if(data.video){
-      const vid = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}`)
+      const vid = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}`
+      );
       const trailer = await vid.json();
-      console.log(trailer.results)
-      for(let i = 0;i<trailer.results.length;i++){
-        console.log(trailer.results[i])
-        if(trailer.results[i].type==='Trailer'){
-          setVideo(trailer.results[i])
-          console.log(trailer.results[i])
+      console.log(trailer.results);
+      for (let i = 0; i < trailer.results.length; i++) {
+        console.log(trailer.results[i]);
+        if (trailer.results[i].type === "Trailer") {
+          setVideo(trailer.results[i]);
+          console.log(trailer.results[i]);
           break;
         }
       }
@@ -119,28 +131,27 @@ export default function MovieDetail(props) {
     let DateArray = date.toUTCString().split(" ");
     return `${DateArray[1]} ${DateArray[2]}, ${DateArray[3]}`;
   };
-  const handleLike=()=>{
-    if(decoded){
-      setLike(!like)
+  const handleLike = () => {
+    if (decoded) {
+      setLike(!like);
+    } else {
+      handleClickOpen();
     }
-    else{
-      handleClickOpen()
-    }
-  }
+  };
   return (
     <div>
       {console.log(video)}
       <Grid container spacing={3} justify="center" alignItems="center">
         <Grid item xs={12}>
-          <NavBar handleClose={handleClose}
-        open={open}
-        handleClickOpen={handleClickOpen}
-        SignupClose={SignupClose}
-        SignupOpen={SignupOpen}
-        handleSignupOpen={handleSignupOpen}
-        rederLogout={rederLogout}
-        />
-       
+          <NavBar
+            handleClose={handleClose}
+            open={open}
+            handleClickOpen={handleClickOpen}
+            SignupClose={SignupClose}
+            SignupOpen={SignupOpen}
+            handleSignupOpen={handleSignupOpen}
+            rederLogout={rederLogout}
+          />
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2}>
@@ -156,28 +167,22 @@ export default function MovieDetail(props) {
                       : null
                   }
                 />
-                {video.key?
-                <div
-               
-                className={classes.root}
-              >
-                <Typography variant='body2'>
-                    Trailer
-                  </Typography>
-                  <Typography>
-                <IconButton  >
+                {video.key ? (
+                  <div className={classes.root}>
+                    <Typography variant="body2">Trailer</Typography>
+                    <Typography>
+                      <IconButton>
+                        {/* <ListItemIcon> */}
+                        <YouTubeIcon style={{ color: "red" }} />
+                        {/* </ListItemIcon> */}
+                      </IconButton>
 
-                  {/* <ListItemIcon> */}
-                    <YouTubeIcon style={{ color: "red" }} />
-                  {/* </ListItemIcon> */}
-                  </IconButton >
-                    
-                    <a href={`https://www.youtube.com/watch?v=${video.key}`}>Youtube</a>
-                 
-                </Typography>
-              </div>
-              :null}
-                
+                      <a href={`https://www.youtube.com/watch?v=${video.key}`}>
+                        Youtube
+                      </a>
+                    </Typography>
+                  </div>
+                ) : null}
               </div>
             </Grid>
 
@@ -188,10 +193,15 @@ export default function MovieDetail(props) {
                     {info.title}
                     &nbsp;&nbsp;
                     <IconButton onClick={handleLike}>
-                      {like?<FavoriteIcon color="secondary" fontSize="large"/>:<FavoriteBorderIcon color="secondary" fontSize="large" />}
-                      
+                      {like ? (
+                        <FavoriteIcon color="secondary" fontSize="large" />
+                      ) : (
+                        <FavoriteBorderIcon
+                          color="secondary"
+                          fontSize="large"
+                        />
+                      )}
                     </IconButton>
-                    
                   </Typography>
                   <Typography>
                     {info.status === "Released"
@@ -317,9 +327,13 @@ export default function MovieDetail(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} justify="center">
-                  <br/>
-                  <Divider/>
-                  <CRTabs decoded={decoded} handleClickOpen={handleClickOpen} movieId={info.id}/>
+                  <br />
+                  <Divider />
+                  <CRTabs
+                    decoded={decoded}
+                    handleClickOpen={handleClickOpen}
+                    movieId={movieId}
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -328,7 +342,13 @@ export default function MovieDetail(props) {
               <div
                 style={{ position: "fixed", top: "50px", paddingTop: "100px" }}
               >
-                <Rate decoded={decoded} vote_average={info.vote_average} vote_count = {info.vote_count} handleClickOpen={handleClickOpen} movieId={info.id}/>
+                <Rate
+                  decoded={decoded}
+                  vote_average={info.vote_average}
+                  vote_count={info.vote_count}
+                  handleClickOpen={handleClickOpen}
+                  movieId={movieId}
+                />
               </div>
             </Grid>
           </Grid>
