@@ -73,6 +73,7 @@ public class MovieController {
             Movie movie = movieRepository.getOne(payload.getId());
             movie.setDescription(payload.getDescription());
             movie.setPoster(payload.getPoster());
+            movie.setTitle(payload.getTitle());
             movieRepository.save(movie);
             return new ResponseEntity<>(
                     movie,
