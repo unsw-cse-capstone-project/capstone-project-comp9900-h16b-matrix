@@ -32,6 +32,62 @@ export default function SearchList(props) {
   const [value, setValue] = React.useState('default');
   const handleChange = (event) => {
     setValue(event.target.value);
+    const radio = event.target.value
+    console.log(radio)
+    if(radio=='default'){
+      const newSort = movie.sort(function(a, b) {
+        var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      })
+      console.log('default',newSort)
+      setMovie(newSort)
+    }
+    else if(radio=='latest'){
+      const newSort = movie.sort(function(a, b) {
+        if ((a.release_date&&b.release_date&&a.release_date > b.release_date)||!b.release_date) {
+          return -1;
+        }
+        // if (nameA > nameB) {
+        //   return 1;
+        // }
+        return 1;
+      })
+      console.log('last',newSort)
+      setMovie(newSort)
+    }
+    else if(radio=='rating'){
+      const newSort = movie.sort(function(a, b) {
+        if (a.vote_average>b.vote_average) {
+          return -1;
+        }
+        // if (nameA > nameB) {
+        //   return 1;
+        // }
+        return 1;
+      })
+      console.log('last',newSort)
+      setMovie(newSort)
+    }
+    else if(radio=='hottest'){
+      const newSort = movie.sort(function(a, b) {
+        if (a.popularity>b.popularity) {
+          return -1;
+        }
+        // if (nameA > nameB) {
+        //   return 1;
+        // }
+        return 1;
+      })
+      console.log('last',newSort)
+      setMovie(newSort)
+    }
   };
 
   useEffect(() => {
@@ -43,24 +99,35 @@ export default function SearchList(props) {
         );
         const data = await res.json();
         console.log(data);
-        setMovie(data.results);
+        const defaultSort = data.results.sort(function(a, b) {
+          var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+          var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        })
+        setMovie(defaultSort);
       }
     };
     getMovie();
   }, [queryValue]);
 
   // sort by name
-  movie.sort(function(a, b) {
-    var nameA = a.title.toUpperCase(); // ignore upper and lowercase
-    var nameB = b.title.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
+  // movie.sort(function(a, b) {
+  //   var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+  //   var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+  //   if (nameA < nameB) {
+  //     return -1;
+  //   }
+  //   if (nameA > nameB) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
 
 
   return (
