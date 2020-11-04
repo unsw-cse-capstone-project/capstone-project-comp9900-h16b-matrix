@@ -59,12 +59,13 @@ public class CommentLike {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CommentLike that = (CommentLike) o;
-        return id.equals(that.id);
+        return Objects.equals(id, that.id) &&
+                user.equals(that.user) &&
+                comment.equals(that.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, user, comment);
     }
-
 }

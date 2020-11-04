@@ -15,19 +15,19 @@ import javax.persistence.EntityNotFoundException;
 
 @Controller
 @RequestMapping(path = "/like/comment")
-public class CommentLikesController {
+public class CommentLikeController {
     private CommentLikeRepository commentLikeRepository;
     private CommentRepository commentRepository;
     private MovieRepository movieRepository;
 
-    public CommentLikesController(CommentLikeRepository commentLikeRepository, CommentRepository commentRepository, MovieRepository movieRepository) {
+    public CommentLikeController(CommentLikeRepository commentLikeRepository, CommentRepository commentRepository, MovieRepository movieRepository) {
         this.commentLikeRepository = commentLikeRepository;
         this.commentRepository = commentRepository;
         this.movieRepository = movieRepository;
     }
 
     @GetMapping(path = "/get")
-    public ResponseEntity<Object> getCommentLike(@RequestParam User u, @RequestParam Comment c) {
+    public ResponseEntity<Object> getCommentLike(@RequestParam(name = "user") User u, @RequestParam(name = "comment") Comment c) {
         try {
             CommentLike commentLike = commentLikeRepository.getCommentLikeByUserAndComment(u, c);
             return new ResponseEntity<>(
@@ -42,7 +42,7 @@ public class CommentLikesController {
         }
     }
     @PostMapping(path = "/like")
-    public ResponseEntity<Object> like(@RequestParam User u, @RequestParam Comment c) {
+    public ResponseEntity<Object> like(@RequestParam(name = "user") User u, @RequestParam(name = "comment") Comment c) {
         try {
             CommentLike commentLike = commentLikeRepository.findCommentLikeByUserAndComment(u, c);
             if (commentLike != null) {
@@ -66,7 +66,7 @@ public class CommentLikesController {
         }
     }
     @DeleteMapping(path = "/unlike")
-    public ResponseEntity<Object> unLike(@RequestParam CommentLike cl) {
+    public ResponseEntity<Object> unLike(@RequestParam(name = "commentLike") CommentLike cl) {
         try {
             commentLikeRepository.delete(cl);
             return new ResponseEntity<>(
