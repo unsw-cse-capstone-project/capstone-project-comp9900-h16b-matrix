@@ -14,6 +14,7 @@ import {
   AiFillLike,
   AiFillDislike,
 } from "react-icons/ai";
+import { FaBan } from "react-icons/fa";
 import * as Empty from "../../../component/Empty";
 import * as moment from "moment";
 export default function CommentArea(props) {
@@ -21,23 +22,30 @@ export default function CommentArea(props) {
   console.log(sended);
   return (
     <div>
-      {decoded
-        ? sended.map((comments, index) => (
+      {
+         sended.map((comments, index) => (
             <Grid container>
               <Grid item xs={12} alignItems="center">
                 <Grid container alignItems="center">
                   <Grid item xs={10}>
-                    <Typography>
-                      {console.log(comments)}
-                      {decoded.name} &nbsp;&nbsp;
+                    <Typography >
+                      <Link component='button' variant='h6' onClick={
+                        ()=>{
+                          const w = window.open("about:blank");
+                          w.location.href = `/wish/${comments.user.id}`;
+                        }
+                      }>
+                      {comments.user.name}
+                      </Link>
+                       &nbsp;&nbsp;
                       <Typography variant="p" style={{ color: "gray" }}>
-                       {comments.release_date}
+                       {comments.submit_date}
                       </Typography>
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
                     <Typography align="right" color="textSecondary">
-                      {comments.n_like}
+                      {comments.n_likes}
                       <IconButton onClick={() => handleLike(index)}>
                         {comments.like ? (
                           <AiFillLike style={{ color: "orange" }} />
@@ -52,26 +60,39 @@ export default function CommentArea(props) {
               <Grid item xs={12}>
                 <Grid container justify="flex-end">
                   <Grid item xs={11}>
-                    <Typography>{comments.comment}</Typography>
+                    <Typography>{comments.content}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
                 <Grid container justify="flex-end">
                   <Grid item xs={2}>
+                    {decoded&&decoded.id==comments.user.id?
                     <Link
-                      id={index}
-                      onClick={() => handleRemove(index)}
-                      component="button"
-                    >
-                      Remove
-                    </Link>
+                    id={index}
+                    onClick={() => handleRemove(index)}
+                    component="button"
+                  >
+                    Remove
+                  </Link>:decoded?
+                  <Link
+                  id={index}
+                  // onClick={() => handleRemove(index)}
+                  component="button"
+                >
+                  Add to Banlist
+                </Link>
+                  :null
+                    }
+                    
                   </Grid>
+                 
                 </Grid>
+                <Divider />
               </Grid>
             </Grid>
           ))
-        : null}
+        }
     </div>
   );
 }
