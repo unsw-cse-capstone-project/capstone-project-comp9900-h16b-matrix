@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/black")
 public class BlacklistController {
@@ -17,22 +20,27 @@ public class BlacklistController {
     private BlacklistRepository blacklistRepository;
 
     // search
-    @GetMapping(path = "/search")
-    public ResponseEntity<String> searchBlacklist(
-            @RequestParam(name = "uid") User uid
+    @GetMapping(path = "/getAll")
+    public ResponseEntity<Object> searchBlacklist(
+            @RequestParam User uid
     ) {
-        Blacklist bl = new Blacklist();
-        bl.setUser(uid);
-        blacklistRepository.save(bl);
-        // success
-        return new ResponseEntity<String>(
-                (MultiValueMap<String, String>) bl,
-                HttpStatus.OK
-        );
+        try {        // success
+            List<Blacklist> blacklist = blacklistRepository.findBlacklistByUser(uid);
+            return new ResponseEntity<>(
+                    blacklist,
+                    HttpStatus.OK
+            );
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(
+                    "Cannot find",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
     }
     // add blacklist
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addBlack(
+    public ResponseEntity<Object> addBlack(
             @RequestParam(name = "uid") User uid,
             @RequestParam(name = "banned_uid") User banned_uid) {
         Blacklist bl = new Blacklist();
@@ -41,22 +49,22 @@ public class BlacklistController {
         blacklistRepository.save(bl);
 
         // if success
-        // ??
-        return new ResponseEntity<String>(
-                (MultiValueMap<String, String>) bl,
+        return new ResponseEntity<>(
+                bl,
                 HttpStatus.OK
         );
     }
 
     // delete blacklist
-    @DeleteMapping(path = "/del/{uid}&{uid}")
-    public ResponseEntity<String> deleteBlacklist(
-            @PathVariable User uid
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<Object> deleteBlacklist(
+            @RequestParam Integer id
     ) {
-        blacklistRepository.deleteById(uid);
+        blacklistRepository.deleteById(id);
 
         // success
         return new ResponseEntity<>(
+                "You already release this user from your Blacklist",
                 HttpStatus.OK
         );
     }

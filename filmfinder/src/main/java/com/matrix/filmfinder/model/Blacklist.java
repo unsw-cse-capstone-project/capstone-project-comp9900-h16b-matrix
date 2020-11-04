@@ -1,10 +1,9 @@
 package com.matrix.filmfinder.model;
 
-import com.sun.istack.NotNull;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
-import java.util.UUID;
+import java.util.Objects;
 
 @Entity(name = "Blacklist")
 public class Blacklist {
@@ -12,11 +11,11 @@ public class Blacklist {
     @NonNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @ManyToOne
-    @JoinColumn(name = "User")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)//EAGER = Load at the same time as the main class
+//    @JoinColumn(name = "User_id")
     private User user;
-    @ManyToOne
-    @JoinColumn(name = "User")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+//    @JoinColumn(name = "User")
     private User banned_user;
 
     public Blacklist() {
@@ -27,6 +26,20 @@ public class Blacklist {
 //        this.uid = uid;
 //        this.banned_id = banned_id;
 //    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return  false;
+        Blacklist bl = (Blacklist) obj;
+        return  id.equals(bl.id);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(id);
+    }
 
     public Integer getId() {
         return id;
