@@ -16,6 +16,7 @@ public class Movie {
     @GeneratedValue
     private Integer id;
     @Column(unique = true)
+    @JsonIgnore
     @NonNull
     private String tmdb_id;
     @Column
