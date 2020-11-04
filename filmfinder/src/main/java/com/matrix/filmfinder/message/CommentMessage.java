@@ -1,13 +1,5 @@
 package com.matrix.filmfinder.message;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.matrix.filmfinder.model.User;
-
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 //@SqlResultSetMapping(
 //        name = "commentResult",

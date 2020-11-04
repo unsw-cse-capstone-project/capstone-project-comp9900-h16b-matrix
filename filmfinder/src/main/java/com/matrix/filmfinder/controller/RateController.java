@@ -8,13 +8,10 @@ import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.Rate;
 import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
