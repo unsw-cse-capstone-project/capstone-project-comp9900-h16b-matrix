@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,11 +92,29 @@ public class RateController {
                 HttpStatus.OK
         );
     }
+    @GetMapping(value = "/get")
+    public ResponseEntity<Object> getRateByUserAndMovie(@RequestParam Integer uid, @RequestParam Integer mid) {
+        try {
+            User user = userRepository.getOne(uid);
+            Movie movie = movieRepository.getOne(mid);
+            Rate rate = rateRepository.getRateByUserAndMovie(user, movie);
+            return new ResponseEntity<>(
+                    rate,
+                    HttpStatus.OK
+            );
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<>(
+                    "getRateByUserAndMovie failure -- EntityNotFound",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
+    }
     @GetMapping(value = "/getAll")
     public ResponseEntity<Object> getAll(@RequestParam Integer movie_id) {
         Movie movie = movieRepository.getOne(movie_id);
         Double avg = rateRepository.getAvgOfRateByMovie(movie);
-        Integer count = rateRepository.countAll();
+        Integer count = rateRepository.countRatesByMovie(movie);
         // List<Integer> rates = [oneStars, twoStars, threeStars, fourStars, fiveStars]
         List<Integer> rates = new ArrayList<>();
         for (int i = 1; i < 6; i++) {
