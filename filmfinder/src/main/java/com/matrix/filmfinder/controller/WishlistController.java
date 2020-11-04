@@ -6,7 +6,6 @@ import com.matrix.filmfinder.dao.WishlistRepository;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.User;
 import com.matrix.filmfinder.model.Wishlist;
-import org.hibernate.annotations.GeneratorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/wishlist")
@@ -27,6 +27,45 @@ public class WishlistController {
         this.wishlistRepository = wishlistRepository;
         this.movieRepository =movieRepository;
         this.userRepository = userRepository;
+    }
+
+    // Find whether add into wishlist
+//    @GetMapping(value = "/get")
+////    public ResponseEntity<Object> findMovieInWishlist(@RequestParam User user, @RequestParam Movie movie){
+//    public ResponseEntity<Object> findMovieInWishlist(@RequestParam Integer uid, @RequestParam Integer movie_id){
+//        try {
+//            Wishlist wishlist = wishlistRepository.findByUidAndMovie_id(uid, movie_id);
+////            List<Wishlist> wishlist = wishlistRepository.findByUidAndMovie(uid, movie_id);
+//            return new ResponseEntity<>(
+//                    wishlist,
+//                    HttpStatus.OK
+//            );
+//        } catch (EntityNotFoundException e) {
+//            return new ResponseEntity<>(
+//                    "EntityNotFound",
+//                    HttpStatus.NOT_FOUND
+//            );
+//        }
+//    }
+
+    // Search all movie from wishlist
+    @GetMapping(value = "/getAll")
+    public ResponseEntity<Object> getWishlist(@RequestParam Integer uid){
+        try {
+//            User user = userRepository.getOne(uid);
+            List<Wishlist> wishlists = wishlistRepository.getWishlistsByUid(uid);
+            List<Movie> movies = movieRepository.findByIdIn(wishlists);
+
+            return new ResponseEntity<>(
+                    movies,
+                    HttpStatus.OK
+            );
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(
+                    "EntityNotFound",
+                    HttpStatus.NOT_FOUND
+            );
+        }
     }
 
     // Add
@@ -45,23 +84,7 @@ public class WishlistController {
                 HttpStatus.OK
         );
     }
-    // Search
-    @GetMapping(value = "/get")
-    public ResponseEntity<Object> getWishlist(@RequestParam Integer uid){
-        try {
-            User user = userRepository.getOne(uid);
-            Wishlist wishlist = wishlistRepository.getWishlistByUser(user);
-            return new ResponseEntity<>(
-                    wishlist,
-                    HttpStatus.OK
-            );
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(
-                    "EntityNotFound",
-                    HttpStatus.NOT_FOUND
-            );
-        }
-    }
+
     // Delete
     @DeleteMapping(value = "/delete")
     public ResponseEntity<Object> deleteWishlist(@RequestParam Integer id){
