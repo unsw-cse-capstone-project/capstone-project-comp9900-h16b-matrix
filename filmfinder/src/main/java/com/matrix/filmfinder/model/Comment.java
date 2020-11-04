@@ -1,14 +1,15 @@
 package com.matrix.filmfinder.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-@Entity(name = "Comment")
+@Entity
 public class Comment {
     @Id
     @NonNull
@@ -16,22 +17,27 @@ public class Comment {
     private Integer id;
 //    @Column
 //    @NotEmpty
-    @ManyToOne (fetch = FetchType.EAGER, optional = false)
-    private User user;
-//    @NotEmpty
-    @ManyToOne(optional = false)
-    private Movie movie;
+
 
 //    @Basic(optional = false)
-    @Column
+    @Column(name = "submit_time")
     @Temporal(TemporalType.DATE)
-    private Date submit_time;
+    private Date submitTime;
     @Column
-    private Integer n_likes;
+    private Long nLikes;
     @Column
 //    @NotBlank
     private String content;
 
+    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<CommentLike> likes = new HashSet<>();
+
+    @ManyToOne (fetch = FetchType.EAGER, optional = false)
+    private User user;
+    //    @NotEmpty
+    @ManyToOne(optional = false)
+    private Movie movie;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,12 +79,12 @@ public class Comment {
         return user;
     }
 
-    public Date getSubmit_time() {
-        return submit_time;
+    public Date getSubmitTime() {
+        return submitTime;
     }
 
-    public Integer getN_likes() {
-        return n_likes;
+    public Long getNLikes() {
+        return nLikes;
     }
 
     public String getContent() {
@@ -94,12 +100,12 @@ public class Comment {
     }
 
 
-    public void setSubmit_time(Date submit_time) {
-        this.submit_time = submit_time;
+    public void setSubmitTime(Date submit_time) {
+        this.submitTime = submit_time;
     }
 
-    public void setN_likes(Integer n_likes) {
-        this.n_likes = n_likes;
+    public void setNLikes(Long n_likes) {
+        this.nLikes = n_likes;
     }
 
     public void setContent(String content) {
@@ -107,11 +113,19 @@ public class Comment {
     }
 
     public void incLike() {
-        this.n_likes += 1;
+        this.nLikes += 1;
     }
 
     public void decLike() {
-        this.n_likes -= 1;
+        this.nLikes -= 1;
+    }
+
+    public Set<CommentLike> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<CommentLike> likes) {
+        this.likes = likes;
     }
 
     @Override
@@ -120,8 +134,8 @@ public class Comment {
                 "id=" + id +
                 ", user=" + user +
                 ", movie=" + movie.getTmdb_id() +
-                ", submit_time=" + submit_time +
-                ", n_likes=" + n_likes +
+                ", submit_time=" + submitTime +
+                ", n_likes=" + nLikes +
                 ", content='" + content + '\'' +
                 '}';
     }
