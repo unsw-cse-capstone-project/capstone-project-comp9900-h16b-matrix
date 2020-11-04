@@ -19,7 +19,7 @@ public class Movie {
     @NonNull
     private String tmdb_id;
     @Column
-    private Long n_hits;//review
+    private Long n_hits = 0L;
     @Column(columnDefinition = "LONGTEXT")
     private String description;
     @Column
