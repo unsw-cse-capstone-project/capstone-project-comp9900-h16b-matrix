@@ -1,10 +1,11 @@
 package com.matrix.filmfinder.model;
 
-import com.sun.istack.NotNull;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity(name = "Backlist")
 public class Blacklist {
