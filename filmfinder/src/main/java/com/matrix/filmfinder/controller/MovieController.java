@@ -33,8 +33,6 @@ public class MovieController {
     @GetMapping(path = "/get")
     public ResponseEntity<Movie> getMovieDetail ( @RequestParam String tmdb_id) {
         Movie movie = new Movie();
-
-
         movie = movieRepository.findMovieByTmdb_id(tmdb_id);
         if (movie == null) {
             movie = new Movie(tmdb_id);
@@ -43,15 +41,6 @@ public class MovieController {
         movie.incN_hits();
         movieRepository.save(movie);
 
-
-//        try {
-//            movieJson = objectMapper.writeValueAsString(movie);
-//        } catch (Exception ej) {
-//            return new ResponseEntity<>(
-//                    "Movie json generator screwed",
-//                    HttpStatus.INTERNAL_SERVER_ERROR
-//            );
-//        }
         return new ResponseEntity<>(
                 movie,
                 HttpStatus.OK
