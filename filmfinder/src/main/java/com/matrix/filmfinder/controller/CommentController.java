@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.Entity;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/comment")
@@ -40,6 +41,38 @@ public class CommentController {
 //        this.commentRepository = commentRepository;
 //    }
 
+    @GetMapping(path = "/getMine")
+    public ResponseEntity<Object> findCommentsByUserAndMovie(@RequestParam Movie movie, @RequestParam User user) {
+        try {
+            List<Comment> comments = commentRepository.findCommentsByUserAndMovie(user, movie);
+            return new ResponseEntity<>(
+                    comments,
+                    HttpStatus.OK
+            );
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<>(
+                    "shouldn't happens",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+    }
+
+
+    @GetMapping(path = "/getAll")
+    public ResponseEntity<Object> findAllCommentsByMovie(@RequestParam Movie movie) {
+        try {
+            List<Comment> comments = commentRepository.findCommentsByMovie(movie);
+            return new ResponseEntity<>(
+                    comments,
+                    HttpStatus.OK
+            );
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<>(
+                    "Entities not found when get comments by movie",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+    }
     // add comment
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addComment(@RequestBody JsonNode jsonNode) {
@@ -144,4 +177,5 @@ public class CommentController {
                 HttpStatus.OK
         );
     }
+
 }
