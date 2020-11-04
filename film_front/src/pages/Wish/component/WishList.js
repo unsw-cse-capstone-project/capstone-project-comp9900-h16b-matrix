@@ -121,7 +121,7 @@ export default function WishList(props) {
                     >
                       Learn More
                     </Button>
-                    {decoded.id == id ? (
+                    {decoded&&decoded.id == id ? (
                       <IconButton
                         aria-label="delete"
                         className={classes.margin}

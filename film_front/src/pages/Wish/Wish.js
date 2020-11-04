@@ -9,9 +9,7 @@ export default function Wish(props) {
   const token = localStorage.getItem("userInfo");
   if (token) {
     decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
-  } else {
-    window.location.href = `${process.env.REACT_APP_HOST_URL}`;
-  }
+  } 
   const { history } = props;
   const { id } = props.match.params;
   //const { query } = props.location;

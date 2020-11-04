@@ -1,33 +1,32 @@
 import { Grid, Typography, Box, IconButton } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import React, { useState, useEffect } from "react";
+import { CircularProgress } from '@material-ui/core';
 import Logindialog from "../../Login & Sign up/Login";
 import StarRateIcon from '@material-ui/icons/StarRate';
 import * as rateAPI from "../../../api/rateAPI"
 const labels = {
   0.5: "0.5",
-  1: "1",
+  1: "1.0",
   1.5: "1.5",
-  2: "2",
+  2: "2.0",
   2.5: "2.5",
-  3: "3",
+  3: "3.0",
   3.5: "3.5",
-  4: "4",
+  4: "4.0",
   4.5: "4.5",
-  5: "5",
+  5: "5.0",
 };
 
 export default function Rate(props) {
   const [value, setValue] = useState(0);
   const [lastValue,setLast] = useState(0);
   const [hover, setHover] = useState(-1);
-  const [rating, setRating] = useState(false);
   const { decoded, vote_average, vote_count,handleClickOpen,movieId } = props;
   const [average, setAverage] = useState(vote_average / 2);
   const [count, setCount] = useState(vote_count);
   const [newRate,setNew] = useState(true)
   useEffect(() => {
-    console.log("initial",movieId);
     const getAll = async()=>{
       const res = await rateAPI.getAll(movieId)
       console.log('initavg',res)
@@ -44,21 +43,43 @@ export default function Rate(props) {
       }
       
     }
+    
     getAll()
     
   }, [movieId]);
-  useEffect(() => {
-    const newAvg = (average * count-lastValue + value) / (count + (newRate?1:0));
+  useEffect(()=>{
+    const getRate=async()=>{
+      console.log('init rate',decoded)
+      if(decoded){
+        const res = await rateAPI.get(decoded.id,movieId)
+        console.log('init rate',res)
+        if(res){
+          setNew(false)
+          setValue(res.rating)
+        }
+        else{
+          setNew(true)
+          setValue(0)
+        }
+      }
+      
+    }
+
+    getRate()
+
+  },[decoded])
+  const updateRating=(newValue) => {
+    const newAvg = (average * count-lastValue + newValue) / (count + (newRate?1:0));
     const newCount = count +  (newRate?1:0)
-    
+    console.log('test rate',newCount,newRate,(newRate?1:0))
     const addRate = async()=>{
       const data = {
         'uid' : decoded.id,
         'movie_id' : movieId,
-        'rating' : value
+        'rating' : newValue
       }
       const res = await rateAPI.addRate(data)
-      console.log('ratelog','newRate',res)
+      console.log('ratelog','add',res)
       setNew(false)
     }
     const updateRate = async()=>{
@@ -66,10 +87,10 @@ export default function Rate(props) {
       const data = {
         'uid' : decoded.id,
         'movie_id' : movieId,
-        'rating' : value
+        'rating' : newValue
       }
       const res = await rateAPI.updateRate(data)
-      console.log('ratelog','newRate',res)
+      console.log('ratelog','update',res)
     }
     console.log('newRate',newRate)
     if(newRate==true&&decoded){
@@ -80,15 +101,15 @@ export default function Rate(props) {
       updateRate()
     }
     
-    console.log('test rate',count,newRate,(newRate?1:0))
+    setValue(newValue)
     setAverage(newAvg.toFixed(1));
     setCount(newCount);
     
-  }, [value]);
+  };
   return (
     <div>
       <Grid container justify="center">
-        <Grid item xs={8}>
+        {average? <Grid item xs={8}>
           <Typography variant="h4">
             {(average/2).toFixed(1)}
             <Rating
@@ -102,23 +123,27 @@ export default function Rate(props) {
             {" "}
             averaged by {count} ratings
           </Typography>
+        </Grid>:
+        <Grid item xs={8}>
+        <CircularProgress disableShrink/>
         </Grid>
+        }
+       
         <Grid item xs={8}>
           <br />
           <Typography variant="h4">
-            {decoded?rating ? "Your Rating" : "Rate here":"Login to raing"}
+            {decoded?!newRate ? "Your Rating" : "Rate here":"Login to raing"}
           </Typography>
           {decoded? <Rating
             name="hover-feedback"
-            value={value/2}
+            value={(value/2).toFixed(1)}
             precision={0.5}
             // disabled = {!decoded}
             // onClick={()=>handleClickOpen()}
             onChange={(event, newValue) => {
                 setLast(value)
-                setValue(newValue * 2);
-                setRating(true);
-              
+                // setValue();
+                updateRating(newValue * 2)
             }}
             onChangeActive={(event, newHover) => {
              
@@ -134,7 +159,7 @@ export default function Rate(props) {
        
             }
          
-          {decoded?value !== null && labels[hover !== -1 ? hover : value]:null}
+          {decoded?value !== null && labels[hover !== -1 ? hover : (value/2).toFixed(1)]:null}
         </Grid>
       </Grid>
     </div>

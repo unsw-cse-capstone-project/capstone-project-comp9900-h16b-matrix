@@ -48,3 +48,17 @@ export function sendComment(data) {
         .catch(reject);
     });
   }
+  export function getAll(id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/comment/getAll?movie=${id}`)
+        .then(response => {
+          if (response.status >= 200 && response.status < 300) {
+            resolve(response.data);
+          } else {
+            reject(response.response);
+          }
+        })
+        .catch(reject);
+    });
+  }
