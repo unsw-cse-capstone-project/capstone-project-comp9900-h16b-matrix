@@ -12,11 +12,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 //    User save(User user);
 //    Optional<User> findById(Integer Id);
 //    List<User>v
     User findByName(String name);
+    User getUserById(Integer id);
     User findByEmail(String email);
 
 }
