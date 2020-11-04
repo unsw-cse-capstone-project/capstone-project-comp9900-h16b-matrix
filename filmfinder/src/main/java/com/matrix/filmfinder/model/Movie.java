@@ -36,11 +36,9 @@ public class Movie {
     private Set<Rate> rates = new HashSet<>();
 
     public Movie() {
-        this.n_hits = 1L;
     }
     public Movie(String tmdb_id) {
         this.tmdb_id = tmdb_id;
-        this.n_hits = 1L;
     }
 
     public Movie(String description, String poster) {

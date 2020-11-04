@@ -22,10 +22,10 @@ public interface RateRepository extends JpaRepository<Rate, Integer> {
     Rate getRateById(Integer id);
     Integer countRatesByRating(Integer rating);
 
-    @Query(
-            value = "select count(r.id) from Rate r"
-    )
-    Integer countAll();
+//    @Query(
+//            value = "select count(r.id) from Rate r"
+//    )
+    Integer countRatesByMovie(Movie movie);
     @Modifying
     @Query(
             value = "update Rate r set r.rating = ?2 where r.id = ?1"
