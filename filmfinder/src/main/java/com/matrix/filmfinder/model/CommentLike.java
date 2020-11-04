@@ -1,7 +1,5 @@
 package com.matrix.filmfinder.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import java.util.Objects;
 

@@ -2,10 +2,7 @@ package com.matrix.filmfinder.services;
 
 import com.matrix.filmfinder.dao.UserRepository;
 import com.matrix.filmfinder.model.User;
-import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
