@@ -19,4 +19,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 //   )
    List<Comment> getCommentsByUserAndMovie(User u, Movie m);
    List<Comment> getCommentsByMovie(Movie m);
+
+   List<Comment> findCommentsByUserAndMovie(User u, Movie m);
+   List<Comment> findCommentsByMovie(Movie m);
 }
