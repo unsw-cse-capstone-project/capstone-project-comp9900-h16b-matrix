@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import {
   Button,
@@ -18,17 +18,26 @@ export default function Comment(props) {
   const [value, setValue] = useState("");
   const [sended, setSend] = useState([]);
   const { decoded, handleClickOpen, movieId } = props;
-  const handleRemove = async(index) => {
+  useEffect(() => {
+    const getComments = async () => {
+      const res = commentAPI.getAll(movieId);
+      var a = Promise.resolve(res);
+      a.then(function (result) {
+        setSend(result)
+      });
+
+      // console.log('comment',res)
+    };
+    getComments();
+  }, [movieId]);
+  const handleRemove = async (index) => {
     console.log(index);
-    const res = await commentAPI.deleteComment(sended[index].id)
-    console.log(res)
-    let array = [];
-    for (let i = 0; i < sended.length; i++) {
-      array.push(sended[i]);
-    }
-    array.splice(index, 1);
-    setSend(array);
-    console.log("after", sended);
+    const del_res = await commentAPI.deleteComment(sended[index].id);
+    const res = commentAPI.getAll(movieId);
+      var a = Promise.resolve(res);
+      a.then(function (result) {
+        setSend(result)
+      });
   };
   function handleSend() {
     const sendComment = async () => {
@@ -38,23 +47,14 @@ export default function Comment(props) {
         n_likes: 0,
         content: value,
       };
-      const res = await commentAPI.sendComment(data);
-      console.log(res);
-      let array = [];
-      for (let i = 0; i < sended.length; i++) {
-        array.push(sended[i]);
-        console.log(array);
-      }
-      array.push({
-        id: res.id,
-        comment: value,
-        n_like: 0,
-        like: false,
-        release_date: moment().format("DD-MM-YY, hh:mm:ss"),
+      const add_res = await commentAPI.sendComment(data);
+      console.log(add_res);
+      const res = commentAPI.getAll(movieId);
+      var a = Promise.resolve(res);
+      a.then(function (result) {
+        setSend(result)
       });
-      setSend(array);
       setValue("");
-      console.log(array);
     };
     if (decoded) {
       if (value === "") {
@@ -68,26 +68,21 @@ export default function Comment(props) {
     }
   }
   const handleLike = async (index) => {
-    let array = [];
-    for (let i = 0; i < sended.length; i++) {
-      if (i == index) {
-        let item = sended[i];
-        if (item.like) {
-          item.like = false;
-          item.n_like -= 1;
-        } else {
-          item.like = true;
-          item.n_like += 1;
-        }
-        console.log(item);
-        const res = await commentAPI.updateNlike({'id':item.id,'isLike':item.like})
-        console.log(res)
-        array.push(item);
-      } else {
-        array.push(sended[i]);
-      }
+    if(decoded){
+      const nlike_res = await commentAPI.updateNlike({
+        id: sended[index].id,
+        isLike: sended[index].like?false:true,
+      });
+         
+      const res = commentAPI.getAll(movieId);
+        var a = Promise.resolve(res);
+        a.then(function (result) {
+          setSend(result)
+        });
+
     }
-    setSend(array);
+    
+    
   };
   return (
     <div>
