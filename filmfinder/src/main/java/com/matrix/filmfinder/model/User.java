@@ -29,12 +29,16 @@ public class User {
     private String email;
     @Column
     @NotBlank(message = "password cannot be blank")
+    @JsonIgnore
     private String password;
     @Column
     @JsonIgnore
     private String oauth2_token;
     @Column
+    @JsonIgnore
     private Boolean isActive;
+
+    private Boolean isYourComment;
 
     public User() {
         this.isActive = true;
@@ -94,6 +98,13 @@ public class User {
         this.oauth2_token = oauth2_token;
     }
 
+    public Boolean getYourComment() {
+        return isYourComment;
+    }
+
+    public void setYourComment(Boolean yourComment) {
+        isYourComment = yourComment;
+    }
 
     @Override
     public boolean equals(Object o) {
