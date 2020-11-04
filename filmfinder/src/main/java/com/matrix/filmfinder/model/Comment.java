@@ -1,5 +1,6 @@
 package com.matrix.filmfinder.model;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.NonNull;
 
@@ -15,19 +16,42 @@ public class Comment {
     private Integer id;
 //    @Column
 //    @NotEmpty
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER, optional = false)
     private User user;
-    @Column
 //    @NotEmpty
-    private Integer movie_id;
+    @ManyToOne(optional = false)
+    private Movie movie;
+
+//    @Basic(optional = false)
     @Column
-    @CreatedDate
+    @Temporal(TemporalType.DATE)
     private Date submit_time;
     @Column
     private Integer n_likes;
     @Column
 //    @NotBlank
     private String content;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id.equals(comment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 
     public Comment() {
     }
@@ -47,10 +71,6 @@ public class Comment {
 
     public User getUser() {
         return user;
-    }
-
-    public Integer getMovie_id() {
-        return movie_id;
     }
 
     public Date getSubmit_time() {
@@ -73,9 +93,6 @@ public class Comment {
         this.user = uid;
     }
 
-    public void setMovie_id(Integer movie_id) {
-        this.movie_id = movie_id;
-    }
 
     public void setSubmit_time(Date submit_time) {
         this.submit_time = submit_time;
@@ -98,20 +115,14 @@ public class Comment {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return id.equals(comment.id) &&
-                Objects.equals(user, comment.user) &&
-                Objects.equals(movie_id, comment.movie_id) &&
-                Objects.equals(submit_time, comment.submit_time) &&
-                Objects.equals(n_likes, comment.n_likes) &&
-                Objects.equals(content, comment.content);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, movie_id, submit_time, n_likes, content);
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", user=" + user +
+                ", movie=" + movie.getTmdb_id() +
+                ", submit_time=" + submit_time +
+                ", n_likes=" + n_likes +
+                ", content='" + content + '\'' +
+                '}';
     }
 }
