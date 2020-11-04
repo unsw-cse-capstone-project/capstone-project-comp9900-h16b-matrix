@@ -11,9 +11,9 @@ public class Wishlist {
     @NonNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Movie movie_id;
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User uid;
 
     @Override
