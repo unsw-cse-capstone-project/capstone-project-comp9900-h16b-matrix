@@ -50,7 +50,7 @@ public class WishlistController {
 
     // Search all movie from wishlist
     @GetMapping(value = "/getAll")
-    public ResponseEntity<Object> getWishlist(@RequestParam User user){
+    public ResponseEntity<Object> getWishlists(@RequestParam User user){
         try {
 //            User user = userRepository.getOne(uid);
 //            List<Wishlist> wishlists = wishlistRepository.getWishlistsByUser(user);
@@ -68,7 +68,21 @@ public class WishlistController {
             );
         }
     }
-
+    @GetMapping(value = "/get")
+    public ResponseEntity<Object> getWishList(@RequestParam User user, @RequestParam Movie movie) {
+        try {
+            Wishlist wishlist = wishlistRepository.getWishlistByUserAndMovie(user, movie);
+            return new ResponseEntity<>(
+                    wishlist,
+                    HttpStatus.OK
+            );
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+    }
     // Add
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addWishlist(
