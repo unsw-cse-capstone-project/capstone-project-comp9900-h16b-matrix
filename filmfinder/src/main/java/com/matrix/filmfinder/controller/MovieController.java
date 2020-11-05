@@ -1,23 +1,16 @@
 package com.matrix.filmfinder.controller;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matrix.filmfinder.dao.CommentRepository;
 import com.matrix.filmfinder.dao.MovieRepository;
-import com.matrix.filmfinder.model.Comment;
 import com.matrix.filmfinder.model.Movie;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
-import java.sql.SQLDataException;
-import java.util.List;
 
 @Controller
 @RequestMapping(path = "/movie")
@@ -33,8 +26,6 @@ public class MovieController {
     @GetMapping(path = "/get")
     public ResponseEntity<Movie> getMovieDetail ( @RequestParam String tmdb_id) {
         Movie movie = new Movie();
-
-
         movie = movieRepository.findMovieByTmdb_id(tmdb_id);
         if (movie == null) {
             movie = new Movie(tmdb_id);
@@ -43,15 +34,6 @@ public class MovieController {
         movie.incN_hits();
         movieRepository.save(movie);
 
-
-//        try {
-//            movieJson = objectMapper.writeValueAsString(movie);
-//        } catch (Exception ej) {
-//            return new ResponseEntity<>(
-//                    "Movie json generator screwed",
-//                    HttpStatus.INTERNAL_SERVER_ERROR
-//            );
-//        }
         return new ResponseEntity<>(
                 movie,
                 HttpStatus.OK

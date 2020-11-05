@@ -1,15 +1,7 @@
 package com.matrix.filmfinder;
 
-import com.matrix.filmfinder.model.User;
-import com.matrix.filmfinder.services.FilmFinderUserDetailService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 @SpringBootApplication
 public class FilmfinderApplication {
