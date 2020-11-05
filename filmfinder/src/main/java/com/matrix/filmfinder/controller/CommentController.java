@@ -150,9 +150,10 @@ public class CommentController {
         CommentLike commentLike = commentLikeRepository.getCommentLikeByUserAndComment(user, comment);
         if(commentLike != null) {
             commentLikeRepository.delete(commentLike);
-            Comment commentReal = commentRepository.getOne(comment.getId());
+            comment.setNLikes(commentLikeRepository.countCommentLikesByComment(comment));
+            commentRepository.save(comment);
             return new ResponseEntity<>(
-                    commentReal,
+                    comment,
                     HttpStatus.OK
             );
         } else {
