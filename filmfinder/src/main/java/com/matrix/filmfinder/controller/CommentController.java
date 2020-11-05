@@ -1,27 +1,26 @@
 package com.matrix.filmfinder.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.matrix.filmfinder.dao.CommentLikeRepository;
 import com.matrix.filmfinder.dao.CommentRepository;
 import com.matrix.filmfinder.dao.MovieRepository;
 import com.matrix.filmfinder.dao.UserRepository;
+import com.matrix.filmfinder.message.CommentMessageInterface;
 import com.matrix.filmfinder.model.Comment;
+import com.matrix.filmfinder.model.CommentLike;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -30,16 +29,14 @@ public class CommentController {
     private CommentRepository commentRepository;
     private MovieRepository movieRepository;
     private UserRepository userRepository;
+    private CommentLikeRepository commentLikeRepository;
     @Autowired
-    public CommentController(CommentRepository commentRepository, MovieRepository movieRepository, UserRepository userRepository) {
+    public CommentController(CommentRepository commentRepository, MovieRepository movieRepository, UserRepository userRepository, CommentLikeRepository commentLikeRepository) {
        this.commentRepository = commentRepository;
        this.movieRepository = movieRepository;
        this.userRepository = userRepository;
+       this.commentLikeRepository = commentLikeRepository;
     }
-//    @Autowired
-//    public CommentController(CommentRepository commentRepository) {
-//        this.commentRepository = commentRepository;
-//    }
 
     @GetMapping(path = "/getMine")
     public ResponseEntity<Object> findCommentsByUserAndMovie(@RequestParam Movie movie, @RequestParam User user) {
@@ -59,9 +56,9 @@ public class CommentController {
 
 
     @GetMapping(path = "/getAll")
-    public ResponseEntity<Object> findAllCommentsByMovie(@RequestParam Movie movie) {
+    public ResponseEntity<Object> findAllCommentsByMovie(@RequestParam Movie movie, @RequestParam User user) {
         try {
-            List<Comment> comments = commentRepository.findCommentsByMovie(movie);
+            List<CommentMessageInterface> comments = commentRepository.findCommentsByMovieWithLikedUser(movie, user);
             return new ResponseEntity<>(
                     comments,
                     HttpStatus.OK
@@ -113,8 +110,9 @@ public class CommentController {
         }
         comment.setUser(user);
         comment.setMovie(movie);
-        comment.setN_likes(0);
+        comment.setNLikes(0L);
         comment.setContent(content);
+        comment.setSubmitTime(new Date());
         try {
             commentRepository.save(comment);
             return new ResponseEntity<>(
@@ -131,23 +129,40 @@ public class CommentController {
 
     //    update n_likes
     @PutMapping(value = "/like")
-    public ResponseEntity<Object> updateLikes(@RequestParam Integer id, @RequestParam("isLike") Boolean isLike) {
-        //how to get the id which have new value
-        Comment comment = commentRepository.findById(id).get();
-        if(isLike == true) {
-            //if isLike is true, then add 1
-            comment.incLike();
-        } else {
-            comment.decLike();
+    public ResponseEntity<Object> like(@RequestParam User user, @RequestParam Comment comment) {
+//        comment = commentRepository.getOne(comment.getId());
+        CommentLike commentLike = commentLikeRepository.getCommentLikeByUserAndComment(user, comment);
+        if (commentLike == null) {
+            commentLike = new CommentLike(user, comment);
+            commentLikeRepository.saveAndFlush(commentLike);
+            comment.setNLikes(commentLikeRepository.countCommentLikesByComment(comment));
+            commentRepository.save(comment);
         }
-        commentRepository.save(comment);
-
         return new ResponseEntity<>(
                 comment,
                 HttpStatus.OK
         );
+
     }
 
+    @PutMapping(value = "/unlike")
+    public ResponseEntity<Object> unlike(@RequestParam User user, @RequestParam Comment comment) {
+        CommentLike commentLike = commentLikeRepository.getCommentLikeByUserAndComment(user, comment);
+        if(commentLike != null) {
+            commentLikeRepository.delete(commentLike);
+            Comment commentReal = commentRepository.getOne(comment.getId());
+            return new ResponseEntity<>(
+                    commentReal,
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    "Unlike Unsucessfully coz no like detail found",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
+    }
 //    // Update comment
 //    @PutMapping(value = "udComment/{id}")
 //    public Comment updateComment(@PathVariable Integer id, @RequestParam("content") String content) {
