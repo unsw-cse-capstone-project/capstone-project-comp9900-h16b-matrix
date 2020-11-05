@@ -50,11 +50,12 @@ public class WishlistController {
 
     // Search all movie from wishlist
     @GetMapping(value = "/getAll")
-    public ResponseEntity<Object> getWishlist(@RequestParam Integer uid){
+    public ResponseEntity<Object> getWishlist(@RequestParam User user){
         try {
 //            User user = userRepository.getOne(uid);
-            List<Wishlist> wishlists = wishlistRepository.getWishlistsByUid(uid);
-            List<Movie> movies = movieRepository.findByIdIn(wishlists);
+//            List<Wishlist> wishlists = wishlistRepository.getWishlistsByUser(user);
+//            List<Movie> movies = movieRepository.findByIdIn(wishlists);
+            List<Movie> movies = movieRepository.findMoviesByUserFromWishlists(user);
 
             return new ResponseEntity<>(
                     movies,
@@ -71,13 +72,13 @@ public class WishlistController {
     // Add
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addWishlist(
-            @RequestParam(name = "uid") User uid,
-            @RequestParam(name = "movie_id") Movie movie_id
+            @RequestParam(name = "user") User uid,
+            @RequestParam(name = "movie") Movie movie_id
             )
     {
         Wishlist wishlist = new Wishlist();
-        wishlist.setUid(uid);
-        wishlist.setMovie_id(movie_id);
+        wishlist.setUser(uid);
+        wishlist.setMovie(movie_id);
         wishlistRepository.save(wishlist);
         return new ResponseEntity<>(
                 wishlist,
