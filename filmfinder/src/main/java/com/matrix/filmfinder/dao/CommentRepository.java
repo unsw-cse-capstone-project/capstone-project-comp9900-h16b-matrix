@@ -24,11 +24,13 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
    List<Comment> findCommentsByMovie(Movie m);
    @Query(
            nativeQuery = true,
-           value = "Select c.id as id, c.content as content, c.movie_id as movie_id, c.n_likes as n_likes, c.submit_time as submit_time, cl.user as user_id " +
-                   "from comment c LEFT JOIN " +
-                   "(Select cl.user_id AS user, cl.comment_id from comment_like cl where cl.user_id = ?2) cl " +
+           value = "Select c.id as comment_id, u.id as post_userid, u.name as post_username, c.content as content, c.movie_id as movie_id, c.n_likes as n_likes, c.submit_time as submit_time, cl.your_user_id " +
+                   "from comment c " +
+                   "left join user u on c.user_id = u.id " +
+                   "LEFT JOIN " +
+                   "(Select cl.user_id AS your_user_id, cl.comment_id from comment_like cl where cl.user_id = ?2) cl " +
                    "on c.id = cl.comment_id " +
-                   "and c.movie_id = ?1"
+                   "where c.movie_id = ?1"
    )
    @Transactional
    List<CommentMessageInterface> findCommentsByMovieWithLikedUser(Movie m, User u);
