@@ -8,13 +8,10 @@ import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.Rate;
 import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
@@ -34,21 +31,15 @@ public class RateController {
         this.userRepository = userRepository;
     }
 
-    //    @Autowired
-//    public RateController(RateRepository rateRepository) {
-//        this.rateRepository = rateRepository;
-//    }
-
-//    add
     @PostMapping(path="/add")
     public ResponseEntity<Object> addRate(
-            @RequestParam(name = "uid") User uid,
-            @RequestParam(name = "movie_id") Movie movie_id,
-            @RequestParam(name = "rating") Integer rating)
+            @RequestParam User user,
+            @RequestParam Movie movie,
+            @RequestParam Integer rating)
     {
         Rate rate = new Rate();
-        rate.setUser(uid);
-        rate.setMovie(movie_id);
+        rate.setUser(user);
+        rate.setMovie(movie);
         rate.setRating(rating);
         rateRepository.save(rate);
         return new ResponseEntity<>(
@@ -59,33 +50,38 @@ public class RateController {
 
     //    update
     @PutMapping(value = "/update")
-    public ResponseEntity<Object> updateRate(@RequestParam Integer uid,
-                                             @RequestParam Integer movie_id,
+    public ResponseEntity<Object> updateRate(@RequestParam User user,
+                                             @RequestParam Movie movie,
                                              @RequestParam Integer rating){
 
        Rate rate = new Rate();
 
        try {
-           rate = rateRepository.getRateByUserAndMovie(userRepository.getUserById(uid),
-                   movieRepository.getOne(movie_id));
+           rate = rateRepository.getRateByUserAndMovie(user, movie);
 
        } catch (NoResultException e) {
            return new ResponseEntity<>(
-                   "No result for " + uid + " in movie " + movie_id,
+                   "No result for " + user.getId() + " in movie " + movie.getId(),
                    HttpStatus.NOT_FOUND
            );
        }
 
-       rateRepository.setRatingById(rate.getId(), rating);
-       rate = rateRepository.getRateById(rate.getId());
+       rate.setRating(rating);
+       try {
+           rateRepository.save(rate);
+       } catch (IllegalArgumentException ie){
+           return new ResponseEntity<>(
+                   "rate update error",
+                   HttpStatus.INTERNAL_SERVER_ERROR
+           );
+       }
        return new ResponseEntity<>(
                rate,
                HttpStatus.OK
        );
     }
     @GetMapping(value = "/getAvg")
-    public ResponseEntity<Object> getAverageRateOfMovie(@RequestParam Integer movie_id) {
-        Movie movie = movieRepository.getOne(movie_id);
+    public ResponseEntity<Object> getAverageRateOfMovie(@RequestParam Movie movie) {
         Double avg = rateRepository.getAvgOfRateByMovie(movie);
         return new ResponseEntity<>(
                 avg.toString(),
@@ -93,10 +89,8 @@ public class RateController {
         );
     }
     @GetMapping(value = "/get")
-    public ResponseEntity<Object> getRateByUserAndMovie(@RequestParam Integer uid, @RequestParam Integer mid) {
+    public ResponseEntity<Object> getRateByUserAndMovie(@RequestParam User user, @RequestParam Movie movie) {
         try {
-            User user = userRepository.getOne(uid);
-            Movie movie = movieRepository.getOne(mid);
             Rate rate = rateRepository.getRateByUserAndMovie(user, movie);
             return new ResponseEntity<>(
                     rate,
@@ -111,8 +105,7 @@ public class RateController {
 
     }
     @GetMapping(value = "/getAll")
-    public ResponseEntity<Object> getAll(@RequestParam Integer movie_id) {
-        Movie movie = movieRepository.getOne(movie_id);
+    public ResponseEntity<Object> getAll(@RequestParam Movie movie) {
         Double avg = rateRepository.getAvgOfRateByMovie(movie);
         Integer count = rateRepository.countRatesByMovie(movie);
         // List<Integer> rates = [oneStars, twoStars, threeStars, fourStars, fiveStars]
