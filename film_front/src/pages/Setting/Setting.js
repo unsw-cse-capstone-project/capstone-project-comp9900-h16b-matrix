@@ -140,6 +140,7 @@ const handleConfirm = async() =>{
   console.log(decoded)
   const data = { 'name': decoded.name, 'password': userInfo.Old_password }
   const res = await userAPI.login(data)
+  console.log('change',res)
   if(res == "Wrong password"){
     setOld(true)
   }
