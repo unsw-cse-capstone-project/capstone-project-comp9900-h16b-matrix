@@ -40,11 +40,12 @@ export default function CommentArea(props) {
                           w.location.href = `/wish/${comments.user.id}`;
                         }
                       }>
-                      {comments.user.name}
+                      {comments.name}
+                     
                       </Link>
                        &nbsp;&nbsp;
                       <Typography variant="p" style={{ color: "gray" }}>
-                       {comments.submit_date}
+                       {comments.submit_time}
                       </Typography>
                     </Typography>
                   </Grid>
@@ -52,7 +53,7 @@ export default function CommentArea(props) {
                     <Typography align="right" color="textSecondary">
                       {comments.n_likes}
                       <IconButton onClick={() => handleLike(index)}>
-                        {comments.like ? (
+                        {comments.user_id ? (
                           <AiFillLike style={{ color: "orange" }} />
                         ) : (
                           <AiOutlineLike />
@@ -72,7 +73,7 @@ export default function CommentArea(props) {
               <Grid item xs={12}>
                 <Grid container justify="flex-end">
                   <Grid item xs={2}>
-                    {decoded&&decoded.id==comments.user.id?
+                    {decoded&&decoded.id==comments.id?
                     <Link
                     id={index}
                     onClick={() => handleRemove(index)}

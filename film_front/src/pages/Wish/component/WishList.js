@@ -15,7 +15,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-
+import * as wishAPI from "../../../api/wishAPI"
 const useStyles = makeStyles({
   root: {
     width: 350,
@@ -29,29 +29,30 @@ const useStyles = makeStyles({
 export default function WishList(props) {
   const { decoded, id } = props;
   //const [movie, setMovie] = useState([]);
-  const [movie, setMovie] = useState([
-    { title: "m1", overview: "this is a good movie", rating: 3 },
-    { title: "m2", overview: "this is a good movie", rating: 3 },
-    { title: "m3", overview: "this is a good movie", rating: 3 },
-    { title: "m4", overview: "this is a good movie", rating: 3 },
-    { title: "m5", overview: "this is a good movie", rating: 3 },
-    { title: "m6", overview: "this is a good movie", rating: 3 },
-    { title: "m7", overview: "this is a good movie", rating: 3 },
-    { title: "m8", overview: "this is a good movie", rating: 3 },
-  ]);
-  const apiKey = process.env.REACT_APP_KEY;
+  const [movie, setMovie] = useState([]);
   const classes = useStyles();
 
   const [value, setValue] = React.useState("default");
   const handleChange = (event) => {
     setValue(event.target.value);
   };
-  const handleDelete = (chipToDelete) => () => {
-    setMovie((chips) =>
-      chips.filter((chip) => chip.title !== chipToDelete.title)
-    );
+  const handleDelete = async(wid) => {
+    // setMovie((chips) =>
+    //   chips.filter((chip) => chip.title !== chipToDelete.title)
+    // );
+    const del_res = await wishAPI.delWish(wid)
+    const res = await wishAPI.getAll(id)
+    console.log(del_res,res)
+    setMovie(res)
   };
-
+  useEffect(()=>{
+    const getAll = async()=>{
+      const res = await wishAPI.getAll(id)
+      console.log(res)
+      setMovie(res)
+    }
+    getAll()
+  },[id])
   // sort by name
   movie.sort(function (a, b) {
     var nameA = a.title.toUpperCase(); // ignore upper and lowercase
@@ -87,8 +88,8 @@ export default function WishList(props) {
                     <CardMedia
                       className={classes.media}
                       image={
-                        item.poster_path
-                          ? `http://image.tmdb.org/t/p/w185${item.poster_path}`
+                        item.poster
+                          ? item.poster
                           : default_img
                       }
                       title={item.title}
@@ -108,7 +109,7 @@ export default function WishList(props) {
                         component="p"
                         noWrap={true}
                       >
-                        {item.overview}
+                        {item.description}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -125,7 +126,7 @@ export default function WishList(props) {
                       <IconButton
                         aria-label="delete"
                         className={classes.margin}
-                        onClick={handleDelete(item)}
+                        onClick={()=>handleDelete(item.id)}
                       >
                         <DeleteIcon fontSize="large" />
                       </IconButton>
