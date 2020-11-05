@@ -125,20 +125,20 @@ export default function MovieDetail(props) {
     };
     getInfo();
   }, []);
-  // useEffect(()=>{
-  //   const getWish = async()=>{
-  //     if(decoded){
-  //       const res = await wishAPI.addWish({
-  //         uid:decoded.id,
-  //         movie_id:movieId
-  //       })
-  //       console.log(res)
-  //     }
-  //   }
-  //   if(decoded){
-  //     getWish()
-  //   }
-  // },[decoded])
+  useEffect(()=>{
+    const getWish = async()=>{
+      if(decoded){
+        const res = await wishAPI.getByIds(decoded.id,movieId)
+        console.log('init wish',res)
+        if(res){
+          setLike(true)
+        }
+      }
+    }
+    if(decoded){
+      getWish()
+    }
+  },[decoded])
   const changeDateFormate = (day) => {
     if (!day) {
       return " ";

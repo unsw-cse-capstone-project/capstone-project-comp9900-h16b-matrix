@@ -37,10 +37,10 @@ export default function CommentArea(props) {
                       <Link component='button' variant='h6' onClick={
                         ()=>{
                           const w = window.open("about:blank");
-                          w.location.href = `/wish/${comments.user.id}`;
+                          w.location.href = `/wish/${comments.post_userid}`;
                         }
                       }>
-                      {comments.name}
+                      {comments.post_username}
                      
                       </Link>
                        &nbsp;&nbsp;
@@ -53,7 +53,7 @@ export default function CommentArea(props) {
                     <Typography align="right" color="textSecondary">
                       {comments.n_likes}
                       <IconButton onClick={() => handleLike(index)}>
-                        {comments.user_id ? (
+                        {comments.your_user_id ? (
                           <AiFillLike style={{ color: "orange" }} />
                         ) : (
                           <AiOutlineLike />
@@ -73,7 +73,7 @@ export default function CommentArea(props) {
               <Grid item xs={12}>
                 <Grid container justify="flex-end">
                   <Grid item xs={2}>
-                    {decoded&&decoded.id==comments.id?
+                    {decoded&&decoded.id==comments.post_userid?
                     <Link
                     id={index}
                     onClick={() => handleRemove(index)}
@@ -83,7 +83,7 @@ export default function CommentArea(props) {
                   </Link>:decoded?
                   <Link
                   id={index}
-                  onClick={() => handleBan(comments.user.id)}
+                  onClick={() => handleBan(comments.post_userid)}
                   component="button"
                 >
                   Add to Banlist
