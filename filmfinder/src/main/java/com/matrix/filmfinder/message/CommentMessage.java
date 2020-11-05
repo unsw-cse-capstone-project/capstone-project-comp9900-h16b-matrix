@@ -18,23 +18,42 @@ import java.util.Date;
 //        }
 //)
 public class CommentMessage implements CommentMessageInterface {
-    private Integer id;
+    private Integer comment_id;
+    private Integer post_userid;
+    private String post_username;
     private String content;
     private Integer movie_id;
     private Long n_likes;
     private Date submit_time;
-    private Integer user_id;
+    private Integer your_user_id;
 
     public CommentMessage() {
     }
 
     @Override
-    public Integer getId() {
-        return id;
+    public Integer getComment_id() {
+        return comment_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setComment_id(Integer comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public Integer getPost_userid() {
+        return post_userid;
+    }
+
+    public void setPost_userid(Integer post_userid) {
+        this.post_userid = post_userid;
+    }
+
+    @Override
+    public String getPost_username() {
+        return post_username;
+    }
+
+    public void setPost_username(String post_username) {
+        this.post_username = post_username;
     }
 
     @Override
@@ -74,11 +93,11 @@ public class CommentMessage implements CommentMessageInterface {
     }
 
     @Override
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getYour_user_id() {
+        return your_user_id;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setYour_user_id(Integer your_user_id) {
+        this.your_user_id = your_user_id;
     }
 }
