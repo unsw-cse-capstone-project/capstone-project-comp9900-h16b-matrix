@@ -3,7 +3,11 @@ package com.matrix.filmfinder.message;
 import java.util.Date;
 
 public interface CommentMessageInterface {
-    Integer getId();
+    Integer getComment_id();
+
+    Integer getPost_userid();
+
+    String getPost_username();
 
     String getContent();
 
@@ -13,5 +17,5 @@ public interface CommentMessageInterface {
 
     Date getSubmit_time();
 
-    Integer getUser_id();
+    Integer getYour_user_id();
 }
