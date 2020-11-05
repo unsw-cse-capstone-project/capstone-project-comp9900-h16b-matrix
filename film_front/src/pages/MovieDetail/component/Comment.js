@@ -20,7 +20,7 @@ export default function Comment(props) {
   const { decoded, handleClickOpen, movieId } = props;
   useEffect(() => {
     const getComments = async () => {
-      const res = commentAPI.getAll(movieId);
+      const res = commentAPI.getAll(movieId,decoded?decoded.id:null);
       var a = Promise.resolve(res);
       a.then(function (result) {
         setSend(result)
@@ -33,7 +33,7 @@ export default function Comment(props) {
   const handleRemove = async (index) => {
     console.log(index);
     const del_res = await commentAPI.deleteComment(sended[index].id);
-    const res = commentAPI.getAll(movieId);
+    const res = commentAPI.getAll(movieId,decoded.id);
       var a = Promise.resolve(res);
       a.then(function (result) {
         setSend(result)
@@ -49,7 +49,7 @@ export default function Comment(props) {
       };
       const add_res = await commentAPI.sendComment(data);
       console.log(add_res);
-      const res = commentAPI.getAll(movieId);
+      const res = commentAPI.getAll(movieId,decoded.id);
       var a = Promise.resolve(res);
       a.then(function (result) {
         setSend(result)
@@ -69,12 +69,21 @@ export default function Comment(props) {
   }
   const handleLike = async (index) => {
     if(decoded){
-      const nlike_res = await commentAPI.updateNlike({
-        id: sended[index].id,
-        isLike: sended[index].like?false:true,
-      });
+      if(sended[index].user_id){
+        const nlike_res = await commentAPI.delNlike({
+        uid: decoded.id,
+        cid: sended[index].id,
+       });
+      }
+      else{
+        const nlike_res = await commentAPI.addNlike({
+          uid: decoded.id,
+          cid: sended[index].id,
+         });
+      }
+      
          
-      const res = commentAPI.getAll(movieId);
+      const res = commentAPI.getAll(movieId,decoded.id);
         var a = Promise.resolve(res);
         a.then(function (result) {
           setSend(result)
