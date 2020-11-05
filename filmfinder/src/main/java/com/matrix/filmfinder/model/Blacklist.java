@@ -2,54 +2,66 @@ package com.matrix.filmfinder.model;
 
 import org.springframework.lang.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
-@Entity(name = "Backlist")
+@Entity(name = "Blacklist")
 public class Blacklist {
     @Id
     @NonNull
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column
-    private Integer uid;
-    @Column
-    private Integer banned_id;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)//EAGER = Load at the same time as the main class
+//    @JoinColumn(name = "User_id")
+    private User user;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+//    @JoinColumn(name = "User")
+    private User banned_user;
 
     public Blacklist() {
     }
 
-    public Blacklist(Integer id, Integer uid, Integer banned_id) {
-        this.id = id;
-        this.uid = uid;
-        this.banned_id = banned_id;
+//    public Blacklist(UUID id, UUID uid, UUID banned_id) {
+//        this.id = id;
+//        this.uid = uid;
+//        this.banned_id = banned_id;
+//    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return  false;
+        Blacklist bl = (Blacklist) obj;
+        return  id.equals(bl.id);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(id);
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(@NonNull Integer id) {
         this.id = id;
     }
 
-    public Integer getUid() {
-        return uid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getBanned_id() {
-        return banned_id;
+    public User getBanned_user() {
+        return banned_user;
     }
 
-    public void setBanned_id(Integer banned_id) {
-        this.banned_id = banned_id;
+    public void setBanned_user(User banned_user) {
+        this.banned_user = banned_user;
     }
-
-
 }

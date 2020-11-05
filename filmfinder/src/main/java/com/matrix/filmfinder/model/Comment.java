@@ -62,9 +62,9 @@ public class Comment {
     public Comment() {
     }
 
-//    public Comment(Integer id, Integer uid, Integer movie_id, Date submit_time, Integer n_likes, String content){
+//    public Comment(Integer id, User user, Integer movie_id, Date submit_time, Integer n_likes, String content){
 //        this.id = id;
-//        this.uid = uid;
+//        this.user = user;
 //        this.movie_id = movie_id;
 //        this.submit_time = submit_time;
 //        this.n_likes = n_likes;
