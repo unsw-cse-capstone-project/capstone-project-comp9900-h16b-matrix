@@ -3,7 +3,7 @@ export function addRate(data) {
     console.log(data)
     return new Promise((resolve, reject) => {
       axios
-        .post(`/rate/add?uid=${data.uid}&movie_id=${data.movie_id}&rating=${data.rating}`)
+        .post(`/rate/add?user=${data.uid}&movie=${data.movie_id}&rating=${data.rating}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -20,7 +20,7 @@ export function addRate(data) {
     console.log(data)
     return new Promise((resolve, reject) => {
       axios
-        .put(`/rate/update?uid=${data.uid}&movie_id=${data.movie_id}&rating=${data.rating}`)
+        .put(`/rate/update?user=${data.uid}&movie=${data.movie_id}&rating=${data.rating}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -38,7 +38,7 @@ export function addRate(data) {
     console.log('getall',id)
     return new Promise((resolve, reject) => {
       axios
-        .get(`/rate/getAll?movie_id=${id}`)
+        .get(`/rate/getAll?movie=${id}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -54,7 +54,7 @@ export function addRate(data) {
   export function get(uid,mid) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/rate/get?uid=${uid}&mid=${mid}`)
+        .get(`/rate/get?user=${uid}&movie=${mid}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
