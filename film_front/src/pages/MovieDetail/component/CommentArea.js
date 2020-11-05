@@ -10,16 +10,21 @@ import {
 } from "@material-ui/core";
 import {
   AiOutlineLike,
-  AiOutlineDislike,
   AiFillLike,
-  AiFillDislike,
 } from "react-icons/ai";
-import { FaBan } from "react-icons/fa";
+import * as blackAPI from "../../../api/blackAPI"
 import * as Empty from "../../../component/Empty";
 import * as moment from "moment";
 export default function CommentArea(props) {
   const { sended, handleRemove, decoded, handleLike } = props;
   console.log(sended);
+  const handleBan = async(uid)=>{
+    const res = await blackAPI.addBlack({
+      uid:decoded.id,
+      banned_uid:uid
+    })
+    console.log(res)
+  }
   return (
     <div>
       {
@@ -77,7 +82,7 @@ export default function CommentArea(props) {
                   </Link>:decoded?
                   <Link
                   id={index}
-                  // onClick={() => handleRemove(index)}
+                  onClick={() => handleBan(comments.user.id)}
                   component="button"
                 >
                   Add to Banlist

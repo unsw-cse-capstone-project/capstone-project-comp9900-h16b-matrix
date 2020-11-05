@@ -46,22 +46,22 @@ public class WishlistController {
         );
     }
     // Search
-    @GetMapping(value = "/get")
-    public ResponseEntity<Object> getWishlist(@RequestParam Integer uid){
-        try {
-            User user = userRepository.getOne(uid);
-            Wishlist wishlist = wishlistRepository.getWishlistByUser(user);
-            return new ResponseEntity<>(
-                    wishlist,
-                    HttpStatus.OK
-            );
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(
-                    "EntityNotFound",
-                    HttpStatus.NOT_FOUND
-            );
-        }
-    }
+    // @GetMapping(value = "/get")
+    // public ResponseEntity<Object> getWishlist(@RequestParam Integer uid){
+    //     try {
+    //         User user = userRepository.getOne(uid);
+    //         Wishlist wishlist = wishlistRepository.getWishlistByUser(user);
+    //         return new ResponseEntity<>(
+    //                 wishlist,
+    //                 HttpStatus.OK
+    //         );
+    //     } catch (EntityNotFoundException e) {
+    //         return new ResponseEntity<>(
+    //                 "EntityNotFound",
+    //                 HttpStatus.NOT_FOUND
+    //         );
+    //     }
+    // }
     // Delete
     @DeleteMapping(value = "/delete")
     public ResponseEntity<Object> deleteWishlist(@RequestParam Integer id){

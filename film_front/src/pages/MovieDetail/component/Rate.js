@@ -93,7 +93,7 @@ export default function Rate(props) {
       console.log('ratelog','update',res)
     }
     console.log('newRate',newRate)
-    if(newRate==true&&decoded){
+    if(newRate&&decoded){
       addRate();
       
     }
