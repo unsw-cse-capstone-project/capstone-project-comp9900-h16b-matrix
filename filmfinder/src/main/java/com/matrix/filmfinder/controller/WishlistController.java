@@ -3,6 +3,7 @@ package com.matrix.filmfinder.controller;
 import com.matrix.filmfinder.dao.MovieRepository;
 import com.matrix.filmfinder.dao.UserRepository;
 import com.matrix.filmfinder.dao.WishlistRepository;
+import com.matrix.filmfinder.message.WishlistMessage;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.User;
 import com.matrix.filmfinder.model.Wishlist;
@@ -55,7 +56,7 @@ public class WishlistController {
 //            User user = userRepository.getOne(uid);
 //            List<Wishlist> wishlists = wishlistRepository.getWishlistsByUser(user);
 //            List<Movie> movies = movieRepository.findByIdIn(wishlists);
-            List<Movie> movies = movieRepository.findMoviesByUserFromWishlists(user);
+            List<WishlistMessage> movies = wishlistRepository.getWishListsByUser(user);
 
             return new ResponseEntity<>(
                     movies,
