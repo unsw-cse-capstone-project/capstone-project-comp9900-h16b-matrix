@@ -6,15 +6,20 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "Wishlist")
+@Table(
+        name = "wishlist",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "movie_id"})}
+
+)
 public class Wishlist {
     @Id
     @NonNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @ManyToOne(optional = false)
-    private Movie movie_id;
-    @ManyToOne(optional = false)
-    private User uid;
+    @ManyToOne
+    private Movie movie;
+    @ManyToOne
+    private User user;
 
     @Override
     public boolean equals(Object obj){
@@ -38,19 +43,19 @@ public class Wishlist {
         this.id = id;
     }
 
-    public Movie getMovie_id() {
-        return movie_id;
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void setMovie_id(Movie movie_id) {
-        this.movie_id = movie_id;
+    public void setMovie(Movie movie_id) {
+        this.movie = movie_id;
     }
 
-    public User getUid() {
-        return uid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUid(User uid) {
-        this.uid = uid;
+    public void setUser(User uid) {
+        this.user = uid;
     }
 }

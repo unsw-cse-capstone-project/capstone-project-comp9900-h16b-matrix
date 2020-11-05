@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "Rate")
+@Table(
+        name = "rate",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "movie_id"})}
+)
 public class Rate {
     @Id
     @GeneratedValue
