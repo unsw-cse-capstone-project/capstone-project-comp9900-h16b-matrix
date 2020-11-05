@@ -118,7 +118,7 @@ export default function WishList(props) {
                       size="small"
                       color="primary"
                       component={Link}
-                      to={{ pathname: `/movieDetail/${item.id}` }}
+                      to={{ pathname: `/movieDetail/${item.tmdb_id}` }}
                     >
                       Learn More
                     </Button>
@@ -126,7 +126,7 @@ export default function WishList(props) {
                       <IconButton
                         aria-label="delete"
                         className={classes.margin}
-                        onClick={()=>handleDelete(item.id)}
+                        onClick={()=>handleDelete(item.wishlist_id)}
                       >
                         <DeleteIcon fontSize="large" />
                       </IconButton>
