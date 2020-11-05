@@ -23,6 +23,7 @@ import { Link as RouteLink } from "react-router-dom";
 import * as Empty from "../../component/Empty";
 import Logindialog from "../Login & Sign up/Login";
 import * as movieAPI from "../../api/movieAPI";
+import * as wishAPI from "../../api/wishAPI"
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "90%",
@@ -45,6 +46,7 @@ export default function MovieDetail(props) {
   const [video, setVideo] = useState({});
   const [like, setLike] = useState(false);
   const [movieId,setMovieId] = useState(undefined);
+  const [wishId,setWishId] = useState(undefined)
   const classes = useStyles();
   let decoded;
   const token = localStorage.getItem("userInfo");
@@ -123,6 +125,20 @@ export default function MovieDetail(props) {
     };
     getInfo();
   }, []);
+  // useEffect(()=>{
+  //   const getWish = async()=>{
+  //     if(decoded){
+  //       const res = await wishAPI.addWish({
+  //         uid:decoded.id,
+  //         movie_id:movieId
+  //       })
+  //       console.log(res)
+  //     }
+  //   }
+  //   if(decoded){
+  //     getWish()
+  //   }
+  // },[decoded])
   const changeDateFormate = (day) => {
     if (!day) {
       return " ";
@@ -131,9 +147,22 @@ export default function MovieDetail(props) {
     let DateArray = date.toUTCString().split(" ");
     return `${DateArray[1]} ${DateArray[2]}, ${DateArray[3]}`;
   };
-  const handleLike = () => {
+  const handleLike = async() => {
     if (decoded) {
-      setLike(!like);
+      if(like==false){
+        const res = await wishAPI.addWish({
+          uid:decoded.id,
+          movie_id:movieId
+        })
+        console.log(res)
+        setWishId(res.id)
+        setLike(true)
+      }
+      else{
+        const res = await wishAPI.delWish(wishId)
+        console.log(res)
+        setLike(false)
+      }
     } else {
       handleClickOpen();
     }
