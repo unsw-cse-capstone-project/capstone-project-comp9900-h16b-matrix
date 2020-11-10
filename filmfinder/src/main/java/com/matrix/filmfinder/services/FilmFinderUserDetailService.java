@@ -14,14 +14,18 @@ public class FilmFinderUserDetailService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+//    @Autowired
+//    public FilmFinderUserDetailService(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username);
+        UserDetails user = userRepository.findByName(username);
         if (user == null) {
             String exceptionMsg = "Couldn't find username " + username;
             throw new UsernameNotFoundException(exceptionMsg);
         }
-        return new FilmFinderUserDetails(user);
+        return user;
     }
 }
