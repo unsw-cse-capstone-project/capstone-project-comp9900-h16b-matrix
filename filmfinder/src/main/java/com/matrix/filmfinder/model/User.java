@@ -2,13 +2,17 @@ package com.matrix.filmfinder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "User")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NonNull
@@ -31,8 +35,9 @@ public class User {
     @Column
     @JsonIgnore
     private Boolean isActive;
+    @Column
+    private String authority;
 
-    private Boolean isYourComment;
 
     public User() {
         this.isActive = true;
@@ -41,6 +46,36 @@ public class User {
     public User(Integer id) {
         this.id = id;
         this.isActive = true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> this.authority);
+    }
+
+    @Override
+    public String getUsername() {
+        return this.name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive;
     }
 
     public String getName() { return name;
@@ -76,6 +111,7 @@ public class User {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -92,13 +128,6 @@ public class User {
         this.oauth2_token = oauth2_token;
     }
 
-    public Boolean getYourComment() {
-        return isYourComment;
-    }
-
-    public void setYourComment(Boolean yourComment) {
-        isYourComment = yourComment;
-    }
 
     @Override
     public boolean equals(Object o) {
