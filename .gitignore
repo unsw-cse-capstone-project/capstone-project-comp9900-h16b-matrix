@@ -380,3 +380,6 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/java-web,jetbrains
 
 # End of https://www.toptal.com/developers/gitignore/api/python,node,react
+package-lock.json
+filmfinder/sorted_movie.json
+filmfinder/movies.csv

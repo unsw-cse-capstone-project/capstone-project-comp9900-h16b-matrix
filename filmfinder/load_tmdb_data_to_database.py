@@ -1,11 +1,11 @@
 from os import name
 import requests
 import json
-# import mysql.connector
+import mysql.connector
 from tqdm import tqdm
 
-# crx = mysql.connector.connect(user="charles", password="wqypoiu1995", host="127.0.0.1", database="filmfinder", port=3307)
-# cursor = crx.cursor()
+crx = mysql.connector.connect(user="charles", password="wqypoiu1995", host="127.0.0.1", database="filmfinder", port=3307)
+cursor = crx.cursor()
 
 
 url = 'https://api.themoviedb.org/3/movie/'
@@ -37,7 +37,7 @@ with open('movie_ids_11_09_2020.json', encoding='utf-8') as f:
             }
             # result_json.update(data_movie)
             json.dump(data_movie, fw)
-            fw.write('\n')
+            # fw.write('\n')
             # if i == 100:
             #     break
 
