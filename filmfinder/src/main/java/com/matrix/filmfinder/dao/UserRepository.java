@@ -1,19 +1,3 @@
-package com.matrix.filmfinder.dao;
-
-import com.matrix.filmfinder.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-//    User save(User user);
-//    Optional<User> findById(Integer Id);
-//    List<User>v
-    User findByName(String name);
-    User getUserById(Integer id);
-    User findByEmail(String email);
-
-}
-
-
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:afc8978ba81b94e7ebc265fb9d5e8d2034133966300e79b5f734d826ec9db728
+size 472
