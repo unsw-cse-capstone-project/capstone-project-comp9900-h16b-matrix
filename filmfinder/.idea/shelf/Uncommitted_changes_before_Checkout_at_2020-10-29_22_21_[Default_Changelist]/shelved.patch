@@ -1,0 +1,63 @@
+Index: src/main/java/com/matrix/filmfinder/model/Comment.java
+===================================================================
+--- src/main/java/com/matrix/filmfinder/model/Comment.java	(date 1603948510710)
++++ src/main/java/com/matrix/filmfinder/model/Comment.java	(date 1603948510710)
+@@ -0,0 +1,13 @@
++package com.matrix.filmfinder.model;
++
++import org.springframework.data.annotation.Id;
++import org.springframework.lang.NonNull;
++
++import javax.persistence.GeneratedValue;
++
++public class Comment {
++    @Id
++    @NonNull
++    @Gener
++
++}
+Index: ../.idea/aws.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"accountSettings\">\r\n    <option name=\"activeRegion\" value=\"ap-southeast-1\" />\r\n    <option name=\"recentlyUsedRegions\">\r\n      <list>\r\n        <option value=\"ap-southeast-1\" />\r\n        <option value=\"us-east-1\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../.idea/aws.xml	(revision 06757112c034a3c458b814a8bc49be7417b91d7a)
++++ ../.idea/aws.xml	(date 1603447088930)
+@@ -1,7 +1,13 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="accountSettings">
++    <option name="activeProfile" value="profile:default" />
+     <option name="activeRegion" value="ap-southeast-1" />
++    <option name="recentlyUsedProfiles">
++      <list>
++        <option value="profile:default" />
++      </list>
++    </option>
+     <option name="recentlyUsedRegions">
+       <list>
+         <option value="ap-southeast-1" />
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>HELP.md\r\n.gradle\r\nbuild/\r\n!gradle/wrapper/gradle-wrapper.jar\r\n!**/src/main/**/build/\r\n!**/src/test/**/build/\r\n\r\n### STS ###\r\n.apt_generated\r\n.classpath\r\n.factorypath\r\n.project\r\n.settings\r\n.springBeans\r\n.sts4-cache\r\n\r\n### IntelliJ IDEA ###\r\n.idea\r\n*.iws\r\n*.iml\r\n*.ipr\r\nout/\r\n!**/src/main/**/out/\r\n!**/src/test/**/out/\r\n\r\n### NetBeans ###\r\n/nbproject/private/\r\n/nbbuild/\r\n/dist/\r\n/nbdist/\r\n/.nb-gradle/\r\n\r\n### VS Code ###\r\n.vscode/\r\n\r\n#### Gradle ###\r\n#.gradle\r\n#build/\r\n\r\n# Ignore Gradle GUI config\r\ngradle-app.setting\r\n\r\n# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)\r\n!gradle-wrapper.jar\r\n\r\n# Cache of project\r\n.gradletasknamecache\r\n\r\n# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898\r\n# gradle/wrapper/gradle-wrapper.properties\r\n\r\n### Gradle Patch ###\r\n**/build/\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(revision 06757112c034a3c458b814a8bc49be7417b91d7a)
++++ .gitignore	(date 1603447088962)
+@@ -33,9 +33,9 @@
+ ### VS Code ###
+ .vscode/
+ 
+-#### Gradle ###
+-#.gradle
+-#build/
++### Gradle ###
++.gradle
++build/
+ 
+ # Ignore Gradle GUI config
+ gradle-app.setting
