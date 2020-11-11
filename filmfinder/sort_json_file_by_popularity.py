@@ -37,3 +37,4 @@ with open('movies.csv', "w", newline='', encoding='UTF-8') as csvfile:
             'release_date': result['release_date'] 
         }
         csv_writter.writerow(data_movie)
+        print("df")
