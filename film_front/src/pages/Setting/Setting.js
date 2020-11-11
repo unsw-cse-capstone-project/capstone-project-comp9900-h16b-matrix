@@ -21,6 +21,12 @@ import IconButton from '@material-ui/core/IconButton';
 import NavBar from '../NavBar/NavBar'
 import * as userAPI from '../../api/userAPI'
 import * as blackAPI from "../../api/blackAPI"
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -88,13 +94,13 @@ export default function VerticalTabs() {
     'New_password': "",
     'Confirm_New_Password': ""
   })
-  const [oldError,setOld] = useState(false)
-  const [newError,setNew] = useState(false)
+  const [oldError, setOld] = useState(false)
+  const [newError, setNew] = useState(false)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleDelete = async(delId) => {
+  const handleDelete = async (delId) => {
     const del_res = await blackAPI.delById(delId)
     const res = await blackAPI.getAll(decoded.id)
     setChipData(res)
@@ -136,32 +142,65 @@ export default function VerticalTabs() {
     setOpen(false);
   };
 
-const handleConfirm = async() =>{
-  console.log(decoded)
-  const data = { 'name': decoded.name, 'password': userInfo.Old_password }
-  const res = await userAPI.login(data)
-  console.log('change',res)
-  if(res == "Wrong password"){
-    setOld(true)
+  const handleConfirm = async () => {
+    console.log(decoded)
+    const data = { 'name': decoded.name, 'password': userInfo.Old_password }
+    const res = await userAPI.login(data)
+    console.log('change', res)
+    if (res == "Wrong password") {
+      setOld(true)
+    }
+    else if (userInfo.New_password != userInfo.Confirm_New_Password) {
+      setNew(true)
+      setOld(false)
+    }
+    else {
+      setNew(false)
+      setOld(false)
+    }
   }
-  else if(userInfo.New_password!=userInfo.Confirm_New_Password){
-    setNew(true)
-    setOld(false)
-  }
-  else{
-    setNew(false)
-    setOld(false)
-  }
-}
 
-useEffect(()=>{
-  const getBlack = async()=>{
-    const res = await blackAPI.getAll(decoded.id)
-    setChipData(res)
-    console.log(res)
-  }
-  getBlack()
-},[])
+  const [state, setState] = React.useState({
+    action: false,
+    adventure: false,
+    animation: false,
+    comedy: false,
+    crime: false,
+    documentary: false,
+    drama: false,
+    family: false,
+    fantasy: false,
+    history: false,
+    horror: false,
+    music: false,
+    mystery: false,
+    romance: false,
+    science: false,
+    tv: false,
+    thriller: false,
+    war: false,
+    western: false,
+    genre: false,
+    director: false,
+  });
+  const handleGenres = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+  // const handleChange = (event) => {
+  //   setValue(event.target.value);
+  //   const radio = event.target.value;
+  //   console.log(radio);
+  // };
+
+
+  useEffect(() => {
+    const getBlack = async () => {
+      const res = await blackAPI.getAll(decoded.id)
+      setChipData(res)
+      console.log(res)
+    }
+    getBlack()
+  }, [])
   return (
     <div className={classes.root}>
       <Grid container spacing={3} justify='center'>
@@ -187,6 +226,7 @@ useEffect(()=>{
           >
             <Tab label="Change password" {...a11yProps(0)} />
             <Tab label="Banlist management" {...a11yProps(1)} />
+            <Tab label="Recommendation preference" {...a11yProps(2)} />
 
           </Tabs>
         </Grid>
@@ -203,7 +243,7 @@ useEffect(()=>{
             <Grid container spacing={3} justify='center'>
               <Grid item xs={5}>
                 <Typography gutterBottom>
-                  <TextField id="outlined-basic" label="Old Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="Old_password" type="password" error={oldError} helperText={oldError?"wrong password":null} />
+                  <TextField id="outlined-basic" label="Old Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="Old_password" type="password" error={oldError} helperText={oldError ? "wrong password" : null} />
                 </Typography>
 
                 <Typography gutterBottom>
@@ -211,7 +251,7 @@ useEffect(()=>{
                 </Typography>
 
                 <Typography gutterBottom>
-                  <TextField id="outlined-basic" label="Confirm New Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="Confirm_New_Password" type="password" error={newError} helperText={newError?"different password":null}/>
+                  <TextField id="outlined-basic" label="Confirm New Password" variant="outlined" fullWidth={true} size="small" onChange={passwordChange} name="Confirm_New_Password" type="password" error={newError} helperText={newError ? "different password" : null} />
                 </Typography>
 
                 <Button variant="contained" color="primary" fullWidth={true} onClick={handleConfirm}>
@@ -247,7 +287,7 @@ useEffect(()=>{
                         primary={data.banned_user.name}
                       />
                       <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete" onClick={()=>handleDelete(data.id)}>
+                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(data.id)}>
                           <DeleteIcon />
                         </IconButton>
                       </ListItemSecondaryAction>
@@ -258,6 +298,282 @@ useEffect(()=>{
               </Grid>
             </Grid>
           </TabPanel>
+
+          <TabPanel value={value} index={2}>
+
+            <Typography variant='h5' style={{ paddingLeft: '3%' }} >
+              Home page recommendation preference
+              <br />
+              <br />
+            </Typography>
+
+            <Grid container spacing={3} justify='center'>
+              <Grid item xs={7}>
+
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Recommended movies will be based on the favorite genre(s) you choose</FormLabel>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.action}
+                          onChange={handleGenres}
+                          name="action"
+                          color="primary"
+                        />
+                      }
+                      label="Action"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.adventure}
+                          onChange={handleGenres}
+                          name="adventure"
+                          color="primary"
+                        />
+                      }
+                      label="Adventure"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.animation}
+                          onChange={handleGenres}
+                          name="animation"
+                          color="primary"
+                        />
+                      }
+                      label="Animation"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.comedy}
+                          onChange={handleGenres}
+                          name="comedy"
+                          color="primary"
+                        />
+                      }
+                      label="Comedy"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.crime}
+                          onChange={handleGenres}
+                          name="crime"
+                          color="primary"
+                        />
+                      }
+                      label="Crime"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.documentary}
+                          onChange={handleGenres}
+                          name="documentary"
+                          color="primary"
+                        />
+                      }
+                      label="Documentary"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.drama}
+                          onChange={handleGenres}
+                          name="drama"
+                          color="primary"
+                        />
+                      }
+                      label="Drama"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.family}
+                          onChange={handleGenres}
+                          name="family"
+                          color="primary"
+                        />
+                      }
+                      label="Family"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.fantasy}
+                          onChange={handleGenres}
+                          name="fantasy"
+                          color="primary"
+                        />
+                      }
+                      label="Fantasy"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.history}
+                          onChange={handleGenres}
+                          name="history"
+                          color="primary"
+                        />
+                      }
+                      label="History"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.horror}
+                          onChange={handleGenres}
+                          name="horror"
+                          color="primary"
+                        />
+                      }
+                      label="Horror"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.music}
+                          onChange={handleGenres}
+                          name="music"
+                          color="primary"
+                        />
+                      }
+                      label="Music"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.mystery}
+                          onChange={handleGenres}
+                          name="mystery"
+                          color="primary"
+                        />
+                      }
+                      label="Mystery"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.romance}
+                          onChange={handleGenres}
+                          name="romance"
+                          color="primary"
+                        />
+                      }
+                      label="Romance"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.science}
+                          onChange={handleGenres}
+                          name="science"
+                          color="primary"
+                        />
+                      }
+                      label="Science"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.tv}
+                          onChange={handleGenres}
+                          name="tv"
+                          color="primary"
+                        />
+                      }
+                      label="TV Movie"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.thriller}
+                          onChange={handleGenres}
+                          name="thriller"
+                          color="primary"
+                        />
+                      }
+                      label="Thriller"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.war}
+                          onChange={handleGenres}
+                          name="war"
+                          color="primary"
+                        />
+                      }
+                      label="War"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.western}
+                          onChange={handleGenres}
+                          name="western"
+                          color="primary"
+                        />
+                      }
+                      label="Western"
+                    />
+                  </FormGroup>
+                </FormControl>
+
+              </Grid>
+            </Grid>
+
+            <Typography variant='h5' style={{ paddingLeft: '3%' }} >
+              <br />
+              Similar movie recommendation preference
+              <br />
+              <br />
+            </Typography>
+
+
+            <Grid container spacing={3} justify='center'>
+              <Grid item xs={7}>
+
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Recommended movies will be based on genre and/or director you choose</FormLabel>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.genre}
+                          onChange={handleGenres}
+                          name="genre"
+                          color="primary"
+                        />
+                      }
+                      label="Genre"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={state.director}
+                          onChange={handleGenres}
+                          name="director"
+                          color="primary"
+                        />
+                      }
+                      label="Director"
+                    />
+                    
+                  </FormGroup>
+                </FormControl>
+
+              </Grid>
+            </Grid>
+
+          </TabPanel>
+
+
         </Grid>
       </Grid>
     </div>

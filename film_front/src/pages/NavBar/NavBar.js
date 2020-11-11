@@ -81,8 +81,8 @@ const NavBar = (props) => {
         open={Boolean(menu)}
         onClose={()=>setMenu(null)}
       >
-        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {'/Setting'}>setting </MenuItem>
-        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {`/wish/${decoded.id}`}>wish list</MenuItem>
+        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {'/Setting'}>Settings </MenuItem>
+        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {`/wish/${decoded.id}`}>Wish list</MenuItem>
         <MenuItem onClick={()=>handleLogout()}>Logout</MenuItem>
 
       </Menu>:null}
