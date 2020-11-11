@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8d41b71d52c89fc4496455d6af3bc4ed2a6a067f6a4a938334b9d59439d336ac
-size 766
+package com.matrix.filmfinder;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class FilmfinderApplication {
+
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        PasswordEncoder myPasswordEncoder = new SCryptPasswordEncoder();
+//        return myPasswordEncoder;
+//    }
+//
+//    @Bean
+//    void ffUserDetailService() {
+//        Collection<User> users = Arrays.asList(
+//                new User("Alice", "Alice@sample.com", "HaHaHa", "USER"),
+//                new User("Bob", "Bob@sample.com", "123123", "USER")
+//        );
+//
+//    }
+
+
+	public static void main(String[] args) {
+		SpringApplication.run(FilmfinderApplication.class, args);
+	}
+
+}
