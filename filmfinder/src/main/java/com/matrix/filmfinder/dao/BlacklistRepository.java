@@ -1,14 +1,3 @@
-package com.matrix.filmfinder.dao;
-
-import com.matrix.filmfinder.model.Blacklist;
-import com.matrix.filmfinder.model.User;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-@Repository
-public interface BlacklistRepository extends CrudRepository<Blacklist, Integer> {
-    List<Blacklist> getBlacklistByUser(User u);
-    List<Blacklist> findBlacklistByUser(User u);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f9f88e44f3af4acdde4f180e270f93f5946e15e08585b5554107433438280294
+size 450
