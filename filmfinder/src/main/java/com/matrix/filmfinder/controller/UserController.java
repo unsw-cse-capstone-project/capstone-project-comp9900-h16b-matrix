@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -41,10 +40,8 @@ public class UserController {
 
     @PostMapping(path="/registration")
     public @ResponseBody String addNewUser(@RequestBody ObjectNode jsonNode) {
-
         User user = new User();
         String name = jsonNode.get("name").asText();
-        User.UserBuilder
 
         String email = jsonNode.get("email").asText();
         String password = jsonNode.get("password").asText();
