@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -20,7 +20,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import NavBar from '../NavBar/NavBar'
 import * as userAPI from '../../api/userAPI'
-
+import * as blackAPI from "../../api/blackAPI"
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -94,8 +94,11 @@ export default function VerticalTabs() {
     setValue(newValue);
   };
 
-  const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  const handleDelete = async(delId) => {
+    const del_res = await blackAPI.delById(delId)
+    const res = await blackAPI.getAll(decoded.id)
+    setChipData(res)
+    // setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
   };
 
   const handleClick = () => {
@@ -111,13 +114,7 @@ export default function VerticalTabs() {
     )
   }
 
-  const [chipData, setChipData] = React.useState([
-    { key: 0, label: 'Anna' },
-    { key: 1, label: 'Becky' },
-    { key: 2, label: 'Charlie' },
-    { key: 3, label: 'Denny' },
-    { key: 4, label: 'Flora' },
-  ]);
+  const [chipData, setChipData] = React.useState([]);
 
   const [dense, setDense] = React.useState(false);
 
@@ -143,6 +140,7 @@ const handleConfirm = async() =>{
   console.log(decoded)
   const data = { 'name': decoded.name, 'password': userInfo.Old_password }
   const res = await userAPI.login(data)
+  console.log('change',res)
   if(res == "Wrong password"){
     setOld(true)
   }
@@ -156,7 +154,14 @@ const handleConfirm = async() =>{
   }
 }
 
-
+useEffect(()=>{
+  const getBlack = async()=>{
+    const res = await blackAPI.getAll(decoded.id)
+    setChipData(res)
+    console.log(res)
+  }
+  getBlack()
+},[])
   return (
     <div className={classes.root}>
       <Grid container spacing={3} justify='center'>
@@ -239,10 +244,10 @@ const handleConfirm = async() =>{
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary={data.label}
+                        primary={data.banned_user.name}
                       />
                       <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete" onClick={handleDelete(data)}>
+                        <IconButton edge="end" aria-label="delete" onClick={()=>handleDelete(data.id)}>
                           <DeleteIcon />
                         </IconButton>
                       </ListItemSecondaryAction>

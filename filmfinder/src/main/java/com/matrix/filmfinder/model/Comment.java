@@ -1,13 +1,15 @@
 package com.matrix.filmfinder.model;
 
-import org.springframework.data.annotation.CreatedDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-@Entity(name = "Comment")
+@Entity
 public class Comment {
     @Id
     @NonNull
@@ -15,19 +17,47 @@ public class Comment {
     private Integer id;
 //    @Column
 //    @NotEmpty
-    @ManyToOne
-    private User user;
+
+
+//    @Basic(optional = false)
+    @Column(name = "submit_time")
+    @Temporal(TemporalType.DATE)
+    private Date submitTime;
     @Column
-//    @NotEmpty
-    private Integer movie_id;
-    @Column
-    @CreatedDate
-    private Date submit_time;
-    @Column
-    private Integer n_likes;
+    private Long nLikes;
     @Column
 //    @NotBlank
     private String content;
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<CommentLike> likes = new HashSet<>();
+
+    @ManyToOne (fetch = FetchType.EAGER, optional = false)
+    private User user;
+    //    @NotEmpty
+    @ManyToOne(optional = false)
+    private Movie movie;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id.equals(comment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 
     public Comment() {
     }
@@ -49,16 +79,12 @@ public class Comment {
         return user;
     }
 
-    public Integer getMovie_id() {
-        return movie_id;
+    public Date getSubmitTime() {
+        return submitTime;
     }
 
-    public Date getSubmit_time() {
-        return submit_time;
-    }
-
-    public Integer getN_likes() {
-        return n_likes;
+    public Long getNLikes() {
+        return nLikes;
     }
 
     public String getContent() {
@@ -73,16 +99,13 @@ public class Comment {
         this.user = uid;
     }
 
-    public void setMovie_id(Integer movie_id) {
-        this.movie_id = movie_id;
+
+    public void setSubmitTime(Date submit_time) {
+        this.submitTime = submit_time;
     }
 
-    public void setSubmit_time(Date submit_time) {
-        this.submit_time = submit_time;
-    }
-
-    public void setN_likes(Integer n_likes) {
-        this.n_likes = n_likes;
+    public void setNLikes(Long n_likes) {
+        this.nLikes = n_likes;
     }
 
     public void setContent(String content) {
@@ -90,28 +113,30 @@ public class Comment {
     }
 
     public void incLike() {
-        this.n_likes += 1;
+        this.nLikes += 1;
     }
 
     public void decLike() {
-        this.n_likes -= 1;
+        this.nLikes -= 1;
+    }
+
+    public Set<CommentLike> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<CommentLike> likes) {
+        this.likes = likes;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return id.equals(comment.id) &&
-                Objects.equals(user, comment.user) &&
-                Objects.equals(movie_id, comment.movie_id) &&
-                Objects.equals(submit_time, comment.submit_time) &&
-                Objects.equals(n_likes, comment.n_likes) &&
-                Objects.equals(content, comment.content);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, movie_id, submit_time, n_likes, content);
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", user=" + user +
+                ", movie=" + movie.getTmdb_id() +
+                ", submit_time=" + submitTime +
+                ", n_likes=" + nLikes +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

@@ -1,17 +1,11 @@
 package com.matrix.filmfinder.model;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.*;
+import java.util.Objects;
 
 @Entity(name = "User")
 public class User {
@@ -29,12 +23,16 @@ public class User {
     private String email;
     @Column
     @NotBlank(message = "password cannot be blank")
+    @JsonIgnore
     private String password;
     @Column
     @JsonIgnore
     private String oauth2_token;
     @Column
+    @JsonIgnore
     private Boolean isActive;
+
+    private Boolean isYourComment;
 
     public User() {
         this.isActive = true;
@@ -44,28 +42,6 @@ public class User {
         this.id = id;
         this.isActive = true;
     }
-
-//    public User(String name, @NonNull String email) {
-//        this.name = name;
-//        this.email = email;
-//        this.isActive = true;
-//        this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//    }
-//
-//    public User(@NonNull String name, @NonNull String email, String password, String role) {
-//        this.name = name;
-//        this.email = email;
-//        this.password = password;
-//    }
-
-//    public User(int id, String name, String email, String password, String oauth2_token) {
-//        this.id = id;
-//        this.name = name;
-//        this.email = email;
-//        this.password = password;
-//        this.oauth2_token = oauth2_token;
-//        this.isActive = true;
-//    }
 
     public String getName() { return name;
     }
@@ -116,21 +92,25 @@ public class User {
         this.oauth2_token = oauth2_token;
     }
 
+    public Boolean getYourComment() {
+        return isYourComment;
+    }
+
+    public void setYourComment(Boolean yourComment) {
+        isYourComment = yourComment;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
-                name.equals(user.name) &&
-                email.equals(user.email) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(oauth2_token, user.oauth2_token);
+        return id == user.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, oauth2_token);
+        return Objects.hash(id);
     }
 
     @Override

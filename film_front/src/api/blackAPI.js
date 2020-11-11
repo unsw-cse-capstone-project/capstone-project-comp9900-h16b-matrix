@@ -1,26 +1,9 @@
 import axios from "axios";
-export function addRate(data) {
+export function addBlack(data) {
     console.log(data)
     return new Promise((resolve, reject) => {
       axios
-        .post(`/rate/add?user=${data.uid}&movie=${data.movie_id}&rating=${data.rating}`)
-        .then(response => {
-            console.log(response)
-          if (response.status >= 200 && response.status < 300) {
-           
-            resolve(response.data);
-          } else {
-            reject(response.response);
-          }
-        })
-        .catch(reject);
-    });
-  }
-  export function updateRate(data) {
-    console.log(data)
-    return new Promise((resolve, reject) => {
-      axios
-        .put(`/rate/update?user=${data.uid}&movie=${data.movie_id}&rating=${data.rating}`)
+        .post(`/black/add?uid=${data.uid}&banned_uid=${data.banned_uid}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -35,10 +18,9 @@ export function addRate(data) {
   }
 
   export function getAll(id) {
-    console.log('getall',id)
     return new Promise((resolve, reject) => {
       axios
-        .get(`/rate/getAll?movie=${id}`)
+        .get(`/black/getAll?uid=${id}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -51,10 +33,10 @@ export function addRate(data) {
         .catch(reject);
     });
   }
-  export function get(uid,mid) {
+  export function delById(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/rate/get?user=${uid}&movie=${mid}`)
+        .delete(`/black/delete?id=${id}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {

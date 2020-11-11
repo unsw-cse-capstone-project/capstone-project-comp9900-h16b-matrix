@@ -1,26 +1,9 @@
 import axios from "axios";
-export function addRate(data) {
+export function addWish(data) {
     console.log(data)
     return new Promise((resolve, reject) => {
       axios
-        .post(`/rate/add?user=${data.uid}&movie=${data.movie_id}&rating=${data.rating}`)
-        .then(response => {
-            console.log(response)
-          if (response.status >= 200 && response.status < 300) {
-           
-            resolve(response.data);
-          } else {
-            reject(response.response);
-          }
-        })
-        .catch(reject);
-    });
-  }
-  export function updateRate(data) {
-    console.log(data)
-    return new Promise((resolve, reject) => {
-      axios
-        .put(`/rate/update?user=${data.uid}&movie=${data.movie_id}&rating=${data.rating}`)
+        .post(`/wishlist/add?user=${data.uid}&movie=${data.movie_id}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -34,11 +17,10 @@ export function addRate(data) {
     });
   }
 
-  export function getAll(id) {
-    console.log('getall',id)
+  export function delWish(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/rate/getAll?movie=${id}`)
+        .delete(`/wishlist/delete?id=${id}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -51,10 +33,26 @@ export function addRate(data) {
         .catch(reject);
     });
   }
-  export function get(uid,mid) {
+  export function getAll(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/rate/get?user=${uid}&movie=${mid}`)
+        .get(`/wishlist/getAll?user=${id}`)
+        .then(response => {
+            console.log(response)
+          if (response.status >= 200 && response.status < 300) {
+           
+            resolve(response.data);
+          } else {
+            reject(response.response);
+          }
+        })
+        .catch(reject);
+    });
+  }
+  export function getByIds(uid,mid) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/wishlist/get?user=${uid}&movie=${mid}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
