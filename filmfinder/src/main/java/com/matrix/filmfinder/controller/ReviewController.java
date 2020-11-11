@@ -2,10 +2,12 @@ package com.matrix.filmfinder.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.matrix.filmfinder.dao.MovieRepository;
+import com.matrix.filmfinder.dao.ReviewLikeRepository;
 import com.matrix.filmfinder.dao.ReviewRepository;
 import com.matrix.filmfinder.dao.UserRepository;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.Review;
+import com.matrix.filmfinder.model.ReviewLike;
 import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
@@ -16,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @RestController
@@ -25,12 +26,14 @@ public class ReviewController {
     private ReviewRepository reviewRepository;
     private UserRepository userRepository;
     private MovieRepository movieRepository;
+    private ReviewLikeRepository reviewLikeRepository;
 
     @Autowired
-    public ReviewRepository (ReviewRepository reviewRepository,UserRepository userRepository,MovieRepository movieRepository) {
+    public ReviewController(ReviewRepository reviewRepository, UserRepository userRepository, MovieRepository movieRepository, ReviewLikeRepository reviewLikeRepository) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
+        this.reviewLikeRepository = reviewLikeRepository;
     }
 
     // get data
@@ -105,10 +108,49 @@ public class ReviewController {
         }
     }
 
-//    //  update Likes
-//    @PutMapping(value = "/like")
-//    public RequestEntity<Object> reviewLikes(@RequestParam User user, @RequestParam Review review) {
-//
-//    }
+    //  update Like and unlike
+    @PutMapping(value = "/like")
+    public ResponseEntity<Object> reviewLikes(@RequestParam User user, @RequestParam Review review) {
+        ReviewLike reviewLike = reviewLikeRepository.getByUserAndReview(user, review);
+        if (reviewLike == null) {
+            reviewLike = new ReviewLike(user, review);
+            reviewLikeRepository.saveAndFlush(reviewLike);
+            if (reviewLike.getJud()) {
+                review.setLikes(reviewLikeRepository.countByReviewAndReviewLike(review,reviewLike));
+            } if (!reviewLike.getJud()){
+                review.setUnLikes(reviewLikeRepository.countByReviewAndReviewLike(review, reviewLike));
+            }
+            reviewRepository.save(review);
+        }
+        return new ResponseEntity<>(
+                review,
+                HttpStatus.OK
+        );
+    }
 
+    // update cancel like or unlike
+    @PutMapping(value = "/cancel")
+    public ResponseEntity<Object> cancellikeorunlike(@RequestParam User user, @RequestParam Review review) {
+        ReviewLike reviewLike = reviewLikeRepository.getByUserAndReview(user, review);
+        if (reviewLike != null) {
+            reviewLikeRepository.delete(reviewLike);
+//            Review r = reviewRepository.getOne(review.getId());
+            return new ResponseEntity<>(
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    "Unsuccessfully to cancel coz no detail can be found",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+    }
+
+    // Delete this review
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity<Object> deleteReview(@RequestParam Integer id) {
+        try {
+            reviewRepository.deleteById(id);
+        } 
+    }
 }
