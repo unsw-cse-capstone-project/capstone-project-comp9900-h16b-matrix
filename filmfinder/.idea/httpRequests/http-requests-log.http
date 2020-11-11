@@ -1,0 +1,28 @@
+GET http://localhost:8080/api/movie/get?tmdb_id=tt1
+
+<> 2020-11-03T015956.200.txt
+
+###
+
+GET http://localhost:8080/api/movie/get?tmdb_id=tt1
+
+<> 2020-11-03T015844.200.txt
+
+###
+
+GET http://localhost:8080/movie/get?tmdb_id=tt1
+
+<> 2020-11-03T015712.404.html
+
+###
+
+GET http://localhost/movie/get?tmdb_id=tt1
+
+###
+
+GET http://localhost:8080/api/user/all
+
+<> 2020-10-13T050827.500.json
+
+###
+
