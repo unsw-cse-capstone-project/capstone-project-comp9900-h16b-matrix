@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e1e0a0beaec1730e3065a6709490897f003ea011d323d32f87b80a4d4a43a404
-size 32
+rootProject.name = 'filmfinder'
