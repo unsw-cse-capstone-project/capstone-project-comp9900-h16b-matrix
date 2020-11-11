@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.matrix.filmfinder.WebMockTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-10-13T09:53:31" hostname="DESKTOP-3GT90DH" time="1.055">
+  <properties/>
+  <testcase name="testAContextLoads()" classname="com.matrix.filmfinder.WebMockTest" time="0.109"/>
+  <testcase name="addCharlesAsUser()" classname="com.matrix.filmfinder.WebMockTest" time="0.652"/>
+  <testcase name="findCharlesAndReturnAsUser()" classname="com.matrix.filmfinder.WebMockTest" time="0.289"/>
+  <system-out><![CDATA[2020-10-13 17:53:19.486  INFO 107548 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.matrix.filmfinder.WebMockTest], using SpringBootContextLoader
+2020-10-13 17:53:19.488  INFO 107548 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.matrix.filmfinder.WebMockTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-10-13 17:53:19.488  INFO 107548 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.matrix.filmfinder.WebMockTest]: WebMockTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2020-10-13 17:53:19.501  INFO 107548 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.matrix.filmfinder.FilmfinderApplication for test class com.matrix.filmfinder.WebMockTest
+2020-10-13 17:53:19.503  INFO 107548 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2020-10-13 17:53:19.504  INFO 107548 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@1077be23, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@52fa4750, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@4becb714, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3e167b6a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@13bd4c2d, org.springframework.test.context.transaction.TransactionalTestExecutionListener@137d59cd, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3d0708a1, org.springframework.test.context.event.EventPublishingTestExecutionListener@30c7f940, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@49621751, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@30a88c81, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@356fd835, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@3aed2a21, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@63ec7ab2, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@17d43eca]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.3.4.RELEASE)
+
+2020-10-13 17:53:23.210  INFO 107548 --- [    Test worker] com.matrix.filmfinder.WebMockTest        : No active profile set, falling back to default profiles: default
+2020-10-13 17:53:23.630  INFO 107548 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-10-13 17:53:23.651  INFO 107548 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19ms. Found 1 JPA repository interfaces.
+2020-10-13 17:53:23.740  INFO 107548 --- [    Test worker] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cb9d3745-5811-3b39-a8da-f89356ab4ab7
+2020-10-13 17:53:23.948  INFO 107548 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-10-13 17:53:23.966  INFO 107548 --- [         task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-10-13 17:53:23.978  INFO 107548 --- [         task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2020-10-13 17:53:24.038  WARN 107548 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-10-13 17:53:24.163  INFO 107548 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: a9efd9a1-ec0b-4c85-a2fb-94d4cd386f4b
+
+2020-10-13 17:53:24.245  INFO 107548 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@20eaf622, org.springframework.security.web.context.SecurityContextPersistenceFilter@ef14e1e, org.springframework.security.web.header.HeaderWriterFilter@6218929c, org.springframework.web.filter.CorsFilter@7d95c846, org.springframework.security.web.authentication.logout.LogoutFilter@51242575, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@62fad50e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@445037bf, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@dea450c, org.springframework.security.web.session.SessionManagementFilter@5158070b, org.springframework.security.web.access.ExceptionTranslationFilter@1bcef523]
+2020-10-13 17:53:25.235  INFO 107548 --- [         task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2020-10-13 17:53:25.236  INFO 107548 --- [         task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-10-13 17:53:26.597  INFO 107548 --- [    Test worker] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-10-13 17:53:27.448  INFO 107548 --- [         task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-10-13 17:53:27.449  INFO 107548 --- [         task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-10-13 17:53:27.610  INFO 107548 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-10-13 17:53:27.610  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-10-13 17:53:27.622  INFO 107548 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-10-13 17:53:27.658  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 48 ms
+2020-10-13 17:53:29.424  INFO 107548 --- [    Test worker] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-10-13 17:53:31.219  INFO 107548 --- [    Test worker] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2020-10-13 17:53:31.238  WARN 107548 --- [    Test worker] s.o.SpringCloudSecurityAutoConfiguration : All Spring Cloud Security modules and starters are deprecated. They will be moved to individual projects in the next major release.
+2020-10-13 17:53:31.259  INFO 107548 --- [    Test worker] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-10-13 17:53:31.310  INFO 107548 --- [    Test worker] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-10-13 17:53:31.319  INFO 107548 --- [    Test worker] com.matrix.filmfinder.WebMockTest        : Started WebMockTest in 11.807 seconds (JVM running for 33.415)
+2020-10-13 17:53:31.328  INFO 107548 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-10-13 17:53:31.329  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-10-13 17:53:31.332  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2020-10-13 17:53:31.441  INFO 107548 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-10-13 17:53:31.443  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-10-13 17:53:31.448  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /user/add
+       Parameters = {}
+          Headers = [Content-Type:"application/json", Content-Length:"47"]
+             Body = <no character encoding set>
+    Session Attrs = {}
+
+Handler:
+             Type = com.matrix.filmfinder.controller.UserController
+           Method = com.matrix.filmfinder.controller.UserController#addNewUser(ObjectNode)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"text/plain;charset=UTF-8", Content-Length:"73"]
+     Content type = text/plain;charset=UTF-8
+             Body = User User{id=5373c58e-bb7a-4e20-9cd3-fedb44313d00, name='charles'} saved.
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+User User{id=5373c58e-bb7a-4e20-9cd3-fedb44313d00, name='charles'} saved.
+2020-10-13 17:53:32.094  INFO 107548 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-10-13 17:53:32.094  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-10-13 17:53:32.097  INFO 107548 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /user/name/charles
+       Parameters = {}
+          Headers = []
+             Body = <no character encoding set>
+    Session Attrs = {}
+
+Handler:
+             Type = com.matrix.filmfinder.controller.UserController
+           Method = com.matrix.filmfinder.controller.UserController#returnUser(String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"name":"charles","email":"charles@sample.com"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+{"name":"charles","email":"charles@sample.com"}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
