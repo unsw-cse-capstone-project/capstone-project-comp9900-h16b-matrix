@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:50dcda61ce241eff4b1a9877b3ba0cd6029d307262941fc25c861ced73907c47
-size 765
+Week1
+I join Jira project of our group creaated by scrum master.
+Join the meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest.
+
+Week2
+I write Login/Sign up section of user stories in proposal.
+
+Week3
+I construct the storyboard in Figma which covered the section of Login/Sign up of user stories.
+
+Week4
+Accomplish the primary frontend development based on the UI designed in Figma.
+
+Week5
+Keep doing the fronted work and join the first presentation in the lab.
+
+Week6
+Did the retrospective with teammates. summary and reflection the inadequacy.
+
+Week7
+Keep doing the fronted work and accomplished the construction of setting page.
