@@ -1,4 +1,3 @@
-Week1:
-I joined the Jira project of our group.
-
-Join the meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest. 
+version https://git-lfs.github.com/spec/v1
+oid sha256:f27921f8940ec4e17d66a14f93a1e4bf31fdb166e3cdd79a6b2b7eda87e5d763
+size 224

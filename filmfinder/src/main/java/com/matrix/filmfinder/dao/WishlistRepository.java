@@ -1,27 +1,3 @@
-package com.matrix.filmfinder.dao;
-
-import com.matrix.filmfinder.message.WishlistMessage;
-import com.matrix.filmfinder.model.Movie;
-import com.matrix.filmfinder.model.User;
-import com.matrix.filmfinder.model.Wishlist;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
-
-public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
-//    List<Wishlist> getWishlistsByUid(Integer uid);
-//    List<Wishlist> getWishlistsByUser(User user);
-
-//    List<Wishlist> findByUidAndMovie(Integer uid, Integer movie_id);
-//    Wishlist findByUidAndMovie_id(Integer uid, Integer movie_id);
-    Wishlist getWishlistByUserAndMovie(User u, Movie m);
-
-    @Query(
-            value = "select w.id as wishlist_id, m.tmdb_id as tmdb_id, m.title as title, m.description as description, m.poster as poster " +
-                    "from Movie m, Wishlist w " +
-                    "where m = w.movie " +
-                    "and w.user = ?1"
-    )
-    List<WishlistMessage> getWishListsByUser(User user);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1d77f7680ba4382f328a1127b66974d9fa27cdf1672b52900a3d3429d237f9b1
+size 1091

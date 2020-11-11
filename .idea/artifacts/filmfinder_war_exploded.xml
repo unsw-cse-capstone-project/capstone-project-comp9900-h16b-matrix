@@ -1,13 +1,3 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="filmfinder:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/filmfinder_war_exploded</output-path>
-    <root id="root">
-      <element id="javaee-facet-resources" facet="filmfinder/web/Web" />
-      <element id="directory" name="WEB-INF">
-        <element id="directory" name="classes">
-          <element id="module-output" name="filmfinder" />
-        </element>
-      </element>
-    </root>
-  </artifact>
-</component>
+version https://git-lfs.github.com/spec/v1
+oid sha256:3468a611bb8faef232a6edf4af14cf434f29463411b10967880e5386eaaacfca
+size 503

@@ -1,34 +1,3 @@
-import axios from "axios";
-export function getMovieByTid(id) {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(`/movie/get?tmdb_id=${id}`)
-        .then(response => {
-            console.log(response)
-          if (response.status >= 200 && response.status < 300) {
-           
-            resolve(response.data);
-          } else {
-            reject(response.response);
-          }
-        })
-        .catch(reject);
-    });
-  }
-  export function updateDetail(data) {
-      console.log(data)
-    return new Promise((resolve, reject) => {
-      axios
-        .post(`/movie/update`,data)
-        .then(response => {
-            console.log(response)
-          if (response.status >= 200 && response.status < 300) {
-           
-            resolve(response.data);
-          } else {
-            reject(response.response);
-          }
-        })
-        .catch(reject);
-    });
-  }
+version https://git-lfs.github.com/spec/v1
+oid sha256:bae2229e573f196e95f6b86ea58e79a9b6164cda77bd8f408b45f3ac1095784a
+size 902

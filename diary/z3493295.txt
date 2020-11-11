@@ -1,17 +1,3 @@
-week 1
-
-As a scrum master, I created Jira project for our group. 
-
-As a scrum master, organized a meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest. 
-
-week 2
-
-As a scrum master, I organized meetings on Wednesday and weekends. We discussed about the features we should offer to users and drafted the user stories.
-
-As a team member, I drafted the user stories about how a user manage its account and its wishlist.
-
-week 3
-
-As a scrum master, I organized meetings to discussed about user story and UI/story board design. We discussed about the tool chains we plan to use and everything else which we should put in project proposal.
-
-As a team member, I drafted serveral story boards, helped teammates to finished user story and done the final check of the proposal. 
+version https://git-lfs.github.com/spec/v1
+oid sha256:89d163462442e5a085d10e385060dc84fe45f3e9fd3846fb5f5f1c712c2faeef
+size 880

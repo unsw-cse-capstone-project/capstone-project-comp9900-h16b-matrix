@@ -1,26 +1,3 @@
-import { Button } from '@material-ui/core'
-import React,{useEffect,useState} from 'react'
-import { Link } from "react-router-dom";
-export default function Review(props){
-    const {decoded,handleClickOpen,movieId} = props
-    return(
-        <div>
-            {decoded?<Button
-             size="large"
-             color="primary"
-             component={Link}
-             to={{ pathname: `/editReview/${movieId}` }}>
-                 Edit Review
-            </Button>:
-            <Button
-            size="large"
-            color="primary"
-            onClick={handleClickOpen}>
-                Edit Review
-           </Button>
-            }
-            
-            Review
-        </div>
-    )
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e086fe2e292b5e3f259dac88434dbe48883d02ab7b9d5f3c0f314f2e814a7d77
+size 701
