@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fe27344d54f047baf164cba9b918cf6ae75640ca40255c068fef5050edee0bbd
-size 564
+package com.matrix.filmfinder.dao;
+
+import com.matrix.filmfinder.model.Comment;
+import com.matrix.filmfinder.model.CommentLike;
+import com.matrix.filmfinder.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CommentLikeRepository extends JpaRepository<CommentLike, Integer> {
+    CommentLike getCommentLikeByUserAndComment(User u, Comment c);
+    CommentLike findCommentLikeByUserAndComment(User u, Comment c);
+    Long countCommentLikesByComment(Comment c);
+}
