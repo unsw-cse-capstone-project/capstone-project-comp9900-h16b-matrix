@@ -1,21 +1,3 @@
-package com.matrix.filmfinder.message;
-
-import java.util.Date;
-
-public interface CommentMessageInterface {
-    Integer getComment_id();
-
-    Integer getPost_userid();
-
-    String getPost_username();
-
-    String getContent();
-
-    Integer getMovie_id();
-
-    Long getN_likes();
-
-    Date getSubmit_time();
-
-    Integer getYour_user_id();
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:dfc1cd33963f5cc5a4d943b5284aa1befbb7a18b5fcdf5f8a8aec46dc9a16ac8
+size 339
