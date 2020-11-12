@@ -48,7 +48,7 @@ public class ReviewLikeController {
 
     // Update like status
     @PostMapping(path = "/likeorunlike")
-    public ResponseEntity<Object> reviewlike(@RequestParam JsonNode jsonNode){
+    public ResponseEntity<Object> reviewlike(@RequestBody JsonNode jsonNode){
         ReviewLike rlike = new ReviewLike();
         User user = new User();
         Review review = new Review();
