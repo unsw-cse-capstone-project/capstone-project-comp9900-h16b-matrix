@@ -14,22 +14,20 @@ def crawler(start:int, end:int, result_jsons) -> None:
         csv_writter = csv.DictWriter(csvfile, fieldnames=fieldname)
         api_key = 'a32f475cc38fc86be6398e58d22b946f'
         url = 'https://api.themoviedb.org/3/movie/'
-        param = {'api_key': api_key, 'language': 'en-US'}
-        credit_param = {'api_key': api_key}
+        param = {'api_key': api_key, 'language': 'en-US', 'append_to_response': 'credits'}
         for i, item in enumerate(tqdm(result_jsons)):
             if (i == 0):
                 csv_writter.writeheader()
             request_url = url+str(item['id'])
-            credit_url = request_url + '/credits'
             r = requests.get(request_url, params=param)
-            rc = requests.get(credit_url, params=credit_param)
+
             result = json.loads(r.text)
-            credit = json.loads(rc.text)
+            crew = result['credits']['crew']
             try:
                 director = None 
-                for crew in credit['crew']:
-                    if (crew['job'] == "Director"):
-                        director = crew['id']
+                for p in crew:
+                    if (p['job'] == "Director"):
+                        director = p['id']
                 data_movie = {
                     'tmdb_id': result['id'],
                     'title': result['title'],
