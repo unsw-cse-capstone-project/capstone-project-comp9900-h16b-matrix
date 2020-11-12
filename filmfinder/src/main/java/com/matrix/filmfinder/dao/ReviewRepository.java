@@ -6,5 +6,5 @@ import com.matrix.filmfinder.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    Review findByUserAndMovie(User user, Movie movie);
+    Review getByUserAndMovie(User user, Movie movie);
 }

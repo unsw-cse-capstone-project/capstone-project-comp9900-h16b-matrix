@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +40,7 @@ public class ReviewController {
     @GetMapping(path = "get")
     public ResponseEntity<Object> findReviewByUserAndMovie(@RequestParam User user, @RequestParam Movie movie){
         try {
-            Review review = reviewRepository.findByUserAndMovie(user,movie);
+            Review review = reviewRepository.getByUserAndMovie(user,movie);
             return new ResponseEntity<>(
                     review,
                     HttpStatus.OK
@@ -53,9 +52,9 @@ public class ReviewController {
             );
         }
     }
-    // update title and content
-    @PostMapping(path = "/update")
-    public ResponseEntity<Object> updateReview(@RequestParam JsonNode jsonNode) {
+    // add and update title and content
+    @PostMapping(path = "/add")
+    public ResponseEntity<Object> addReview(@RequestParam JsonNode jsonNode) {
         Review review = new Review();
         Movie movie = new Movie();
         User user = new User();
@@ -132,7 +131,7 @@ public class ReviewController {
     // update cancel like or unlike
     @PutMapping(value = "/cancel")
     public ResponseEntity<Object> cancellikeorunlike(@RequestParam User user, @RequestParam Review review) {
-        ReviewLike reviewLike = reviewLikeRepository.getByUserAndReview(user, review);
+        ReviewLike reviewLike = reviewLikeRepository.findByUserAndReview(user, review);
         if (reviewLike != null) {
             reviewLikeRepository.delete(reviewLike);
 //            Review r = reviewRepository.getOne(review.getId());
