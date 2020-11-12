@@ -8,5 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
     Review getByUserAndMovie(User user, Movie movie);
 
-    Review getByReviewAndUser(Integer review_id, Integer uid);
+    Review getByIdAndUser(int review, User user);
+
+    Review getReviewById(int review_id);
 }

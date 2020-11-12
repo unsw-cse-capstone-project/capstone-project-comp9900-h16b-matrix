@@ -115,11 +115,15 @@ public class ReviewController {
         int uid;
         String title = "";
         String content = "";
+//        Review rv = new Review();
+        User user = new User();
         try {
             review_id = jsonNode.get("review_id").asInt();
             uid = jsonNode.get("uid").asInt();
             title = jsonNode.get("title").asText();
             content = jsonNode.get("content").asText();
+            user = userRepository.getUserById(uid);
+//            rv = reviewRepository.getReviewById(review_id);
         } catch (EntityNotFoundException ee) {
             return new ResponseEntity<>(
                     "Entity not found.",
@@ -131,7 +135,7 @@ public class ReviewController {
                     HttpStatus.BAD_REQUEST
             );
         }
-        Review review = reviewRepository.getByReviewAndUser(review_id,uid);
+        Review review = reviewRepository.getByIdAndUser(review_id, user);
         try {
             review.setTitle(title);
             review.setContent(content);
