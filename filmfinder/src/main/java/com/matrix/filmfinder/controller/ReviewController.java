@@ -52,9 +52,9 @@ public class ReviewController {
             );
         }
     }
-    // add and update title and content
+    // add title and content
     @PostMapping(path = "/add")
-    public ResponseEntity<Object> addReview(@RequestParam JsonNode jsonNode) {
+    public ResponseEntity<Object> addReview(@RequestBody JsonNode jsonNode) {
         Review review = new Review();
         Movie movie = new Movie();
         User user = new User();
@@ -70,7 +70,7 @@ public class ReviewController {
             content = jsonNode.get("content").asText();
         } catch (EntityNotFoundException ee) {
             return new ResponseEntity<>(
-                    "User not found you fucker!!!",
+                    "User not found",
                     HttpStatus.NOT_FOUND
             );
         } catch (JsonParseException e) {
@@ -103,6 +103,54 @@ public class ReviewController {
         } catch (DataIntegrityViolationException e) {
             return new ResponseEntity<>(
                     "Review saving error",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+    }
+
+    //  update existing review
+    @PostMapping(path = "/update")
+    public ResponseEntity<Object> updateReview(@RequestBody JsonNode jsonNode) {
+        int review_id;
+        int uid;
+        String title = "";
+        String content = "";
+        try {
+            review_id = jsonNode.get("review_id").asInt();
+            uid = jsonNode.get("uid").asInt();
+            title = jsonNode.get("title").asText();
+            content = jsonNode.get("content").asText();
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<>(
+                    "Entity not found.",
+                    HttpStatus.NOT_FOUND
+            );
+        } catch (JsonParseException e) {
+            return new ResponseEntity<>(
+                    "json has something wrong",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+        Review review = reviewRepository.getByReviewAndUser(review_id,uid);
+        try {
+            review.setTitle(title);
+            review.setContent(content);
+            review.setSubmitTime(new Date());
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<>(
+                    "Review cannot be found...",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        try {
+            reviewRepository.save(review);
+            return new ResponseEntity<>(
+                    review,
+                    HttpStatus.OK
+            );
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>(
+                    "Review Saving Error",
                     HttpStatus.BAD_REQUEST
             );
         }
