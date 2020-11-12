@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import java.util.Date;
 
 @RestController
@@ -151,6 +152,20 @@ public class ReviewController {
     public ResponseEntity<Object> deleteReview(@RequestParam Integer id) {
         try {
             reviewRepository.deleteById(id);
-        } 
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(
+                    "Review does not exist" + id.toString(),
+                    HttpStatus.BAD_REQUEST
+            );
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(
+                    "illegal argument",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+        return new ResponseEntity<>(
+                "Review" + id.toString() +" deleted",
+                HttpStatus.OK
+        );
     }
 }
