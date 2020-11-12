@@ -22,12 +22,16 @@ def crawler(start:int, end:int, result_jsons) -> None:
             r = requests.get(request_url, params=param)
 
             result = json.loads(r.text)
-            crew = result['credits']['crew']
             try:
-                director = None 
-                for p in crew:
-                    if (p['job'] == "Director"):
-                        director = p['id']
+                crew = result['credits']['crew']
+            except:
+                crew = None
+            try:
+                director = None
+                if crew != None:
+                    for p in crew:
+                        if (p['job'] == "Director"):
+                            director = p['id']
                 data_movie = {
                     'tmdb_id': result['id'],
                     'title': result['title'],
