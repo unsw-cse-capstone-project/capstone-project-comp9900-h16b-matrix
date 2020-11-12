@@ -11,7 +11,7 @@ def crawler(start:int, end:int, result_jsons) -> None:
     result_jsons = result_jsons[start:end]
     with open(filename, "w", newline='', encoding='UTF-8') as csvfile:
         fieldname = ['tmdb_id', 'title', 'description', 'poster', 'popularity', 'genres', 'rating', 'rating_count', 'release_date', 'director']
-        csv_writter = csv.DictWriter(csvfile, fieldnames=fieldname)
+        csv_writter = csv.DictWriter(csvfile, fieldnames=fieldname, delimiter="|", quoting=csv.QUOTE_MINIMAL)
         api_key = 'a32f475cc38fc86be6398e58d22b946f'
         url = 'https://api.themoviedb.org/3/movie/'
         param = {'api_key': api_key, 'language': 'en-US', 'append_to_response': 'credits'}
