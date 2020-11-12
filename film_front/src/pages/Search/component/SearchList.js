@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Tooltip, Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,10 +15,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Rating from "@material-ui/lab/Rating";
 const useStyles = makeStyles({
   root: {
     width: "100%",
-    height: 450,
+    height: 530,
   },
   media: {
     height: 350,
@@ -79,21 +80,7 @@ export default function SearchList(props) {
     setValue(event.target.value);
     const radio = event.target.value;
     console.log(radio);
-    if (radio == "default") {
-      const newSort = movie.sort(function (a, b) {
-        var nameA = a.title.toUpperCase(); // ignore upper and lowercase
-        var nameB = b.title.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        return 0;
-      });
-      console.log("default", newSort);
-      setMovie(newSort);
-    } else if (radio == "latest") {
+    if (radio == "latest") {
       const newSort = movie.sort(function (a, b) {
         if (
           (a.release_date &&
@@ -122,7 +109,7 @@ export default function SearchList(props) {
       });
       console.log("last", newSort);
       setMovie(newSort);
-    } else if (radio == "hottest") {
+    } else if (radio == "default") {
       const newSort = movie.sort(function (a, b) {
         if (a.popularity > b.popularity) {
           return -1;
@@ -147,15 +134,13 @@ export default function SearchList(props) {
         const data = await res.json();
         console.log(data);
         const defaultSort = data.results.sort(function (a, b) {
-          var nameA = a.title.toUpperCase(); // ignore upper and lowercase
-          var nameB = b.title.toUpperCase(); // ignore upper and lowercase
-          if (nameA < nameB) {
+          if (a.popularity > b.popularity) {
             return -1;
           }
-          if (nameA > nameB) {
-            return 1;
-          }
-          return 0;
+          // if (nameA > nameB) {
+          //   return 1;
+          // }
+          return 1;
         });
         setMovie(defaultSort);
       }
@@ -163,14 +148,14 @@ export default function SearchList(props) {
     getMovie();
   }, [queryValue]);
   const filter = (geners) => {
-    console.log(geners,state, Object.keys(state))
-    const keys = Object.keys(state)
-   for(let i = 0;i<keys.length;i++){
+    console.log(geners, state, Object.keys(state));
+    const keys = Object.keys(state);
+    for (let i = 0; i < keys.length; i++) {
       if (state[keys[i]]) {
         const gId = mapId[keys[i]];
-        console.log(gId,geners.includes(gId))
-        if (geners.includes(gId)==false) {
-          console.log('return')
+        console.log(gId, geners.includes(gId));
+        if (geners.includes(gId) == false) {
+          console.log("return");
           return false;
         }
       }
@@ -205,11 +190,11 @@ export default function SearchList(props) {
                 control={<Radio />}
                 label="Rating"
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 value="hottest"
                 control={<Radio />}
                 label="Hottest"
-              />
+              /> */}
             </RadioGroup>
           </FormControl>
         </Grid>
@@ -438,18 +423,23 @@ export default function SearchList(props) {
                   xs={3}
                   // style={{ margin: "auto" }}
                 >
-                  <Card>
-                    <CardActionArea className={classes.root}>
-                      <CardMedia
-                        className={classes.media}
-                        image={
-                          item.poster_path
-                            ? `http://image.tmdb.org/t/p/w185${item.poster_path}`
-                            : default_img
-                        }
-                        title={item.title}
-                      />
-                      <CardContent>
+                  <Card className={classes.root}>
+                    {/* <CardActionArea className={classes.root}> */}
+                    <CardMedia
+                      className={classes.media}
+                      image={
+                        item.poster_path
+                          ? `http://image.tmdb.org/t/p/w185${item.poster_path}`
+                          : default_img
+                      }
+                      title={item.title}
+                    />
+                    <CardContent>
+                      <Tooltip title={
+                          <React.Fragment>
+                            <Typography>{item.title}</Typography>
+                          </React.Fragment>
+                        }>
                         <Typography
                           gutterBottom
                           variant="h5"
@@ -458,6 +448,21 @@ export default function SearchList(props) {
                         >
                           {item.title}
                         </Typography>
+                      </Tooltip>
+
+                      <Rating
+                        name="read-only"
+                        value={(item.vote_average / 2).toFixed(1)}
+                        readOnly
+                        precision={0.5}
+                      />
+                      <Tooltip
+                        title={
+                          <React.Fragment>
+                            <Typography>{item.overview}</Typography>
+                          </React.Fragment>
+                        }
+                      >
                         <Typography
                           variant="body2"
                           color="textSecondary"
@@ -466,8 +471,9 @@ export default function SearchList(props) {
                         >
                           {item.overview}
                         </Typography>
-                      </CardContent>
-                    </CardActionArea>
+                      </Tooltip>
+                    </CardContent>
+                    {/* </CardActionArea> */}
                     <CardActions>
                       <Button
                         size="small"

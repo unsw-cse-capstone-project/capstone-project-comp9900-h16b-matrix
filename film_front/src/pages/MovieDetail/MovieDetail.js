@@ -120,8 +120,6 @@ export default function MovieDetail(props) {
           break;
         }
       }
-
-      // }
     };
     getInfo();
   }, []);
