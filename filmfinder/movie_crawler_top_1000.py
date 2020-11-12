@@ -1,4 +1,5 @@
 import json
+from requests.api import request
 from tqdm import tqdm
 import csv
 import requests
@@ -9,17 +10,26 @@ def crawler(start:int, end:int, result_jsons) -> None:
     filename = 'movies_top_' + str(start) + '_' + str(end) + '.csv'
     result_jsons = result_jsons[start:end]
     with open(filename, "w", newline='', encoding='UTF-8') as csvfile:
-        fieldname = ['tmdb_id', 'title', 'description', 'poster', 'popularity', 'genres', 'rating', 'rating_count', 'release_date']
+        fieldname = ['tmdb_id', 'title', 'description', 'poster', 'popularity', 'genres', 'rating', 'rating_count', 'release_date', 'director']
         csv_writter = csv.DictWriter(csvfile, fieldnames=fieldname)
+        api_key = 'a32f475cc38fc86be6398e58d22b946f'
         url = 'https://api.themoviedb.org/3/movie/'
-        param = {'api_key': 'a32f475cc38fc86be6398e58d22b946f', 'language': 'en-US'}
+        param = {'api_key': api_key, 'language': 'en-US'}
+        credit_param = {'api_key': api_key}
         for i, item in enumerate(tqdm(result_jsons)):
             if (i == 0):
                 csv_writter.writeheader()
             request_url = url+str(item['id'])
+            credit_url = request_url + '/credits'
             r = requests.get(request_url, params=param)
+            rc = requests.get(credit_url, params=credit_param)
             result = json.loads(r.text)
+            credit = json.loads(rc.text)
             try:
+                director = None 
+                for crew in credit['crew']:
+                    if (crew['job'] == "Director"):
+                        director = crew['id']
                 data_movie = {
                     'tmdb_id': result['id'],
                     'title': result['title'],
@@ -29,7 +39,8 @@ def crawler(start:int, end:int, result_jsons) -> None:
                     'genres': result['genres'],
                     'rating': result['vote_average'],
                     'rating_count': result['vote_count'],
-                    'release_date': result['release_date'] 
+                    'release_date': result['release_date'], 
+                    'director': director
                 }
                 csv_writter.writerow(data_movie)
             except:

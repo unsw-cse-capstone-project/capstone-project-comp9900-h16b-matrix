@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "Movie")
+@Table(name = "movie" )
 public class Movie {
     @Id
     @GeneratedValue
