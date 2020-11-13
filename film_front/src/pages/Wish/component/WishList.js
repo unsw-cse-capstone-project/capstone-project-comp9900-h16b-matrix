@@ -18,7 +18,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import * as wishAPI from "../../../api/wishAPI"
 const useStyles = makeStyles({
   root: {
-    width: 350,
+    width: '100%',
     height: 450,
   },
   media: {
