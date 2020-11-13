@@ -21,7 +21,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     )
     Movie getMovieByTmdb_id(String tmdb_id);
 
-    List<Movie> findByIdIn(List<Wishlist> wishlists);
+//    List<Movie> findByIdIn(List<Wishlist> wishlists);
     @Query(
             value = "Select m from Movie m inner join Wishlist w on w.user = ?1 and m = w.movie"
     )

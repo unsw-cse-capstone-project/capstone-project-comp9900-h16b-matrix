@@ -1,6 +1,7 @@
 package com.matrix.filmfinder.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity(name = "Rate")
@@ -18,6 +19,9 @@ public class Rate {
     private Movie movie;
     @Column
     private Integer rating;
+    @Column(name = "rate_time")
+    @Temporal(TemporalType.DATE)
+    private Date rateTime;
 
     public Rate() {
     }
@@ -27,6 +31,14 @@ public class Rate {
 //        this.movie_id = movie_id;
 //        this.rating = rating;
 //    }
+
+    public Date getRateTime() {
+        return rateTime;
+    }
+
+    public void setRateTime(Date rateTime) {
+        this.rateTime = rateTime;
+    }
 
     public Integer getId() {
         return id;
