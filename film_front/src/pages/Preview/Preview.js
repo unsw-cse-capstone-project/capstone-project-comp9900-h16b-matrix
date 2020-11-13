@@ -1,7 +1,6 @@
 import { Button, Grid, Input, Paper, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar/NavBar";
-import BraftEditor from "./component/Prestyle";
 import { Link } from "react-router-dom";
 import {
   createMuiTheme,

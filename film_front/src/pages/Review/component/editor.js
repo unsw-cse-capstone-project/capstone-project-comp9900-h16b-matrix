@@ -7,7 +7,7 @@ export default function BraftEditorDemo(props){
     const {id,content,handleContent}=props;
   
     const [value,setValue]=useState({
-        content:""
+        content: content
     })
 
 
