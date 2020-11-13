@@ -1,25 +1,16 @@
-import { Button, Grid, Input, Paper, TextField } from "@material-ui/core";
+import { Button, Grid, Input, Paper, TextField,Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar/NavBar";
-import BraftEditor from "./component/Prestyle";
 import { Link } from "react-router-dom";
 import {
   createMuiTheme,
   responsiveFontSizes,
   ThemeProvider,
 } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 
-const myDate = new Date();
 const jwt = require("jwt-simple");
 
-let decoded;
-const token = localStorage.getItem("userInfo");
-if (token) {
-  decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
-} else {
-  window.location.href = `${process.env.REACT_APP_HOST_URL}`;
-}
+
 
 const theme = createMuiTheme({
   typography: {
@@ -39,14 +30,21 @@ const theme = createMuiTheme({
 });
 
 export default function Preview(props) {
-  var url = window.location.href;
-  var arrUrl = url.split("/");
-  const movieid = arrUrl[arrUrl.length - 1];
+//   var url = window.location.href;
+//   var arrUrl = url.split("/");
+//   const movieid = arrUrl[arrUrl.length - 1];
+let decoded;
+const token = localStorage.getItem("userInfo");
+if (token) {
+  decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
+} else {
+  window.location.href = `${process.env.REACT_APP_HOST_URL}`;
+}
+    const movieid = props.match.params.id;
   const reviewKey = decoded.id.toString() + "@" + movieid;
   const reviewJson = localStorage.getItem(reviewKey);
   const reviewValue = JSON.parse(reviewJson);
   console.log(reviewKey, reviewValue);
-  const [Date, setDate] = useState(myDate.toLocaleDateString());
   const [open, setOpen] = useState(false);
   const [SignupOpen, SignupsetOpen] = useState(false);
   const [logout, setLogout] = useState(false);

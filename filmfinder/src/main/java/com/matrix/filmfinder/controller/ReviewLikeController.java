@@ -6,7 +6,7 @@ import com.matrix.filmfinder.dao.UserRepository;
 import com.matrix.filmfinder.model.Review;
 import com.matrix.filmfinder.model.ReviewLike;
 import com.matrix.filmfinder.model.User;
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

@@ -9,8 +9,11 @@ export default function BraftEditorDemo(props){
     const [value,setValue]=useState({
         content:""
     })
-
-
+    console.log(content,value)
+    useEffect(()=>{
+        setValue({...value,content:content})
+        console.log(content,value)
+    },[content])
     const [state1,setEditorState]=useState({ editorState: BraftEditor.createEditorState(null)});
     //  const { id } = props.match.params;
     
