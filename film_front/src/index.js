@@ -11,6 +11,7 @@ import MovieDetail from './pages/MovieDetail/MovieDetail';
 import Search from './pages/Search/Search';
 import Wish from './pages/Wish/Wish';
 import ReviewEdit from './pages/Review/ReviewEdit';
+import Preview from './pages/Preview/Preview';
 import Setting from './pages/Setting/Setting';
 const API_URL = process.env.REACT_APP_API_URL;
 var hist = createBrowserHistory()
@@ -45,6 +46,9 @@ ReactDOM.render(
 
       <Route path='/editReview/:id' component={ReviewEdit}/>
       <Route path='/Setting' component={Setting}/> 
+      <Route path='/Preview/:id' component={Preview}/>
+
+
     </Switch>
   </Router>
   ,
