@@ -8,45 +8,57 @@ from multiprocessing import Process
 
 def crawler(start:int, end:int, result_jsons) -> None:
     filename = 'movies_top_' + str(start) + '_' + str(end) + '.csv'
+    genre_file = 'genre_of_movie_' + str(start) + '_' + str(end)+ '.csv'
     result_jsons = result_jsons[start:end]
     with open(filename, "w", newline='', encoding='UTF-8') as csvfile:
-        fieldname = ['tmdb_id', 'title', 'description', 'poster', 'popularity', 'genres', 'rating', 'rating_count', 'release_date', 'director']
-        csv_writter = csv.DictWriter(csvfile, fieldnames=fieldname, delimiter="|", quoting=csv.QUOTE_MINIMAL)
-        api_key = 'a32f475cc38fc86be6398e58d22b946f'
-        url = 'https://api.themoviedb.org/3/movie/'
-        param = {'api_key': api_key, 'language': 'en-US', 'append_to_response': 'credits'}
-        for i, item in enumerate(tqdm(result_jsons)):
-            if (i == 0):
-                csv_writter.writeheader()
-            request_url = url+str(item['id'])
-            r = requests.get(request_url, params=param)
+        with open(genre_file, "w", newline='', encoding='UTF-8') as genre_csv:
+            fieldname = ['id', 'title', 'description', 'poster', 'popularity', 'genres', 'rating', 'rating_count', 'release_date', 'director']
+            genre_fields=['movie_id', 'genre_id']
+            csv_writter = csv.DictWriter(csvfile, fieldnames=fieldname, delimiter="|", quoting=csv.QUOTE_MINIMAL)
+            genre_writter = csv.DictWriter(genre_csv, fieldnames=genre_fields, delimiter='|')
+            
+            api_key = 'a32f475cc38fc86be6398e58d22b946f'
+            url = 'https://api.themoviedb.org/3/movie/'
+            param = {'api_key': api_key, 'language': 'en-US', 'append_to_response': 'credits'}
+            for i, item in enumerate(tqdm(result_jsons)):
+                if (i == 0):
+                    csv_writter.writeheader()
+                request_url = url+str(item['id'])
+                r = requests.get(request_url, params=param)
 
-            result = json.loads(r.text)
-            try:
-                crew = result['credits']['crew']
-            except:
-                crew = None
-            try:
-                director = None
-                if crew != None:
-                    for p in crew:
-                        if (p['job'] == "Director"):
-                            director = p['id']
-                data_movie = {
-                    'tmdb_id': result['id'],
-                    'title': result['title'],
-                    'description': result['overview'],
-                    'poster': result['poster_path'],
-                    'popularity': result['popularity'],
-                    'genres': result['genres'],
-                    'rating': result['vote_average'],
-                    'rating_count': result['vote_count'],
-                    'release_date': result['release_date'], 
-                    'director': director
-                }
-                csv_writter.writerow(data_movie)
-            except:
-                print(item)
+                result = json.loads(r.text)
+                try:
+                    crew = result['credits']['crew']
+                except:
+                    crew = None
+                try:
+                    director = None
+                    if crew != None:
+                        for p in crew:
+                            if (p['job'] == "Director"):
+                                director = p['id']
+                    genres = result['genres']
+                    if genres != None:
+                        for item in genres:
+                            data_genre = {
+                                'movie_id': result['id'],
+                                'genre_id': item['id']
+                            }
+                            genre_writter.writerow(data_genre)
+                    data_movie = {
+                        'id': result['id'],
+                        'title': result['title'],
+                        'description': result['overview'],
+                        'poster': result['poster_path'],
+                        'popularity': result['popularity'],
+                        'rating': result['vote_average'],
+                        'rating_count': result['vote_count'],
+                        'release_date': result['release_date'], 
+                        'director': director
+                    }
+                    csv_writter.writerow(data_movie)
+                except:
+                    print(item)
 
 if __name__ == '__main__':
     filename = "movie_ids_11_09_2020.json"
