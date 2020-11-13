@@ -10,5 +10,5 @@ import java.util.List;
 public interface ReviewReplyRepository extends JpaRepository<ReviewReply, Integer> {
     List<ReviewReply> findByReview(Review review);
 
-    void deleteByIdAndReplyuser(Integer reply_id, User reply_user);
+    void deleteByIdAndReply_user(Integer reply_id, User reply_user);
 }

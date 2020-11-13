@@ -95,7 +95,7 @@ public class ReviewReplyController {
 
     @DeleteMapping(path = "/delete")
     public ResponseEntity<Object> deleteReply(@RequestParam Integer reply_id, @RequestParam User reply_user){
-        reviewReplyRepository.deleteByIdAndReplyuser(reply_id, reply_user);
+        reviewReplyRepository.deleteByIdAndReply_user(reply_id, reply_user);
         return new ResponseEntity<>(
                 "Reply" + reply_id.toString() +" deleted",
                 HttpStatus.OK
