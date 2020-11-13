@@ -1,15 +1,21 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar/NavBar";
-import SearchList from "./component/SearchList";
-
-export default function Search(props) {
+import SearchList from "../Search/component/SearchList";
+import WishList from "./component/WishList";
+const jwt = require("jwt-simple");
+export default function Wish(props) {
+  let decoded;
+  const token = localStorage.getItem("userInfo");
+  if (token) {
+    decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
+  } 
   const { history } = props;
-  // const { query } = props.location;
-  const { search } = props.match.params;
-  const [name, setName] = useState(search);
+  const { id } = props.match.params;
+  //const { query } = props.location;
+  const { Wish } = "matrix";//props.match.params;
 
-  console.log("search", name, search, props);
+  console.log("Wishlist", Wish, props);
   console.log(history);
   const [open, setOpen] = useState(false);
   const [SignupOpen, SignupsetOpen] = useState(false);
@@ -28,9 +34,9 @@ export default function Search(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    setName(search);
-  }, [search]);
+  {/*useEffect(() => {
+    setName(Wish);
+  }, [Wish]);*/}
   return (
     <div>
       <Grid container justify="center">
@@ -44,13 +50,17 @@ export default function Search(props) {
         rederLogout={rederLogout}
         />
         </Grid>
-
+      <Grid item xs={11}>
+        <br/>
+        <Typography variant='h3'>
+          Wish List
+        </Typography>
+      </Grid>
         <Grid item xs={10}>
-          {console.log(name)}
           <br />
           <br />
           {/* <Grid container justify="center"> */}
-            <SearchList queryValue={name} />
+            <WishList decoded={decoded} id={id} />
           {/* </Grid> */}
         </Grid>
       </Grid>

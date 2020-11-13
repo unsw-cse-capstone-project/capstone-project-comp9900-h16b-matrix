@@ -26,8 +26,6 @@ public class Rate {
     public Rate() {
     }
 
-    // The existence of a parameterized constructor will report an error
-
 //    public Rate(Integer uid, Integer movie_id, Integer rating) {
 //        this.uid = uid;
 //        this.movie_id = movie_id;

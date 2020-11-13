@@ -40,8 +40,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
+const jwt = require("jwt-simple");
 const NavBar = (props) => {
   const user = localStorage.getItem("userInfo")
+  let decoded;
+  if (user) {
+    decoded = jwt.decode(user, process.env.REACT_APP_TOKEN_SECRET);
+  } 
   const classes = useStyles();
   const [menu,setMenu] = useState(null)
   const {open,handleClose,handleClickOpen,SignupClose,SignupOpen,handleSignupOpen,rederLogout}=props
@@ -68,18 +73,19 @@ const NavBar = (props) => {
 
          <SearchBar />
           &nbsp;&nbsp;
-          {user?<Button onClick={e=>setMenu(e.currentTarget)}> <Avatar  /></Button> :  <Button onClick={handleClickOpen} color="inherit">Login/Sign up</Button>}
-          <Menu
+          {decoded?<Button onClick={e=>setMenu(e.currentTarget)}> <Avatar  /></Button> :  <Button onClick={handleClickOpen} color="inherit">Login/Sign up</Button>}
+        {decoded?  <Menu
         id="simple-menu"
         anchorEl={menu}
         keepMounted
         open={Boolean(menu)}
         onClose={()=>setMenu(null)}
       >
-        <MenuItem onClick={()=>setMenu(null)}>setting</MenuItem>
-        <MenuItem onClick={()=>setMenu(null)}>wish list</MenuItem>
+        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {'/Setting'}>Settings </MenuItem>
+        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {`/wish/${decoded.id}`}>Wish list</MenuItem>
         <MenuItem onClick={()=>handleLogout()}>Logout</MenuItem>
-      </Menu>
+
+      </Menu>:null}
 
         </Toolbar>
       </AppBar>

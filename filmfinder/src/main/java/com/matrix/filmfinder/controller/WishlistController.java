@@ -56,7 +56,6 @@ public class WishlistController {
 //            User user = userRepository.getOne(uid);
 //            List<Wishlist> wishlists = wishlistRepository.getWishlistsByUser(user);
 //            List<Movie> movies = movieRepository.findByIdIn(wishlists);
-//            List<Movie> movies = movieRepository.findMoviesByUserFromWishlists(user);
             List<WishlistMessage> movies = wishlistRepository.getWishListsByUser(user);
 
             return new ResponseEntity<>(
@@ -101,7 +100,6 @@ public class WishlistController {
                 HttpStatus.OK
         );
     }
-
     // Delete
     @DeleteMapping(value = "/delete")
     public ResponseEntity<Object> deleteWishlist(@RequestParam Integer id){
