@@ -65,23 +65,38 @@ public class ReviewLikeController {
 
         try {
             ReviewLike reviewLike = reviewLikeRepository.findByUserAndReview(user, review);
-            if (reviewLike != null) {
-                reviewLike.setJud(jud); // change like to unlike by hint unlike button
-                reviewLikeRepository.saveAndFlush(reviewLike);
-                return new ResponseEntity<>(
-                        reviewLike,
-                        HttpStatus.OK
-                );
+            if (reviewLike != null) { // means existing data
+                if (reviewLike.getJud() != jud){
+                    // change like to unlike by hint unlike button
+                    if (jud) { //jud == true
+                        reviewLike.setJud(true);
+                        reviewLikeRepository.saveAndFlush(reviewLike);
+                        Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
+                        review.setLikes(count_true);
+                        reviewRepository.saveAndFlush(review);
+                    } else { // jud == false
+                        reviewLike.setJud(false);
+                        reviewLikeRepository.saveAndFlush(reviewLike);
+                        Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
+                        review.setUnLikes(count_false);
+                        reviewRepository.saveAndFlush(review);
+                    }
+                }
             } else {
                 ReviewLike rlike = new ReviewLike();
                 rlike.setUser(user);
                 rlike.setReview(review);
                 rlike.setJud(jud);
-                reviewLikeRepository.save(rlike);
-                return new ResponseEntity<>(
-                        rlike,
-                        HttpStatus.OK
-                );
+                reviewLikeRepository.saveAndFlush(rlike);
+                if (jud) {
+                    Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
+                    review.setLikes(count_true);
+                    reviewRepository.saveAndFlush(review);
+                }else { // jud == false
+                    Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
+                    review.setUnLikes(count_false);
+                    reviewRepository.saveAndFlush(review);
+                }
             }
         } catch (EntityNotFoundException ee) {
             return new ResponseEntity<>(
@@ -99,6 +114,11 @@ public class ReviewLikeController {
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
+        // return
+        return new ResponseEntity<>(
+                review,
+                HttpStatus.OK
+        );
     }
 
     @DeleteMapping(path = "/cancellikeorunlike")
@@ -133,39 +153,40 @@ public class ReviewLikeController {
         }
     }
 
-    // count the number of like
-    @GetMapping(path = "/count")
-    public ResponseEntity<Object> getcountReviewLike(@RequestParam User user, @RequestParam Review review){
-        ReviewLike rlike = reviewLikeRepository.getByUserAndReview(user, review);
-        try {
-            if (rlike.getJud()) { // jud == true
-//                Long count_true = reviewLikeRepository.countByReviewAndReviewLike(review, rlike);
-                Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
-                review.setLikes(count_true);
-                reviewRepository.saveAndFlush(review);
-                return new ResponseEntity<>(
-                        review,
-                        HttpStatus.OK
-                );
-            } if (!rlike.getJud()){ //jud == false
-                Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
-                review.setUnLikes(count_false);
-                reviewRepository.saveAndFlush(review);
-                return new ResponseEntity<>(
-                        review,
-                        HttpStatus.OK
-                );
-            } else {// no like and unlike
-                return new ResponseEntity<>(
-                        "check whether judgement is null in database",
-                        HttpStatus.OK
-                );
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(
-                    e.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
-    }
+//    // count the number of like
+//    @GetMapping(path = "/count")
+//    public ResponseEntity<Object> getcountReviewLike(@RequestParam User user, @RequestParam Review review){
+//        ReviewLike rlike = reviewLikeRepository.getByUserAndReview(user, review);
+//        try {
+//            if (rlike.getJud()) { // jud == true
+////                Long count_true = reviewLikeRepository.countByReviewAndReviewLike(review, rlike);
+//                Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
+//                review.setLikes(count_true);
+//                reviewRepository.saveAndFlush(review);
+//                return new ResponseEntity<>(
+//                        review,
+//                        HttpStatus.OK
+//                );
+//            } if (!rlike.getJud()){ //jud == false
+//                Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
+//                review.setUnLikes(count_false);
+//                reviewRepository.saveAndFlush(review);
+//                return new ResponseEntity<>(
+//                        review,
+//                        HttpStatus.OK
+//                );
+//            } else {// no like and unlike
+//                return new ResponseEntity<>(
+//                        "check whether judgement is null in database",
+//                        HttpStatus.OK
+//                );
+//            }
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(
+//                    e.getMessage(),
+//                    HttpStatus.INTERNAL_SERVER_ERROR
+//            );
+//        }
+//    }
+
 }

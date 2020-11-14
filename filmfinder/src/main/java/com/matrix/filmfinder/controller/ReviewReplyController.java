@@ -34,7 +34,7 @@ public class ReviewReplyController {
 
     // find all replys for one review
     @GetMapping(path = "/getall")
-    public ResponseEntity<Object> findAllReply(@RequestParam Review review, @RequestParam ReviewReply rreply) {
+    public ResponseEntity<Object> findAllReply(@RequestParam Review review) {
         try {
             List<ReviewReply> replys = reviewReplyRepository.findByReview(review);
             return new ResponseEntity<>(
