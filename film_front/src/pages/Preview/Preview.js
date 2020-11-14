@@ -268,22 +268,22 @@ export default function Preview(props) {
             </Box>
             */}
             <div className={classes.root2}>
-                                <Paper className={classes.paper2}>
-                                    <Grid container wrap="nowrap" spacing={2}>
-                                    <Grid item>
-                                        <Avatar>W</Avatar>
-                                    </Grid>
-                                    <Grid item xs zeroMinWidth>
-                                        <Typography noWrap>Truncation should be conditionally applicable on this long line of text
-                                                    as this is a much longer line than what the container can support.
-                                        </Typography>
-                                        <Button size="small" color="primary">
-                                        Learn More
-                                        </Button>
-                                    </Grid>
-                                    </Grid>
-                                </Paper>
-                            </div>            
+                <Paper className={classes.paper2}>
+                    <Grid container wrap="nowrap" spacing={2}>
+                        <Grid item>
+                            <Avatar>W</Avatar>
+                        </Grid>
+                        <Grid item xs zeroMinWidth>
+                            <Typography noWrap>Truncation should be conditionally applicable on this long line of text
+                                    as this is a much longer line than what the container can support.
+                            </Typography>
+                            {/*<Button size="small" color="primary">
+                                Learn More
+                            </Button>*/}
+                        </Grid>
+                    </Grid>
+                </Paper>
+            </div>            
             <div className={classes.root2}>
                 <Paper className={classes.paper2} elevation={7}>
                     <Grid container wrap="nowrap" spacing={2}>
@@ -295,9 +295,9 @@ export default function Preview(props) {
                                 the kind of investment that would qualify me as a real fan. 
                                 But it should be seen.
                             </Typography>
-                            <Button size="small" color="primary">
+                            {/*<Button size="small" color="primary">
                                 Learn More
-                            </Button>
+                            </Button>*/}
                         </Grid>
                     </Grid>
                 </Paper>
