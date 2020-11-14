@@ -60,7 +60,7 @@ export default function Review(props) {
                   <Grid container>
                     <Grid item xs={12} alignItems="center">
                       <Grid container alignItems="center">
-                        <Grid item xs={10}>
+                        <Grid item xs={8}>
                           <Typography>
                             <Link
                               component="button"
@@ -78,9 +78,9 @@ export default function Review(props) {
                             </Typography>
                           </Typography>
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                           <Typography align="right" color="textSecondary">
-                            {item.likes} likes
+                            {item.likes} likes,  {item.unLikes} unlikes 
                           </Typography>
                         </Grid>
                       </Grid>

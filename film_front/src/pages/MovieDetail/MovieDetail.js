@@ -26,7 +26,7 @@ import * as movieAPI from "../../api/movieAPI";
 import * as wishAPI from "../../api/wishAPI"
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "90%",
+    width: "98%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
     borderStyle: "groove",
@@ -195,8 +195,8 @@ export default function MovieDetail(props) {
                   }
                 />
                 {video.key ? (
-                  <div className={classes.root}>
-                    <Typography variant="body2">Trailer</Typography>
+                  <div className={classes.root} > 
+                    <Typography variant="body2" style={{backgroundColor:'LightGray'}}>Trailer</Typography>
                     <Typography>
                       <IconButton>
                         {/* <ListItemIcon> */}

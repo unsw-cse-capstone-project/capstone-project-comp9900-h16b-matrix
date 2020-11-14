@@ -13,6 +13,7 @@ export default function ReviewDetail(props){
     const {poster,movieId} = props.match.params
     const [value,setValue] =  useState({})
     const [like,setLike] = useState(0)
+    const [rid,setRid] = useState(0)
     useEffect(()=>{
         const getReview = async () => {
             const res = await reviewAPI.getByUidMid(poster, movieId);
@@ -26,6 +27,15 @@ export default function ReviewDetail(props){
         const getLike = async()=>{
             const res = await RLikeAPI.getByID(poster,value.id)
              console.log(res)
+             if(res){
+                 setRid(res.id)
+                 if(res.jud){
+                     setLike(1)
+                 }
+                 else{
+                     setLike(-1)
+                 }
+             }
         }
         if(value){
             getLike()
@@ -42,9 +52,33 @@ export default function ReviewDetail(props){
                 }
                 const res = await RLikeAPI.likeorunlike(data)
                 console.log(res)
+                setRid(res.id)
+            }
+            else{
+                setLike(0)
+                const res = await RLikeAPI.cancellikeorunlike(rid)
             }
         }
        
+    }
+    const handleUnLike = async()=>{
+        if(decoded){
+            if(like==0){
+                setLike(-1)
+                const data = {
+                    uid:decoded.id,
+                    review_id:value.id,
+                    judgement:false
+                }
+                const res = await RLikeAPI.likeorunlike(data)
+                console.log(res)
+                setRid(res.id)
+            }
+            else{
+                setLike(0)
+                const res = await RLikeAPI.cancellikeorunlike(rid)
+            }
+        }
     }
     return(
         <div>
@@ -57,7 +91,7 @@ export default function ReviewDetail(props){
                 {like==1?<AiFillLike/>:<AiOutlineLike/>}
             </IconButton>
             {value.unLikes}
-            <IconButton>
+            <IconButton onClick={handleUnLike}>
                {like==-1?<AiFillDislike />: <AiOutlineDislike/>}
             </IconButton>
             </Typography>

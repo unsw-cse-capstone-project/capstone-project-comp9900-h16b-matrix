@@ -71,6 +71,11 @@ public class ReviewLikeController {
                     "format for comment json is not correct",
                     HttpStatus.BAD_REQUEST
             );
+        } catch (Exception ee) {
+            return new ResponseEntity<> (
+                    ee.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
         rlike.setUser(user);
         rlike.setReview(review);
@@ -85,6 +90,11 @@ public class ReviewLikeController {
             return new ResponseEntity<>(
                     "ReviewLike save error",
                     HttpStatus.BAD_REQUEST
+            );
+        } catch(Exception ee) {
+            return new ResponseEntity<>(
+                    ee.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
     }
