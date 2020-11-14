@@ -15,9 +15,8 @@ export default function ReviewEdit(props) {
     window.location.href = `${process.env.REACT_APP_HOST_URL}`;
   }
 
-  var url = window.location.href;
-  var arrUrl = url.split("/");
-  const movieid = arrUrl[arrUrl.length-1];
+  const movieid = props.match.params.id;
+
   let t = "";
   let c = "";
   let reviewKey = decoded.id.toString()+"@"+movieid;
@@ -82,7 +81,7 @@ export default function ReviewEdit(props) {
               <Grid item>
                   <Button variant="contained" 
                   color="primary"
-                  // onClick={localStorage.removeItem(reviewKey)}
+                  // onClick={()=>removeSet(reviewKey)}
                   component={Link}
                   to={{ pathname: `/movieDetail/${movieid}` }}>
                       Send
