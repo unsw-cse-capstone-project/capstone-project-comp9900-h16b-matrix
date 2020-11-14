@@ -7,9 +7,9 @@ import com.matrix.filmfinder.model.Review;
 import com.matrix.filmfinder.model.ReviewLike;
 import com.matrix.filmfinder.model.User;
 import com.fasterxml.jackson.databind.JsonNode;
+
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,18 +49,40 @@ public class ReviewLikeController {
     // Update like status
     @PostMapping(path = "/likeorunlike")
     public ResponseEntity<Object> reviewlike(@RequestBody JsonNode jsonNode){
-        ReviewLike rlike = new ReviewLike();
+        // Initialization
         User user = new User();
         Review review = new Review();
         Integer uid;
         Integer review_id;
         Boolean jud = null; // true is like, false is unlike
+
+        // unpack json packets
+        uid = jsonNode.get("uid").asInt();
+        user = userRepository.getUserById(uid);
+        review_id = jsonNode.get("review_id").asInt();
+        review = reviewRepository.getOne(review_id);
+        jud = jsonNode.get("judgement").asBoolean();
+
         try {
-            uid = jsonNode.get("uid").asInt();
-            user = userRepository.getUserById(uid);
-            review_id = jsonNode.get("review_id").asInt();
-            review = reviewRepository.getOne(review_id);
-            jud = jsonNode.get("judgement").asBoolean();
+            ReviewLike reviewLike = reviewLikeRepository.findByUserAndReview(user, review);
+            if (reviewLike != null) {
+                reviewLike.setJud(jud); // change like to unlike by hint unlike button
+                reviewLikeRepository.saveAndFlush(reviewLike);
+                return new ResponseEntity<>(
+                        reviewLike,
+                        HttpStatus.OK
+                );
+            } else {
+                ReviewLike rlike = new ReviewLike();
+                rlike.setUser(user);
+                rlike.setReview(review);
+                rlike.setJud(jud);
+                reviewLikeRepository.save(rlike);
+                return new ResponseEntity<>(
+                        rlike,
+                        HttpStatus.OK
+                );
+            }
         } catch (EntityNotFoundException ee) {
             return new ResponseEntity<>(
                     "User or review cannot found...",
@@ -75,21 +97,6 @@ public class ReviewLikeController {
             return new ResponseEntity<> (
                     ee.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
-        rlike.setUser(user);
-        rlike.setReview(review);
-        rlike.setJud(jud);
-        try {
-            reviewLikeRepository.save(rlike);
-            return new ResponseEntity<>(
-                        rlike,
-                        HttpStatus.OK
-                );
-        } catch (DataIntegrityViolationException e) {
-            return new ResponseEntity<>(
-                    "ReviewLike save error",
-                    HttpStatus.BAD_REQUEST
             );
         } catch(Exception ee) {
             return new ResponseEntity<>(
