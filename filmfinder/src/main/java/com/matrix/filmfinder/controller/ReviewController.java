@@ -1,10 +1,7 @@
 package com.matrix.filmfinder.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.matrix.filmfinder.dao.MovieRepository;
-import com.matrix.filmfinder.dao.ReviewLikeRepository;
-import com.matrix.filmfinder.dao.ReviewRepository;
-import com.matrix.filmfinder.dao.UserRepository;
+import com.matrix.filmfinder.dao.*;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.Review;
 import com.matrix.filmfinder.model.ReviewLike;
@@ -28,20 +25,23 @@ public class ReviewController {
     private UserRepository userRepository;
     private MovieRepository movieRepository;
     private ReviewLikeRepository reviewLikeRepository;
+    private BlacklistRepository blacklistRepository;
 
     @Autowired
-    public ReviewController(ReviewRepository reviewRepository, UserRepository userRepository, MovieRepository movieRepository, ReviewLikeRepository reviewLikeRepository) {
+    public ReviewController(ReviewRepository reviewRepository, UserRepository userRepository, MovieRepository movieRepository, ReviewLikeRepository reviewLikeRepository, BlacklistRepository blacklistRepository) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
         this.reviewLikeRepository = reviewLikeRepository;
+        this.blacklistRepository = blacklistRepository;
     }
 
     // get all review by movie_id
     @GetMapping(path = "getall")
-    public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie_id){
+    public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie_id, @RequestParam User user){
         try {
             List<Review> reviews = reviewRepository.findReviewsByMovie(movie_id);
+//            List<User> banned_users = blacklistRepository.findBannedUsersByUser(user);
             return new ResponseEntity<>(
                     reviews,
                     HttpStatus.OK
