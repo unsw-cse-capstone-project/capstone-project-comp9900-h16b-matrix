@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import java.util.Date;
 import java.util.List;
 
@@ -94,11 +95,35 @@ public class ReviewReplyController {
     }
 
     @DeleteMapping(path = "/delete")
-    public ResponseEntity<Object> deleteReply(@RequestParam Integer reply_id, @RequestParam User reply_user){
-        reviewReplyRepository.deleteByIdAndReply_user(reply_id, reply_user);
+    public ResponseEntity<Object> deleteReviewReply(@RequestParam Integer id){
+        try {
+            reviewReplyRepository.deleteById(id);
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(
+                    "Reply does not exist" + id.toString(),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
         return new ResponseEntity<>(
-                "Reply" + reply_id.toString() +" deleted",
+                "Reply" + id.toString() +" deleted",
                 HttpStatus.OK
         );
     }
+
+//    @DeleteMapping(path = "/delete")
+//    public ResponseEntity<Object> deleteReviewReply(@RequestParam ReviewReply reply, @RequestParam User reply_user){
+//        try {
+//            reviewReplyRepository.deleteByReviewReplyAndReply_user(reply, reply_user);
+////            reviewReplyRepository.deleteByIdAndReply_user(id, reply_user);
+//        } catch (NoResultException e) {
+//            return new ResponseEntity<>(
+//                    "Reply does not exist",
+//                    HttpStatus.BAD_REQUEST
+//            );
+//        }
+//        return new ResponseEntity<>(
+//                "Reply deleted",
+//                HttpStatus.OK
+//        );
+//    }
 }
