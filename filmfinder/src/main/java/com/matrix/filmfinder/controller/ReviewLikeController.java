@@ -73,12 +73,16 @@ public class ReviewLikeController {
                         reviewLikeRepository.saveAndFlush(reviewLike);
                         Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
                         review.setLikes(count_true);
+                        Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
+                        review.setUnLikes(count_false);
                         reviewRepository.saveAndFlush(review);
                     } else { // jud == false
                         reviewLike.setJud(false);
                         reviewLikeRepository.saveAndFlush(reviewLike);
                         Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
                         review.setUnLikes(count_false);
+                        Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
+                        review.setLikes(count_true);
                         reviewRepository.saveAndFlush(review);
                     }
                 }
