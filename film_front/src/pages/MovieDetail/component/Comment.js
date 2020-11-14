@@ -118,7 +118,7 @@ export default function Comment(props) {
           <Typography align="right" variant="body2" color="textSecondary">
             {value.length}/200
           </Typography>
-          <Button onClick={() => handleSend()}>send</Button>
+          <Button onClick={() => handleSend() } variant='outlined' color='primary'>send</Button>
         </Grid>
         <Grid item xs={12}>
           <CommentArea

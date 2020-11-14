@@ -21,7 +21,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import CRTabs from "./component/CRTabs";
 import { Link as RouteLink } from "react-router-dom";
 import * as Empty from "../../component/Empty";
-import Logindialog from "../Login & Sign up/Login";
 import * as movieAPI from "../../api/movieAPI";
 import * as wishAPI from "../../api/wishAPI"
 const useStyles = makeStyles((theme) => ({
@@ -381,14 +380,7 @@ export default function MovieDetail(props) {
           </Grid>
         </Grid>
       </Grid>
-      <Logindialog
-        handleClose={handleClose}
-        open={open}
-        handleClickOpen={handleClickOpen}
-        SignupClose={SignupClose}
-        SignupOpen={SignupOpen}
-        handleSignupOpen={handleSignupOpen}
-      />
+    
     </div>
   );
 }

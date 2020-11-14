@@ -98,12 +98,7 @@ public class ReviewLikeController {
                     ee.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
-        } catch(Exception ee) {
-            return new ResponseEntity<>(
-                    ee.getMessage(),
-                    HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
+        } 
     }
 
     @DeleteMapping(path = "/cancellikeorunlike")
