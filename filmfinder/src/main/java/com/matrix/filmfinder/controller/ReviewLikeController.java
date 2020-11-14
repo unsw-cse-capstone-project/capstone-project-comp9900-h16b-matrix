@@ -104,10 +104,27 @@ public class ReviewLikeController {
     @DeleteMapping(path = "/cancellikeorunlike")
     public ResponseEntity<Object> cancel(@RequestParam ReviewLike r) {
         try {
-            reviewLikeRepository.delete(r);
-            return new ResponseEntity<>(
-                    HttpStatus.OK
-            );
+            if (r.getJud()){ // jud == true
+                Review review = r.getReview();
+                reviewLikeRepository.delete(r);
+                Long cnt_true = reviewLikeRepository.countByReviewAndJud(review, true);
+                review.setLikes(cnt_true);
+                reviewRepository.saveAndFlush(review);
+                return new ResponseEntity<>(
+                        review,
+                        HttpStatus.OK
+                );
+            } else {
+                Review reviewf = r.getReview();
+                reviewLikeRepository.delete(r);
+                Long cnt_false = reviewLikeRepository.countByReviewAndJud(reviewf, false);
+                reviewf.setLikes(cnt_false);
+                reviewRepository.saveAndFlush(reviewf);
+                return new ResponseEntity<>(
+                        reviewf,
+                        HttpStatus.OK
+                );
+            }
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(
                     "cancel failed",
@@ -118,22 +135,29 @@ public class ReviewLikeController {
 
     // count the number of like
     @GetMapping(path = "/count")
-    public ResponseEntity<Object> getcountReviewLike(@RequestParam Review review, @RequestParam ReviewLike rlike){
+    public ResponseEntity<Object> getcountReviewLike(@RequestParam User user, @RequestParam Review review){
+        ReviewLike rlike = reviewLikeRepository.getByUserAndReview(user, review);
         try {
-            if (rlike.getJud()) {
-                Long count_true = reviewLikeRepository.countByReviewAndReviewLike(review, rlike);
+            if (rlike.getJud()) { // jud == true
+//                Long count_true = reviewLikeRepository.countByReviewAndReviewLike(review, rlike);
+                Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
+                review.setLikes(count_true);
+                reviewRepository.saveAndFlush(review);
                 return new ResponseEntity<>(
-                        count_true,
+                        review,
                         HttpStatus.OK
                 );
-            } if (!rlike.getJud()){
-                Long count_false = reviewLikeRepository.countByReviewAndReviewLike(review, rlike);
+            } if (!rlike.getJud()){ //jud == false
+                Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
+                review.setUnLikes(count_false);
+                reviewRepository.saveAndFlush(review);
                 return new ResponseEntity<>(
-                        count_false,
+                        review,
                         HttpStatus.OK
                 );
             } else {// no like and unlike
                 return new ResponseEntity<>(
+                        "check whether judgement is null in database",
                         HttpStatus.OK
                 );
             }
