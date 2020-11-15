@@ -42,7 +42,7 @@ ReactDOM.render(
       <Redirect exact from="/" to="/home" />
       <Route path='/home' component={Home}/>
       <Route path='/movieDetail/:id' component={MovieDetail}/>
-      <Route path='/search/:search' component={Search}/>
+      <Route path='/search/:type/:search' component={Search}/>
       <Route path='/wish/:id' component={Wish}/>
 
       <Route path='/editReview/:id' component={ReviewEdit}/>

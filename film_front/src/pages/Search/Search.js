@@ -6,7 +6,7 @@ import SearchList from "./component/SearchList";
 export default function Search(props) {
   const { history } = props;
   // const { query } = props.location;
-  const { search } = props.match.params;
+  const { search,type } = props.match.params;
   const [name, setName] = useState(search);
 
   console.log("search", name, search, props);
@@ -51,7 +51,7 @@ export default function Search(props) {
           <br />
           <br />
           {/* <Grid container justify="center"> */}
-            <SearchList queryValue={name} />
+            <SearchList queryValue={name} type={type} />
           {/* </Grid> */}
         </Grid>
       </Grid>

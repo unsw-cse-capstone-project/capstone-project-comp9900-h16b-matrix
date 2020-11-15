@@ -121,7 +121,7 @@ public class MovieService {
             List<Movie> movies = moviePage.getContent();
             List<MovieWrapper> movieJsons = new ArrayList<>();
             for (Movie m : movies) {
-                Double rate = rateService.getAvgRate(user, m);
+                Double rate = rateService.getAvgRate(user, m).get(0);
                 MovieWrapper movieJson = new MovieWrapper(m, rate);
                 movieJsons.add(movieJson);
             }

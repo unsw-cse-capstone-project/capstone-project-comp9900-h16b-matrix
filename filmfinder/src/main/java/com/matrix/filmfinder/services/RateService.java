@@ -12,6 +12,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,8 +28,9 @@ public class RateService {
         this.movieRepository = movieRepository;
     }
 
-    public Double getAvgRate(User user, Movie movie) {
+    public List<Double> getAvgRate(User user, Movie movie) {
         List<Double> count_sum;
+        List<Double> result = new ArrayList<>();
         if(user == null) {
             count_sum = rateRepository.getCountAndRating(movie);
         } else {
@@ -41,7 +43,9 @@ public class RateService {
         Double count =  count_sum.get(0) + movie.getTmdb_rates_count();
         Double rateSum = count_sum.get(1) + movie.getTmdb_rates_count() * movie.getTmdb_rates();
         Double avg_rate = rateSum / count;
-        return avg_rate;
+        result.add(avg_rate);
+        result.add(rateSum);
+        return result;
     }
 
 }

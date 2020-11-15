@@ -360,6 +360,7 @@ export default function MovieDetail(props) {
                     decoded={decoded}
                     handleClickOpen={handleClickOpen}
                     movieId={movieId}
+                    logout={logout}
                   />
                 </Grid>
               </Grid>
@@ -375,6 +376,7 @@ export default function MovieDetail(props) {
                   vote_count={info.vote_count}
                   handleClickOpen={handleClickOpen}
                   movieId={movieId}
+                  
                 />
               </div>
             </Grid>

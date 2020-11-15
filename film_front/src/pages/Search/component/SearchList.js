@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
+import Pagination from "@material-ui/lab/Pagination";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -16,7 +16,8 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Rating from "@material-ui/lab/Rating";
-import * as movieAPI from '../../../api/movieAPI'
+import * as movieAPI from "../../../api/movieAPI";
+import * as Empty from "../../../component/Empty";
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -47,18 +48,25 @@ const mapId = {
   western: 37,
   adventure: 12,
 };
+const mapSort = {
+  default: "popularity",
+  latest: "release_date",
+  rating: "rating",
+};
 const jwt = require("jwt-simple");
 export default function SearchList(props) {
   let decoded;
   const token = localStorage.getItem("userInfo");
   if (token) {
     decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
-  } 
-  const { queryValue } = props;
+  }
+  const { queryValue, type } = props;
   const [movie, setMovie] = useState([]);
   const apiKey = process.env.REACT_APP_KEY;
   const classes = useStyles();
+  const [genres, setGenres] = useState([]);
   const [value, setValue] = React.useState("default");
+  const [page, setPage] = useState(1);
   const [state, setState] = React.useState({
     action: false,
     adventure: false,
@@ -83,100 +91,98 @@ export default function SearchList(props) {
   const handleGenres = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+  const handlePage = async (event, value) => {
+    setPage(value);
+    const data = {
+      page: value - 1,
+      user: decoded.id,
+      keyword: queryValue,
+      sorted_by: "popularity",
+      genres: genres.join(","),
+    };
+    const res = await movieAPI.searchMovie(type, data);
+    console.log("search");
+    console.log("search", res);
+    var a = Promise.resolve(res);
+    a.then(function (result) {
+      console.log(result);
+      setMovie(result);
+    });
+  };
   const handleChange = (event) => {
     setValue(event.target.value);
-    const radio = event.target.value;
-    console.log(radio);
-    if (radio == "latest") {
-      const newSort = movie.sort(function (a, b) {
-        if (
-          (a.release_date &&
-            b.release_date &&
-            a.release_date > b.release_date) ||
-          !b.release_date
-        ) {
-          return -1;
-        }
-        // if (nameA > nameB) {
-        //   return 1;
-        // }
-        return 1;
-      });
-      console.log("last", newSort);
-      setMovie(newSort);
-    } else if (radio == "rating") {
-      const newSort = movie.sort(function (a, b) {
-        if (a.vote_average > b.vote_average) {
-          return -1;
-        }
-        // if (nameA > nameB) {
-        //   return 1;
-        // }
-        return 1;
-      });
-      console.log("last", newSort);
-      setMovie(newSort);
-    } else if (radio == "default") {
-      const newSort = movie.sort(function (a, b) {
-        if (a.popularity > b.popularity) {
-          return -1;
-        }
-        // if (nameA > nameB) {
-        //   return 1;
-        // }
-        return 1;
-      });
-      console.log("last", newSort);
-      setMovie(newSort);
-    }
+   
   };
 
   useEffect(() => {
     const getMovie = async () => {
-      // console.log(apiKey);
-      // if (queryValue != -1) {
-      //   const res = await fetch(
-      //     `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryValue}`
-      //   );
-      //   const data = await res.json();
-      //   console.log(data);
-      //   const defaultSort = data.results.sort(function (a, b) {
-      //     if (a.popularity > b.popularity) {
-      //       return -1;
-      //     }
-      //     // if (nameA > nameB) {
-      //     //   return 1;
-      //     // }
-      //     return 1;
-      //   });
-      //   setMovie(defaultSort);
-      // }
-      const data={
-        user:decoded.id,
-        keyword:queryValue,
-        sorted_by:'popularity',
-        genres: JSON.stringify([12])
-      }
-      const res = movieAPI.searchMovie(data)
-      console.log(res)
+      const data = {
+        page: 0,
+        user: decoded.id,
+        keyword: queryValue,
+        sorted_by: mapSort[value],
+        genres: genres.join(","),
+      };
+      const res = await movieAPI.searchMovie(type, data);
+      console.log("search");
+      console.log("search", res);
+      var a = Promise.resolve(res);
+      a.then(function (result) {
+        console.log(result);
+        setMovie(result);
+      });
     };
     getMovie();
-  }, [queryValue]);
-  const filter = (geners) => {
-    console.log(geners, state, Object.keys(state));
-    const keys = Object.keys(state);
-    for (let i = 0; i < keys.length; i++) {
-      if (state[keys[i]]) {
-        const gId = mapId[keys[i]];
-        console.log(gId, geners.includes(gId));
-        if (geners.includes(gId) == false) {
-          console.log("return");
-          return false;
+  }, [queryValue, type]);
+  useEffect(() => {
+    const updateGenres = async () => {
+      const keys = Object.keys(state);
+      var array = [];
+      for (let i = 0; i < keys.length; i++) {
+        if (state[keys[i]]) {
+          const gId = mapId[keys[i]];
+          array.push(gId);
         }
       }
-    }
-    return true;
-  };
+      setGenres(array)
+      const data = {
+        page: 0,
+        user: decoded.id,
+        keyword: queryValue,
+        sorted_by: mapSort[value],
+        genres: array.join(","),
+      };
+      const res = await movieAPI.searchMovie(type, data);
+      console.log("search");
+      console.log("search", res);
+      var a = Promise.resolve(res);
+      a.then(function (result) {
+        console.log(result);
+        setMovie(result);
+      });
+    };
+    updateGenres()
+  }, [state]);
+  useEffect(()=>{
+    const updateSort = async () => {
+      const data = {
+        page: 0,
+        user: decoded.id,
+        keyword: queryValue,
+        sorted_by: mapSort[value],
+        genres: genres.join(","),
+      };
+      const res = await movieAPI.searchMovie(type, data);
+      console.log("search");
+      console.log("search", res);
+      var a = Promise.resolve(res);
+      a.then(function (result) {
+        console.log(result);
+        setMovie(result);
+      });
+    };
+    updateSort()
+  },[value])
   return (
     <div style={{ margin: "auto" }}>
       <Grid container spacing={4} justify="flex-start">
@@ -430,9 +436,10 @@ export default function SearchList(props) {
             </FormGroup>
           </FormControl>
         </Grid>
-        {movie.length > 0
-          ? movie.map((item) =>
-              filter(item.genre_ids) ? (
+        {movie.total_element > 0
+          ? movie.movies.map(
+              (item) => (
+                // filter(item.genre_ids) ? (
                 <Grid
                   item
                   xs={3}
@@ -443,18 +450,20 @@ export default function SearchList(props) {
                     <CardMedia
                       className={classes.media}
                       image={
-                        item.poster_path
-                          ? `http://image.tmdb.org/t/p/w185${item.poster_path}`
+                        item.poster
+                          ? `http://image.tmdb.org/t/p/w185${item.poster}`
                           : default_img
                       }
                       title={item.title}
                     />
                     <CardContent>
-                      <Tooltip title={
+                      <Tooltip
+                        title={
                           <React.Fragment>
                             <Typography>{item.title}</Typography>
                           </React.Fragment>
-                        }>
+                        }
+                      >
                         <Typography
                           gutterBottom
                           variant="h5"
@@ -467,14 +476,14 @@ export default function SearchList(props) {
 
                       <Rating
                         name="read-only"
-                        value={(item.vote_average / 2).toFixed(1)}
+                        value={(item.rate / 2).toFixed(1)}
                         readOnly
                         precision={0.5}
                       />
                       <Tooltip
                         title={
                           <React.Fragment>
-                            <Typography>{item.overview}</Typography>
+                            <Typography>{item.description}</Typography>
                           </React.Fragment>
                         }
                       >
@@ -484,7 +493,7 @@ export default function SearchList(props) {
                           component="p"
                           noWrap={true}
                         >
-                          {item.overview}
+                          {item.description}
                         </Typography>
                       </Tooltip>
                     </CardContent>
@@ -501,13 +510,29 @@ export default function SearchList(props) {
                     </CardActions>
                   </Card>
                 </Grid>
-              ) : // <Button
+              )
+              // ) : // <Button
               // component = {Link}
               // to = {{pathname:`/movieDetail/${item.id}`}}
               // >{item.title}</Button>
-              null
+              // null
             )
           : "no result"}
+        <Grid item xs={12}>
+          <Grid container justify="center">
+            <Grid item xs={10}>
+              {/* <div style={{left:50}}> */}
+              {movie.total_element > 0 ? (
+                <Pagination
+                  count={Math.ceil(movie.total_element / 12)}
+                  page={page}
+                  onChange={handlePage}
+                />
+              ) : null}
+              {/* </div> */}
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
     </div>
   );

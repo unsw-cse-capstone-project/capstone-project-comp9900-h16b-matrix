@@ -87,9 +87,8 @@ public class RateController {
     @GetMapping(value = "/getAvg")
     public ResponseEntity<Object> getAverageRateOfMovie(@RequestParam User user, @RequestParam Movie movie) {
         try {
-           Double avg_rate = rateService.getAvgRate(user, movie);
            return new ResponseEntity<>(
-                   avg_rate,
+                   rateService.getAvgRate(user, movie),
                    HttpStatus.OK
            );
         } catch (EntityNotFoundException ee) {

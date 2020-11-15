@@ -49,7 +49,7 @@ export default function SearchBar(props) {
       onChange={handleChange}
     >
       <option value={1}>Title</option>
-      <option value={2}>Description</option>
+      <option value={0}>Description</option>
     </Select>
       <InputBase
         className={classes.input}
@@ -61,7 +61,7 @@ export default function SearchBar(props) {
         }}
         onKeyDown = {(e)=>{
           if(e.nativeEvent.keyCode === 13) {
-            history.push({pathname: `/search/${name ? name : -1}` })
+            history.push({pathname: `/search/${type?'title':'description'}/${name ? name : -1}` })
            }
         }}
       />
@@ -71,7 +71,7 @@ export default function SearchBar(props) {
         className={classes.iconButton}
         aria-label="search"
         component={Link}
-        to={{ pathname: `/search/${name ? name : -1}` }}
+        to={{ pathname: `/search/${type==1?'title':'description'}/${name ? name : -1}` }}
         
       >
         <SearchIcon />

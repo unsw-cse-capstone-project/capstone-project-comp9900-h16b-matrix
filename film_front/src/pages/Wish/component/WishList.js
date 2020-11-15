@@ -89,7 +89,7 @@ export default function WishList(props) {
                       className={classes.media}
                       image={
                         item.poster
-                          ? item.poster
+                          ? `http://image.tmdb.org/t/p/w185${item.poster}`
                           : default_img
                       }
                       title={item.title}
