@@ -20,7 +20,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     @Query(
             nativeQuery = true,
-            value = "Select r.id, likes, content, submit_time, title, un_likes, movie_id, user_id from review r left join " +
+            value = "Select r.id, likes, content, submit_time, title, un_likes, movie_id, r.user_id from review r left join " +
                     "(select * from blacklist b where b.user_id = ?2) b " +
                     "on r.user_id = b.banned_user_id where b.banned_user_id is null and r.movie_id = ?1"
     )
