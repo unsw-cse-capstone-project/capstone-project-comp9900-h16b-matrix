@@ -31,7 +31,7 @@ const TabPanel=(props)=>{
 }
 export default function CRTabs(props) {
   const classes = useStyles();
-  const {decoded,handleClickOpen,movieId,logout} = props
+  const {decoded,handleClickOpen,movieId} = props
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {

@@ -28,19 +28,19 @@ export default function Rate(props) {
   const [newRate,setNew] = useState(true)
   useEffect(() => {
     const getAll = async()=>{
-      const res = await rateAPI.getAvg(decoded?decoded.id:-1,movieId)
-      console.log('initavg',res)
-      if(res.avg){
-        const avg = (res.avg*(res.count)+vote_average*vote_count)/(vote_count+res.count)
-        const count = vote_count+res.count
-        console.log("initial", average, count, vote_average,vote_count );
-        setAverage(avg);
-        setCount(count);
-      }
-      else{
+      // const res = await rateAPI.getAvg(decoded?decoded.id:-1,movieId)
+      // console.log('initavg',res)
+      // if(res.avg){
+      //   const avg = (res.avg*(res.count)+vote_average*vote_count)/(vote_count+res.count)
+      //   const count = vote_count+res.count
+      //   console.log("initial", average, count, vote_average,vote_count );
+      //   setAverage(avg);
+      //   setCount(count);
+      // }
+      // else{
         setAverage(vote_average);
         setCount(vote_count);
-      }
+      // }
       
     }
     

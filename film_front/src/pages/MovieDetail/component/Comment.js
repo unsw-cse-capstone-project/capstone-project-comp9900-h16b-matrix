@@ -29,7 +29,7 @@ export default function Comment(props) {
       // console.log('comment',res)
     };
     getComments();
-  }, [movieId]);
+  }, [movieId,decoded]);
   const handleRemove = async (index) => {
     console.log(index);
     const del_res = await commentAPI.deleteComment(sended[index].comment_id);
