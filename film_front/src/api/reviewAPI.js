@@ -49,10 +49,10 @@ export function sendReview(data) {
         .catch(reject);
     });
   }
-  export function getAll(mid) {
+  export function getAll(uid,mid) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/review/getall?movie_id=${mid}`)
+        .get(`/review/getall?movie=${mid}&user=${uid}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
@@ -68,7 +68,7 @@ export function sendReview(data) {
   export function deleteReview(id) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`/review/delete?id=${id}`)
+        .delete(`/review/delete?review=${id}`)
         .then(response => {
           if (response.status >= 200 && response.status < 300) {
             resolve(response.data);

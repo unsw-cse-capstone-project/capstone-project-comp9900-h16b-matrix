@@ -17,10 +17,10 @@ export function sendReply(data) {
         .catch(reject);
     });
   }
-  export function getById(id) {
+  export function getById(rid,uid) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/reply/getall?review=${id}`)
+        .get(`/reply/getall?review=${rid}&user=${uid}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {

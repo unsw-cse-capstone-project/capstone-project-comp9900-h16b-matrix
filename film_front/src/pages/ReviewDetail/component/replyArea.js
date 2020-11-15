@@ -31,7 +31,7 @@ export default function Reply(props) {
   };
   useEffect(() => {
     const getAll = async () => {
-      const list = await replyAPI.getById(rid);
+      const list = await replyAPI.getById(rid,decoded?decoded.id:-1);
       console.log(list);
       setReply(list);
     };
@@ -42,7 +42,7 @@ export default function Reply(props) {
 
   const handleSend = async (index) => {
     if (decoded) {
-      if (index) {
+      if (index>=0) {
         var data = {
           reviewid: rid,
           review_uid: reply[index].reply_user.id,
@@ -63,7 +63,7 @@ export default function Reply(props) {
 
       const res = await replyAPI.sendReply(data);
       console.log(res);
-      const list = await replyAPI.getById(rid);
+      const list = await replyAPI.getById(rid,decoded?decoded.id:-1);
       console.log(list);
 
       setReply(list);
@@ -77,12 +77,12 @@ export default function Reply(props) {
       banned_uid: uid,
     });
     console.log(res);
-    const list = await replyAPI.getById(rid);
+    const list = await replyAPI.getById(rid,decoded?decoded.id:-1);
     setReply(list);
   };
   const handleRemove = async (index) => {
     const del_res = await replyAPI.delById(reply[index].id);
-    const list = await replyAPI.getById(rid);
+    const list = await replyAPI.getById(rid,decoded?decoded.id:-1);
     setReply(list);
   };
   return (
