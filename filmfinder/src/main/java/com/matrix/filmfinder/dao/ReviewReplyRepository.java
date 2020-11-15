@@ -16,7 +16,7 @@ public interface ReviewReplyRepository extends JpaRepository<ReviewReply, Intege
             value = "select r.id, content, rsubmit_time, reply_user_id, review_id, review_user_id " +
                     "from review_reply r left join " +
                     "(select * from blacklist b where b.user_id = ?2) as b " +
-                    "on r.reply_user_id = b.banned_user_id and r.review_id = b.banned_user_id " +
+                    "on r.reply_user_id = b.banned_user_id or r.review_user_id = b.banned_user_id " +
                     "where b.banned_user_id is null and r.id = ?1 "
     )
     List<ReviewReply> findByReviewWithBlacklistFilter(Review review, User user);
