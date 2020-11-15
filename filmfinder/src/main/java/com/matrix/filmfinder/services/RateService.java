@@ -44,6 +44,7 @@ public class RateService {
             count_sum.add(0D);
         }
         movie = movieRepository.getOne(movie.getId());
+        logger.info(count_sum.toString());
         Double count =  count_sum.get(0) + movie.getTmdb_rates_count();
         Double rateSum = count_sum.get(1) + movie.getTmdb_rates_count() * movie.getTmdb_rates();
         Double avg_rate = rateSum / count;

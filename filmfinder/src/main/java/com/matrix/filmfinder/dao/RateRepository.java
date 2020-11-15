@@ -30,13 +30,15 @@ public interface RateRepository extends JpaRepository<Rate, Integer> {
 //    )
     Integer countRatesByMovie(Movie movie);
     @Query(
-        value = "select count(r), sum(r.rating) from Rate r left join Blacklist b on r.user = b.banned_user " +
-                "where b.id is null and r.movie = ?1"
+        value = "select count(r), sum(r.rating) from Rate r " +
+                "where r.movie = ?1"
     )
     List<Double> getCountAndRating(Movie movie);
     @Query(
-            value = "select count(r), sum(r.rating) from Rate r left join Blacklist b on r.user = b.banned_user " +
-                    "where b.id is null and b.user = ?1 and r.movie = ?2"
+            nativeQuery = true,
+            value = "Select count(r.id), sum(r.rating), b.banned_user_id from rate r left join " +
+                    "(select * from blacklist b where b.user_id = ?1 ) as b " +
+                    "on r.user_id = b.banned_user_id where b.banned_user_id is null and r.movie_id = ?2"
     )
     List<Double> getCountAndRatingBlacklistExcluded(User user, Movie movie);
 

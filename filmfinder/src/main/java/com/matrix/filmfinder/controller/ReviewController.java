@@ -179,12 +179,12 @@ public class ReviewController {
 
     // Delete this review
     @DeleteMapping(value = "/delete")
-    public ResponseEntity<Object> deleteReview(@RequestParam Integer id) {
+    public ResponseEntity<Object> deleteReview(@RequestParam Review review) {
         try {
-            reviewRepository.deleteById(id);
+            reviewRepository.delete(review);
         } catch (NoResultException e) {
             return new ResponseEntity<>(
-                    "Review does not exist" + id.toString(),
+                    "Review does not exist" + review.getId().toString(),
                     HttpStatus.BAD_REQUEST
             );
         } catch (IllegalArgumentException e) {
@@ -194,7 +194,7 @@ public class ReviewController {
             );
         }
         return new ResponseEntity<>(
-                "Review" + id.toString() +" deleted",
+                "Review" + review.getId().toString() +" deleted",
                 HttpStatus.OK
         );
     }
