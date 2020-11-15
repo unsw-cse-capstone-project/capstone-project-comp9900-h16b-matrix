@@ -3,72 +3,84 @@ package com.matrix.filmfinder.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matrix.filmfinder.dao.CommentRepository;
 import com.matrix.filmfinder.dao.MovieRepository;
+import com.matrix.filmfinder.message.GenresWrapper;
+import com.matrix.filmfinder.model.Genre;
 import com.matrix.filmfinder.model.Movie;
+import com.matrix.filmfinder.model.User;
+import com.matrix.filmfinder.services.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.Predicate;
 import java.io.IOException;
+import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path = "/movie")
 public class MovieController {
-    private MovieRepository movieRepository;
-    private CommentRepository commentRepository;
+    private MovieService movieService;
 
-    public MovieController(MovieRepository movieRepository, CommentRepository commentRepository) {
-        this.movieRepository = movieRepository;
-        this.commentRepository = commentRepository;
+    @Autowired
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
     }
+
+
 
     @GetMapping(path = "/get")
-    public ResponseEntity<Movie> getMovieDetail ( @RequestParam String tmdb_id) {
-        Movie movie = new Movie();
-        movie = movieRepository.findMovieByTmdb_id(tmdb_id);
-        if (movie == null) {
-            movie = new Movie(tmdb_id);
-            movieRepository.save(movie);
-        }
-        movie.incN_hits();
-        movieRepository.save(movie);
-
-        return new ResponseEntity<>(
-                movie,
-                HttpStatus.OK
-        );
+    public ResponseEntity<Object> get(@RequestParam Integer id) {
+        return new ResponseEntity<>(movieService.getMovieDetail(id), HttpStatus.OK);
     }
-    @PostMapping(path = "/update")
-    public ResponseEntity<Object> updateDetail(@RequestBody String detailJson) {
-        ObjectMapper mapper = new ObjectMapper();
-        Movie payload = new Movie();
+//    @GetMapping(path = "/search/title")
+//    public ResponseEntity<Object> searchByTitle(@RequestParam String keyword,
+//                                                @RequestParam String sorted_by,
+//                                                @RequestParam Integer page,
+//                                                @RequestParam Boolean isAscending
+//    ) {
+//        return new ResponseEntity<>(
+//                movieService.searchMovieWithTitle(keyword, sorted_by, page, 16, isAscending),
+//                HttpStatus.OK
+//        );
+//    }
+//    @GetMapping(path = "/search/description")
+//    public ResponseEntity<Object> searchByDescription(@RequestParam String keyword,
+//                                                      @RequestParam String sorted_by,
+//                                                      @RequestParam Integer page,
+//                                                      @RequestParam Boolean isAscending) {
+//       return new ResponseEntity<>(
+//               movieService.searchByDescription(keyword, sorted_by, page, 16, isAscending),
+//               HttpStatus.OK
+//       );
+//    }
+    @GetMapping(path = "/search/{search_field}")
+    public ResponseEntity<Object> search(@PathVariable("search_field") String searchField,
+                                         @RequestParam User user,
+                                         @RequestParam String keyword,
+                                         @RequestParam(name = "sorted_by") String sortedBy,
+                                         @RequestParam Integer page,
+                                         @RequestParam(name = "page_size") Integer pageSize,
+                                         @RequestParam(name = "is_ascending") Boolean isAscending,
+                                         @RequestBody(required = false) GenresWrapper genres) {
         try {
-            payload = mapper.readValue(detailJson, Movie.class);
-        } catch (IOException em) {
             return new ResponseEntity<>(
-                    "Haha detailJson reading error!!!",
-                    HttpStatus.BAD_REQUEST
-            );
-        }
-        try {
-            Movie movie = movieRepository.getOne(payload.getId());
-            movie.setDescription(payload.getDescription());
-            movie.setPoster(payload.getPoster());
-            movie.setTitle(payload.getTitle());
-            movieRepository.save(movie);
-            return new ResponseEntity<>(
-                    movie,
+                    movieService.searchMovie(user, keyword, searchField, genres.getGenres(), sortedBy, page, pageSize, isAscending),
                     HttpStatus.OK
             );
-        } catch (EntityNotFoundException ee) {
+        } catch (ResponseStatusException e) {
             return new ResponseEntity<>(
-                    "Haha, couldn't get such a fucking movie when update movie detail you fucker!!!",
-                    HttpStatus.BAD_REQUEST
+                    e.getReason(),
+                    e.getStatus()
             );
-
+        } catch (Exception ee) {
+            return new ResponseEntity<>(
+                    ee.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
-
     }
-
 }

@@ -96,7 +96,7 @@ public class CommentController {
             );
         }
         try {
-           movie = movieRepository.getOne(movie_id);
+           movie = movieRepository.getMovieById(movie_id);
         } catch (DataAccessResourceFailureException ed) {
             return new ResponseEntity<>(
                     "That's shouldn't happens, addComment cannot find movie",

@@ -1,10 +1,15 @@
 package com.matrix.filmfinder.dao;
 
+import com.matrix.filmfinder.model.Genre;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.User;
 import com.matrix.filmfinder.model.Wishlist;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,23 +17,32 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
     @Query(
-            value = "Select m from Movie m where m.tmdb_id = ?1"
+            value = "select m from Movie m where m.title like %?1%"
     )
-    Movie findMovieByTmdb_id(String tmdb_id);
+    Page<Movie> getMoviesByTitleWithCustomOrder(String keyword, Pageable pageable);
+    @Query(
+            value = "select m from Movie m where m.description like %?1%"
+    )
+    Page<Movie> getMoviesByDescriptionWithCustomOrder(String keyword, Pageable pageable);
 
     @Query(
-            value = "Select m from Movie m where m.tmdb_id = ?1"
+            value = "select m from Movie m " +
+                    "inner join MovieToGenre mtg on m = mtg.movie " +
+                    "inner join Genre g on mtg.genre = g "+
+                    "where m.title like %:keyword% " +
+                    "and g in :genres"
     )
-    Movie getMovieByTmdb_id(String tmdb_id);
-
-    List<Movie> findByIdIn(List<Wishlist> wishlists);
+    Page<Movie> getMoviesByTitleWithCustomOrderAndGenreFilter(@Param("keyword") String keyword, @Param("genres") List<Genre> genres, Pageable pageable);
     @Query(
-            value = "Select m from Movie m inner join Wishlist w on w.user = ?1 and m = w.movie"
+            value = "select m from Movie m " +
+                    "inner join MovieToGenre mtg on m = mtg.movie " +
+                    "inner join Genre g on mtg.genre = g "+
+                    "where m.description like %:keyword% " +
+                    "and g in :genres"
     )
-    List<Movie> findMoviesByUserFromWishlists(User u);
-//    @Query(
-//            value = "select c from Movie m left join Comment c where m.tmdb_id = ?1"
-//    )
-//    List<Comment> getCommentsByTmdb_id(String tmdb_id);
+    Page<Movie> getMoviesByDescriptionWithCustomOrderAndGenreFilter(@Param("keyword")String keyword, @Param("genres") List<Genre> genres, Pageable pageable);
 
+
+    Movie getMovieById(Integer id);
+    Movie getMoviesByIdIn(List<Integer> ids);
 }

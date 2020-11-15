@@ -7,6 +7,7 @@ import com.matrix.filmfinder.message.RateMessage;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.Rate;
 import com.matrix.filmfinder.model.User;
+import com.matrix.filmfinder.services.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,16 @@ public class RateController {
     private RateRepository rateRepository;
     private MovieRepository movieRepository;
     private UserRepository userRepository;
+    private RateService rateService;
 
     @Autowired
-    public RateController(RateRepository rateRepository, MovieRepository movieRepository, UserRepository userRepository) {
+    public RateController(RateRepository rateRepository, MovieRepository movieRepository, UserRepository userRepository, RateService rateService) {
         this.rateRepository = rateRepository;
         this.movieRepository = movieRepository;
         this.userRepository = userRepository;
+        this.rateRepository = rateRepository;
     }
+
 
     @PostMapping(path="/add")
     public ResponseEntity<Object> addRate(
@@ -81,15 +85,22 @@ public class RateController {
        );
     }
     @GetMapping(value = "/getAvg")
-    public ResponseEntity<Object> getAverageRateOfMovie(@RequestParam Movie movie) {
-        Double avg = rateRepository.getAvgOfRateByMovie(movie);
-        return new ResponseEntity<>(
-                avg.toString(),
-                HttpStatus.OK
-        );
+    public ResponseEntity<Object> getAverageRateOfMovie(@RequestParam User user, @RequestParam Movie movie) {
+        try {
+           Double avg_rate = rateService.getAvgRate(user, movie);
+           return new ResponseEntity<>(
+                   avg_rate,
+                   HttpStatus.OK
+           );
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<>(
+                    ee.getMessage(),
+                    HttpStatus.NOT_FOUND
+            );
+        }
     }
     @GetMapping(value = "/get")
-    public ResponseEntity<Object> getRateByUserAndMovie(@RequestParam User user, @RequestParam Movie movie) {
+    public ResponseEntity<Object> getRateByUserAndMovie(@RequestParam Movie movie, @RequestParam User user ) {
         try {
             Rate rate = rateRepository.getRateByUserAndMovie(user, movie);
             return new ResponseEntity<>(

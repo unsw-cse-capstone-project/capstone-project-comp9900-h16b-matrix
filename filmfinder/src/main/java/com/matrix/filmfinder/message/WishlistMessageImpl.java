@@ -2,7 +2,7 @@ package com.matrix.filmfinder.message;
 
 public class WishlistMessageImpl implements WishlistMessage {
     private Integer wishlist_id;
-    private String tmdb_id;
+    private Integer Id;
     private String title;
     private String description;
     private String poster;
@@ -20,12 +20,12 @@ public class WishlistMessageImpl implements WishlistMessage {
     }
 
     @Override
-    public String getTmdb_id() {
-        return tmdb_id;
+    public Integer getId() {
+        return Id;
     }
 
-    public void setTmdb_id(String tmdb_id) {
-        this.tmdb_id = tmdb_id;
+    public void setId(Integer id) {
+        Id = id;
     }
 
     @Override

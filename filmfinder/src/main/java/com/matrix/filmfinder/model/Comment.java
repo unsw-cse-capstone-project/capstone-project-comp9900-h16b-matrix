@@ -133,7 +133,6 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", user=" + user +
-                ", movie=" + movie.getTmdb_id() +
                 ", submit_time=" + submitTime +
                 ", n_likes=" + nLikes +
                 ", content='" + content + '\'' +

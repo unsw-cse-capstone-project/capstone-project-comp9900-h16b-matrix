@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-public class Person {
+public class Director {
     @Id
     @Column(name = "id")
     @NonNull
@@ -16,7 +16,7 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    public Person() {
+    public Director() {
     }
 
     public Integer getId() {
@@ -39,8 +39,8 @@ public class Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return id.equals(person.id);
+        Director director = (Director) o;
+        return id.equals(director.id);
     }
 
     @Override

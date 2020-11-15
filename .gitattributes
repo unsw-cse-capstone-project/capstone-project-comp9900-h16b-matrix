@@ -1,3 +1,2 @@
-/filmfinder/movie_ids_11_09_2020.json filter=lfs diff=lfs merge=lfs -text
 *.csv filter=lfs diff=lfs merge=lfs -text
-filmfinder/person_ids_10_11_2020.json filter=lfs diff=lfs merge=lfs -text
+*.sql filter=lfs diff=lfs merge=lfs -text

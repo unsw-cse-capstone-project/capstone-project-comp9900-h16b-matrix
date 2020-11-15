@@ -4,13 +4,13 @@ import com.matrix.filmfinder.model.Movie;
 
 import java.util.List;
 
-public class SearchResultImpl {
-    private List<Movie> movies;
+public class SearchResult {
+    private List<MovieWrapper> movies;
     private Integer page_size;
     private Integer page_number;
     private Integer total_pages;
-    private Integer total_element;
-    public SearchResultImpl(List<Movie> movies, Integer page_size, Integer page_number, Integer total_pages, Integer total_element) {
+    private Long total_element;
+    public SearchResult(List<MovieWrapper> movies, Integer page_size, Integer page_number, Integer total_pages, Long total_element) {
         this.movies = movies;
         this.page_size = page_size;
         this.page_number = page_number;
@@ -18,11 +18,11 @@ public class SearchResultImpl {
         this.total_element = total_element;
     }
 
-    public List<Movie> getMovies() {
+    public List<MovieWrapper> getMovies() {
         return movies;
     }
 
-    public void setMovies(List<Movie> movies) {
+    public void setMovies(List<MovieWrapper> movies) {
         this.movies = movies;
     }
 
@@ -50,11 +50,11 @@ public class SearchResultImpl {
         this.total_pages = total_pages;
     }
 
-    public Integer getTotal_element() {
+    public Long getTotal_element() {
         return total_element;
     }
 
-    public void setTotal_element(Integer total_element) {
+    public void setTotal_element(Long total_element) {
         this.total_element = total_element;
     }
 }

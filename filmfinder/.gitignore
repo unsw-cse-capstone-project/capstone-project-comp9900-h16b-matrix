@@ -76,3 +76,6 @@ bin/
 *.ipr
 *.iws
 .gradle/
+/data
+*.csv
+*.json

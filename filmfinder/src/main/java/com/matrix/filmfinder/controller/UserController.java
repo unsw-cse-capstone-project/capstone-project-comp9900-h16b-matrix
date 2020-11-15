@@ -28,15 +28,12 @@ public class UserController {
 //    }
 
 //    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//    private final FilmFinderUserDetailService userDetailService = new FilmFinderUserDetailService();
 
     @Bean
     private final PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    private final FilmFinderUserDetails userDetails(String username) {
 
 
     @PostMapping(path="/registration")
@@ -44,7 +41,6 @@ public class UserController {
 
         User user = new User();
         String name = jsonNode.get("name").asText();
-        User.UserBuilder
 
         String email = jsonNode.get("email").asText();
         String password = jsonNode.get("password").asText();
