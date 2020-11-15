@@ -115,13 +115,13 @@ public class MovieService {
                             "search field should be either 'title' or 'description'"
                     );
             }
-            if (moviePage.isEmpty()) {
-                logger.info("empty string");
-                throw new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Page is empty"
-                );
-            }
+            // if (moviePage.isEmpty()) {
+            //     logger.info("empty string");
+            //     throw new ResponseStatusException(
+            //             HttpStatus.NOT_FOUND,
+            //             "Page is empty"
+            //     );
+            // }
             List<Movie> movies = moviePage.getContent();
             List<MovieWrapper> movieJsons = new ArrayList<>();
             for (Movie m : movies) {
