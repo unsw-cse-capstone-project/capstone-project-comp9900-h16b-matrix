@@ -61,7 +61,7 @@ export default function SearchBar(props) {
         }}
         onKeyDown = {(e)=>{
           if(e.nativeEvent.keyCode === 13) {
-            history.push({pathname: `/search/${type?'title':'description'}/${name ? name : -1}` })
+            history.push({pathname: `/search/${type==1?'title':'description'}/${name ? name : -1}` })
            }
         }}
       />

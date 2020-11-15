@@ -130,7 +130,7 @@ export default function WishList(props) {
                       size="small"
                       color="primary"
                       component={Link}
-                      to={{ pathname: `/movieDetail/${item.tmdb_id}` }}
+                      to={{ pathname: `/movieDetail/${item.id}` }}
                     >
                       Learn More
                     </Button>
