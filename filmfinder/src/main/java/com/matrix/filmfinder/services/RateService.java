@@ -5,7 +5,10 @@ import com.matrix.filmfinder.dao.MovieRepository;
 import com.matrix.filmfinder.dao.RateRepository;
 import com.matrix.filmfinder.model.Blacklist;
 import com.matrix.filmfinder.model.Movie;
+import com.matrix.filmfinder.model.Rate;
 import com.matrix.filmfinder.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.integration.IntegrationGraphEndpoint;
 import org.springframework.data.util.Pair;
@@ -21,6 +24,7 @@ public class RateService {
     private final BlacklistRepository blacklistRepository;
     private final RateRepository rateRepository;
     private final MovieRepository movieRepository;
+    private final Logger logger = LoggerFactory.getLogger(RateService.class);
     @Autowired
     public RateService(BlacklistRepository blacklistRepository, RateRepository rateRepository, MovieRepository movieRepository) {
         this.blacklistRepository = blacklistRepository;
@@ -44,7 +48,9 @@ public class RateService {
         Double rateSum = count_sum.get(1) + movie.getTmdb_rates_count() * movie.getTmdb_rates();
         Double avg_rate = rateSum / count;
         result.add(avg_rate);
-        result.add(rateSum);
+        result.add(count);
+        logger.info(avg_rate.toString());
+        logger.info(result.toString());
         return result;
     }
 

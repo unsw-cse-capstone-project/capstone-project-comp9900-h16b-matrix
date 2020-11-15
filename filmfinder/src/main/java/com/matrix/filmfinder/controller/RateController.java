@@ -32,6 +32,7 @@ public class RateController {
         this.movieRepository = movieRepository;
         this.userRepository = userRepository;
         this.rateRepository = rateRepository;
+        this.rateService = rateService;
     }
 
 
@@ -88,7 +89,7 @@ public class RateController {
     public ResponseEntity<Object> getAverageRateOfMovie(@RequestParam User user, @RequestParam Movie movie) {
         try {
            return new ResponseEntity<>(
-                   rateService.getAvgRate(user, movie),
+                   rateService.getAvgRate(user, movie).toString(),
                    HttpStatus.OK
            );
         } catch (EntityNotFoundException ee) {
