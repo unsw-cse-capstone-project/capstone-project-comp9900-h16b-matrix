@@ -360,7 +360,6 @@ export default function MovieDetail(props) {
                     decoded={decoded}
                     handleClickOpen={handleClickOpen}
                     movieId={movieId}
-                    logout={logout}
                   />
                 </Grid>
               </Grid>
