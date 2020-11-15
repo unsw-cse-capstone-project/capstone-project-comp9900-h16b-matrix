@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,9 +39,14 @@ public class ReviewController {
 
     // get all review by movie_id
     @GetMapping(path = "/getall")
-    public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie_id){
+    public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie, @RequestParam User user){
         try {
-            List<Review> reviews = reviewRepository.findReviewsByMovie(movie_id);
+            List<Review> reviews = new ArrayList<>();
+            if (user == null) {
+                reviews = reviewRepository.findReviewsByMovie(movie);
+            } else {
+                reviews = reviewRepository.findReviewsByMovieWithBlacklistFilter(movie, user);
+            }
             return new ResponseEntity<>(
                     reviews,
                     HttpStatus.OK

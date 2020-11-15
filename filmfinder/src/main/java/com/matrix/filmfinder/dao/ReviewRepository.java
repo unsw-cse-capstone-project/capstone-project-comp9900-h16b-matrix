@@ -18,6 +18,13 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findReviewsByMovie(Movie movie);
 
+    @Query(
+            nativeQuery = true,
+            value = "Select r.id, likes, content, submit_time, title, un_likes, movie_id, user_id from review r left join " +
+                    "(select * from blacklist b where b.user_id = ?2) b " +
+                    "on r.user_id = b.banned_user_id where b.banned_user_id is null and r.movie_id = ?1"
+    )
+    List<Review> findReviewsByMovieWithBlacklistFilter(Movie movie, User user);
 //    List<Review> findReviewsByBanned_Users(List<User> banned_users);
 
 //    @Query(
