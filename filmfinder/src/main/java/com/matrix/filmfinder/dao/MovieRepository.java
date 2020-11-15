@@ -110,7 +110,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
                     "left join movie_to_genre mtg on m.id = mtg.movie_id " +
                     "where m.director in " +
                     "(select mo.director from movie mo where mo.id = ?2) " +
-                    "and m.director in " +
+                    "or m.director in " +
                     "(select mov.director from movie mov where mov.id = ?2) " +
                     "and m.id != ?2 " +
                     "and c.id is null " +
