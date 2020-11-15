@@ -86,4 +86,18 @@ public class MovieController {
             );
         }
     }
+    @GetMapping(path = "/recommend")
+    public ResponseEntity<Object> recommend(@RequestParam User user, @RequestParam Movie movie) {
+        try {
+            return new ResponseEntity<>(
+                    movieService.recommend(user, movie),
+                    HttpStatus.OK
+            );
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    e.getStatus()
+            );
+        }
+    }
 }

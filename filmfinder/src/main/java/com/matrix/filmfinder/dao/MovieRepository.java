@@ -45,4 +45,79 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     Movie getMovieById(Integer id);
     Movie getMoviesByIdIn(List<Integer> ids);
+
+    @Query(
+            nativeQuery = true,
+            value = "Select distinct(m.id), description, popularity, poster, release_date, m.title, m.rating, rating_count, director, n_hits " +
+                    "from movie m right join movie_to_genre mtg on m.id = mtg.movie_id " +
+                    "left join (select * from comment c where c.user_id = ?1) as c " +
+                    "on m.id = c.movie_id " +
+                    "left join (select * from review r where r.user_id = ?1) as r " +
+                    "on m.id = r.movie_id " +
+                    "left join (select * from rate r2 where r2.user_id = ?1) as r2 " +
+                    "on m.id = r2.movie_id " +
+                    "where mtg.genre_id in " +
+                    "(select g.genre_id from movie mo right join movie_to_genre g on mo.id = g.movie_id where mo.id = ?2) " +
+                    "and m.id != ?2 " +
+                    "and c.id is null " +
+                    "and r.id is null " +
+                    "and r2.id is null " +
+                    "order by m.popularity desc " +
+                    "limit 8 "
+    )
+    List<Movie> recommendByGenre(User user, Movie movie);
+
+    @Query(
+            nativeQuery = true,
+            value = "Select distinct(m.id), description, popularity, poster, release_date, m.title, m.rating, rating_count, director, n_hits " +
+                    "from movie m right join movie_to_genre mtg on m.id = mtg.movie_id " +
+                    "where mtg.genre_id in " +
+                    "(select g.genre_id from movie mo right join movie_to_genre g on mo.id = g.movie_id where mo.id = ?2) " +
+                    "order by m.popularity desc " +
+                    "limit 8 "
+    )
+    List<Movie> recommendByGenreWithoutUser( Movie movie);
+    @Query(
+            nativeQuery = true,
+            value = "Select distinct(m.id), description, popularity, poster, release_date, m.title, m.rating, rating_count, director, n_hits " +
+                    "from movie m right join director d on d.id = m.director " +
+                    "left join (select * from comment c where c.user_id = ?1) as c " +
+                    "on m.id = c.movie_id " +
+                    "left join (select * from review r where r.user_id = ?1) as r " +
+                    "on m.id = r.movie_id " +
+                    "left join (select * from rate r2 where r2.user_id = ?1) as r2 " +
+                    "on m.id = r2.movie_id " +
+                    "where m.director in " +
+                    "(select mo.director from movie mo where mo.id = ?2) " +
+                    "and m.id != ?2 " +
+                    "and c.id is null " +
+                    "and r.id is null " +
+                    "and r2.id is null " +
+                    "order by m.popularity desc " +
+                    "limit 8 "
+    )
+    List<Movie> recommendByDirector(User user, Movie movie);
+    @Query(
+            nativeQuery = true,
+            value = "Select distinct(m.id), description, popularity, poster, release_date, m.title, m.rating, rating_count, director, n_hits " +
+                    "from movie m right join director d on d.id = m.director " +
+                    "left join (select * from comment c where c.user_id = ?1) as c " +
+                    "on m.id = c.movie_id " +
+                    "left join (select * from review r where r.user_id = ?1) as r " +
+                    "on m.id = r.movie_id " +
+                    "left join (select * from rate r2 where r2.user_id = ?1) as r2 " +
+                    "on m.id = r2.movie_id " +
+                    "left join movie_to_genre mtg on m.id = mtg.movie_id " +
+                    "where m.director in " +
+                    "(select mo.director from movie mo where mo.id = ?2) " +
+                    "and m.director in " +
+                    "(select mov.director from movie mov where mov.id = ?2) " +
+                    "and m.id != ?2 " +
+                    "and c.id is null " +
+                    "and r.id is null " +
+                    "and r2.id is null " +
+                    "order by m.popularity desc " +
+                    "limit 8 "
+    )
+    List<Movie> recommendByDirectorAndGenre(User user, Movie movie);
 }

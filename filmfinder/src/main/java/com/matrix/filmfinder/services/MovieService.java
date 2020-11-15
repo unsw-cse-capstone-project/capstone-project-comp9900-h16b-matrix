@@ -4,6 +4,7 @@ import com.matrix.filmfinder.dao.CommentRepository;
 import com.matrix.filmfinder.dao.GenreRepository;
 import com.matrix.filmfinder.dao.MovieRepository;
 
+import com.matrix.filmfinder.dao.UserRepository;
 import com.matrix.filmfinder.message.MovieWrapper;
 import com.matrix.filmfinder.message.SearchResult;
 import com.matrix.filmfinder.model.Genre;
@@ -36,14 +37,17 @@ public class MovieService {
     private CommentRepository commentRepository;
     private RateService rateService;
     private GenreRepository genreRepository;
+    private UserRepository userRepository;
     static final Logger logger = LoggerFactory.getLogger(MovieService.class);
 
     @Autowired
-    public MovieService(MovieRepository movieRepository, CommentRepository commentRepository, RateService rateService, GenreRepository genreRepository) {
+    public MovieService(MovieRepository movieRepository, CommentRepository commentRepository, RateService rateService, GenreRepository genreRepository, UserRepository userRepository) {
         this.movieRepository = movieRepository;
         this.commentRepository = commentRepository;
         this.rateService = rateService;
         this.genreRepository = genreRepository;
+        this.userRepository = userRepository;
+
     }
 
 
@@ -141,5 +145,26 @@ public class MovieService {
                     ex
             );
         }
+    }
+    public List<Movie> recommend(User user, Movie movie) {
+        List<Movie> recommendMovies = new ArrayList<>();
+        if (user == null) {
+            recommendMovies = movieRepository.recommendByGenreWithoutUser(movie);
+        } else {
+            user = userRepository.getUserById(user.getId());
+            if (user.getGenre() && !user.getDirector()) {
+                recommendMovies = movieRepository.recommendByGenre(user, movie);
+            } else if (user.getDirector() && !user.getGenre()) {
+                recommendMovies = movieRepository.recommendByDirector(user, movie);
+            } else if (user.getGenre() && user.getDirector()) {
+                recommendMovies = movieRepository.recommendByDirectorAndGenre(user, movie);
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.UNPROCESSABLE_ENTITY,
+                        "Wrong user preference status"
+                );
+            }
+        }
+        return recommendMovies;
     }
 }
