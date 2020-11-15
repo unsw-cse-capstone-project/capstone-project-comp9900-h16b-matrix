@@ -38,7 +38,7 @@ public class ReviewController {
 
     // get all review by movie_id
     @GetMapping(path = "getall")
-    public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie_id, @RequestParam User user){
+    public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie_id){
         try {
             List<Review> reviews = reviewRepository.findReviewsByMovie(movie_id);
 //            List<User> banned_users = blacklistRepository.findBannedUsersByUser(user);

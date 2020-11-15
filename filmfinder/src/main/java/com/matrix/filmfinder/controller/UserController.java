@@ -54,48 +54,25 @@ public class UserController {
     }
     //TODO
     @PostMapping(path="/login")
-    public ResponseEntity<String> loginWithUserName(@RequestBody ObjectNode jsonNode){
+    public @ResponseBody String loginWithUserName(@RequestBody ObjectNode jsonNode){
         String name = jsonNode.get("name").asText();
         String password = jsonNode.get("password").asText();
-        User user = new User();
-        try {
-            user = userRepository.findByName(name);
-        } catch (DataIntegrityViolationException e) {
-            return new ResponseEntity<>(
-                    "username doesn't exist",
-                    HttpStatus.UNAUTHORIZED
-            );
-        }
-//        try {
-//            UserDetails userDetails = userDetails().loadUserByUsername(name);
-//        } catch(UsernameNotFoundException e) {
-//
-//        }v
+        User user = userRepository.findByName(name);
         ObjectMapper mapper = new ObjectMapper();
         String userJson = "";
-        if (passwordEncoder().matches(password, user.getPassword())) {
-//
+               if (passwordEncoder().matches(password, user.getPassword())) {
             try {
                 userJson = mapper.writeValueAsString(user);
-            } catch (JsonProcessingException e){
-                return new ResponseEntity<>(
-                        "JSON processing error in loginWithUsername",
-                        HttpStatus.INTERNAL_SERVER_ERROR
-                );
+            } 
+            catch (JsonProcessingException e){
             }
-//        } else {
-//
+
         }
         else {
-            return new ResponseEntity<>(
-                    "Wrong password",
-                    HttpStatus.UNAUTHORIZED
-            );
+            return  "Wrong password";
+           
         }
-        return new ResponseEntity<>(
-               userJson,
-               HttpStatus.OK
-        );
+        return userJson;
     }
 //    @PostMapping(path="/addWithPassword")
 //    public@ResponseBody String

@@ -49,7 +49,7 @@ const NavBar = (props) => {
   } 
   const classes = useStyles();
   const [menu,setMenu] = useState(null)
-  const {open,handleClose,handleClickOpen,SignupClose,SignupOpen,handleSignupOpen,rederLogout}=props
+  const {open,handleClose,handleClickOpen,SignupClose,SignupOpen,handleSignupOpen,rederLogout,history}=props
     const handleLogout = ()=>{
       setMenu(null)
       rederLogout()
@@ -71,7 +71,7 @@ const NavBar = (props) => {
           </IconButton>
           <Typography variant="h6" className={classes.title} />
 
-         <SearchBar />
+         <SearchBar history={history}/>
           &nbsp;&nbsp;
           {decoded?<Button onClick={e=>setMenu(e.currentTarget)}> <Avatar  /></Button> :  <Button onClick={handleClickOpen} color="inherit">Login/Sign up</Button>}
         {decoded?  <Menu

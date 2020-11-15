@@ -91,9 +91,15 @@ export default function ReviewDetail(props) {
         const res = await RLikeAPI.likeorunlike(data);
         console.log(res);
         setRid(res.id);
+        const res1 = await reviewAPI.getByUidMid(poster, movieId);
+      setPoster(res1.user);
+      setValue(res1);
       } else {
         setLike(0);
         const res = await RLikeAPI.cancellikeorunlike(rid);
+        const res1 = await reviewAPI.getByUidMid(poster, movieId);
+        setPoster(res1.user);
+        setValue(res1);
       }
     }
   };
@@ -107,11 +113,19 @@ export default function ReviewDetail(props) {
           judgement: false,
         };
         const res = await RLikeAPI.likeorunlike(data);
+
         console.log(res);
         setRid(res.id);
+        const res1 = await reviewAPI.getByUidMid(poster, movieId);
+    //   console.log(res, res.user.name);
+      setPoster(res1.user);
+      setValue(res1);
       } else {
         setLike(0);
         const res = await RLikeAPI.cancellikeorunlike(rid);
+        const res1 = await reviewAPI.getByUidMid(poster, movieId);
+        setPoster(res1.user);
+        setValue(res1);
       }
     }
   };
@@ -128,6 +142,7 @@ export default function ReviewDetail(props) {
             SignupOpen={SignupOpen}
             handleSignupOpen={handleSignupOpen}
             rederLogout={rederLogout}
+            history = {props.history}
           />
         </Grid>
 

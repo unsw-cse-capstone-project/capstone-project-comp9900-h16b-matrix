@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 const jwt = require("jwt-simple");
 
-export default function VerticalTabs() {
+export default function VerticalTabs(props) {
 
   let decoded;
   const token = localStorage.getItem("userInfo");
@@ -186,11 +186,6 @@ export default function VerticalTabs() {
   const handleGenres = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-  // const handleChange = (event) => {
-  //   setValue(event.target.value);
-  //   const radio = event.target.value;
-  //   console.log(radio);
-  // };
 
 
   useEffect(() => {
@@ -212,6 +207,7 @@ export default function VerticalTabs() {
             SignupOpen={SignupOpen}
             handleSignupOpen={handleSignupOpen}
             rederLogout={rederLogout}
+            history = {props.history}
           />
         </Grid>
 

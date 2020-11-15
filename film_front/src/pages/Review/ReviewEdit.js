@@ -128,6 +128,7 @@ export default function ReviewEdit(props) {
           SignupOpen={SignupOpen}
           handleSignupOpen={handleSignupOpen}
           rederLogout={rederLogout}
+          history = {props.history}
         />
       </Grid>
       <Grid item xs={10}>

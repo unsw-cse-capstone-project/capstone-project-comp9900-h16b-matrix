@@ -117,6 +117,7 @@ export default function Preview(props) {
           SignupOpen={SignupOpen}
           handleSignupOpen={handleSignupOpen}
           rederLogout={rederLogout}
+          history = {props.history}
         />
       </Grid>
       <Grid item xs={8}>

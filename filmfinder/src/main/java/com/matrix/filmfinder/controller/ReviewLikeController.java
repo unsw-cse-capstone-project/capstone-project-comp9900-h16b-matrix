@@ -139,13 +139,13 @@ public class ReviewLikeController {
                         HttpStatus.OK
                 );
             } else {
-                Review reviewf = r.getReview();
+                Review review = r.getReview();
                 reviewLikeRepository.delete(r);
-                Long cnt_false = reviewLikeRepository.countByReviewAndJud(reviewf, false);
-                reviewf.setLikes(cnt_false);
-                reviewRepository.saveAndFlush(reviewf);
+                Long cnt_false = reviewLikeRepository.countByReviewAndJud(review, false);
+                review.setUnLikes(cnt_false);
+                reviewRepository.saveAndFlush(review);
                 return new ResponseEntity<>(
-                        reviewf,
+                        review,
                         HttpStatus.OK
                 );
             }

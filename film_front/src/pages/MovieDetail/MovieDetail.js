@@ -177,6 +177,7 @@ export default function MovieDetail(props) {
             SignupOpen={SignupOpen}
             handleSignupOpen={handleSignupOpen}
             rederLogout={rederLogout}
+            history = {props.history}
           />
         </Grid>
         <Grid item xs={12}>

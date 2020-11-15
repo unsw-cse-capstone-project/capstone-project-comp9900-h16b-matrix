@@ -42,6 +42,7 @@ export default function Search(props) {
         SignupOpen={SignupOpen}
         handleSignupOpen={handleSignupOpen}
         rederLogout={rederLogout}
+        history = {props.history}
         />
         </Grid>
 
