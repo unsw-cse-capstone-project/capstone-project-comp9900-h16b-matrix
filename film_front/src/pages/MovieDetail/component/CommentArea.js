@@ -13,19 +13,13 @@ import * as blackAPI from "../../../api/blackAPI";
 import * as Empty from "../../../component/Empty";
 import * as moment from "moment";
 export default function CommentArea(props) {
-  const { sended, handleRemove, decoded, handleLike } = props;
+  const { sended, handleRemove, decoded, handleLike ,handleBan} = props;
   console.log(sended);
   const [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(value);
   };
-  const handleBan = async (uid) => {
-    const res = await blackAPI.addBlack({
-      uid: decoded.id,
-      banned_uid: uid,
-    });
-    console.log(res);
-  };
+  
   return (
     <div>
       {sended.map((comments, index) => (

@@ -12,22 +12,18 @@ export default function Review(props) {
     setPage(value);
   };
   const handleBan = async (uid) => {
-    const res = await blackAPI.addBlack({
+    const ban = await blackAPI.addBlack({
       uid: decoded.id,
       banned_uid: uid,
     });
-    console.log(res);
-  };
-  const handleRemove = async (index) => {
-    console.log(index);
-    const del_res = await reviewAPI.deleteReview(reviewList[index].id);
-    const res = await reviewAPI.getAll(movieId);
+    const res = await reviewAPI.getAll(decoded?decoded.id:-1,movieId);
     console.log("review page", res);
     setReviewList(res);
   };
+ 
   useEffect(() => {
     const getAll = async () => {
-      const res = await reviewAPI.getAll(movieId);
+      const res = await reviewAPI.getAll(decoded?decoded.id:-1,movieId);
       console.log("review page", res);
       setReviewList(res);
     };
@@ -41,13 +37,14 @@ export default function Review(props) {
             <Button
               size="large"
               color="primary"
+              variant='outlined'
               component={RLink}
               to={{ pathname: `/editReview/${movieId}` }}
             >
               Edit Review
             </Button>
           ) : (
-            <Button size="large" color="primary" onClick={handleClickOpen}>
+            <Button size="large" color="primary" onClick={handleClickOpen}  variant='outlined'>
               Edit Review
             </Button>
           )}
@@ -98,15 +95,7 @@ export default function Review(props) {
                     <Grid item xs={12}>
                       <Grid container justify="flex-end">
                         <Grid item xs={2}>
-                          {decoded && decoded.id == item.user.id ? (
-                            <Link
-                              id={index}
-                              onClick={() => handleRemove(index)}
-                              component="button"
-                            >
-                              Remove
-                            </Link>
-                          ) : decoded ? (
+                          {decoded && decoded.id != item.user.id ? (
                             <Link
                               id={index}
                               onClick={() => handleBan(item.user.id)}

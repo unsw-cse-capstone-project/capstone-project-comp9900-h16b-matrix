@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as RLikeAPI from "../../api/reviewLikeAPI";
 import * as reviewAPI from "../../api/reviewAPI";
 import NavBar from "../NavBar/NavBar";
+import { Link as RLink } from "react-router-dom";
 import {
   AiOutlineLike,
   AiFillLike,
@@ -52,7 +53,7 @@ export default function ReviewDetail(props) {
   useEffect(() => {
     const getReview = async () => {
       const res = await reviewAPI.getByUidMid(poster, movieId);
-    //   console.log(res, res.user.name);
+      //   console.log(res, res.user.name);
       setPoster(res.user);
       setValue(res);
     };
@@ -72,13 +73,12 @@ export default function ReviewDetail(props) {
         }
       }
     };
-    if (value&&decoded) {
+    if (value && decoded) {
       getLike();
+    } else {
+      setLike(0);
     }
-    else{
-        setLike(0);
-    }
-  }, [value,decoded]);
+  }, [value, decoded]);
   const handleLike = async () => {
     if (decoded) {
       if (like != 1) {
@@ -92,8 +92,8 @@ export default function ReviewDetail(props) {
         console.log(res);
         setRid(res.id);
         const res1 = await reviewAPI.getByUidMid(poster, movieId);
-      setPoster(res1.user);
-      setValue(res1);
+        setPoster(res1.user);
+        setValue(res1);
       } else {
         setLike(0);
         const res = await RLikeAPI.cancellikeorunlike(rid);
@@ -117,9 +117,9 @@ export default function ReviewDetail(props) {
         console.log(res);
         setRid(res.id);
         const res1 = await reviewAPI.getByUidMid(poster, movieId);
-    //   console.log(res, res.user.name);
-      setPoster(res1.user);
-      setValue(res1);
+        //   console.log(res, res.user.name);
+        setPoster(res1.user);
+        setValue(res1);
       } else {
         setLike(0);
         const res = await RLikeAPI.cancellikeorunlike(rid);
@@ -131,7 +131,6 @@ export default function ReviewDetail(props) {
   };
   return (
     <div>
-
       <Grid container justify="center" spacing={3}>
         <Grid item xs={12}>
           <NavBar
@@ -142,7 +141,7 @@ export default function ReviewDetail(props) {
             SignupOpen={SignupOpen}
             handleSignupOpen={handleSignupOpen}
             rederLogout={rederLogout}
-            history = {props.history}
+            history={props.history}
           />
         </Grid>
 
@@ -154,7 +153,11 @@ export default function ReviewDetail(props) {
                 <Typography align="right" color="textSecondary" variant="body2">
                   {value.likes}
                   <IconButton onClick={handleLike}>
-                    {like == 1 ? <AiFillLike style={{color:'orange'}} /> : <AiOutlineLike />}
+                    {like == 1 ? (
+                      <AiFillLike style={{ color: "orange" }} />
+                    ) : (
+                      <AiOutlineLike />
+                    )}
                   </IconButton>
                   {value.unLikes}
                   <IconButton onClick={handleUnLike}>
@@ -190,6 +193,22 @@ export default function ReviewDetail(props) {
                 }}
               ></div>
             </Grid>
+            <Grid item xs={12}>
+              {decoded ? (
+                poster == decoded.id ? (
+                  <Typography align="right">
+                    <Link
+                      component="button"
+                      component={RLink}
+                      to={{ pathname: `/editReview/${movieId}` }}
+                    >
+                      Edit
+                    </Link>
+                   
+                  </Typography>
+                ) : null
+              ) : null}
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={10}>
@@ -200,7 +219,11 @@ export default function ReviewDetail(props) {
               <Divider />
             </Grid>
             <Grid item xs={10}>
-                <Reply poster = {posterInfo} rid={value.id} handleClickOpen={handleClickOpen} />
+              <Reply
+                poster={posterInfo}
+                rid={value.id}
+                handleClickOpen={handleClickOpen}
+              />
             </Grid>
           </Grid>
         </Grid>

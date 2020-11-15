@@ -19,6 +19,7 @@ import Rate from "./component/Rate";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import CRTabs from "./component/CRTabs";
+import Similar from "./component/Similar";
 import { Link as RouteLink } from "react-router-dom";
 import * as Empty from "../../component/Empty";
 import * as movieAPI from "../../api/movieAPI";
@@ -121,7 +122,7 @@ export default function MovieDetail(props) {
       }
     };
     getInfo();
-  }, []);
+  }, [id]);
   useEffect(()=>{
     const getWish = async()=>{
       if(decoded){
@@ -352,6 +353,13 @@ export default function MovieDetail(props) {
                       {hidden ? "Show All Casts" : "Hidden"}{" "}
                     </Link>
                   </Typography>
+                  <Divider/>
+                </Grid>
+                <Grid item xs={12} >
+                  <Typography variant='h5'>
+                    Similar Moview
+                  </Typography>
+                  <Similar history={props.history}/>
                 </Grid>
                 <Grid item xs={12} justify="center">
                   <br />

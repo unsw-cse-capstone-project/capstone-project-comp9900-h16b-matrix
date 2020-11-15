@@ -6,7 +6,6 @@ import Divider from "@material-ui/core/Divider";
 import TrendMovie from "./components/TrendMovie";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import SectionCarousel from "./components/testTrend";
 const Home = (props) => {
   const { history } = props;
   console.log("home", props, history);

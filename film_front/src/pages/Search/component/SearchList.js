@@ -51,7 +51,7 @@ const mapId = {
 const mapSort = {
   default: "popularity",
   latest: "release_date",
-  rating: "rating",
+  rating: "tmdb_rates",
 };
 const jwt = require("jwt-simple");
 export default function SearchList(props) {
@@ -95,7 +95,7 @@ export default function SearchList(props) {
     setPage(value);
     const data = {
       page: value - 1,
-      user: decoded.id,
+      user: decoded?decoded.id:'',
       keyword: queryValue,
       sorted_by: "popularity",
       genres: genres.join(","),
@@ -118,7 +118,7 @@ export default function SearchList(props) {
     const getMovie = async () => {
       const data = {
         page: 0,
-        user: decoded.id,
+        user: decoded?decoded.id:'',
         keyword: queryValue,
         sorted_by: mapSort[value],
         genres: genres.join(","),
@@ -147,7 +147,7 @@ export default function SearchList(props) {
       setGenres(array)
       const data = {
         page: 0,
-        user: decoded.id,
+        user: decoded?decoded.id:'',
         keyword: queryValue,
         sorted_by: mapSort[value],
         genres: array.join(","),
@@ -167,7 +167,7 @@ export default function SearchList(props) {
     const updateSort = async () => {
       const data = {
         page: 0,
-        user: decoded.id,
+        user: decoded?decoded.id:'',
         keyword: queryValue,
         sorted_by: mapSort[value],
         genres: genres.join(","),

@@ -11,19 +11,11 @@ import {
 import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar/NavBar";
 import { Link } from "react-router-dom";
-import Box from "@material-ui/core/Box";
-import BorderColorIcon from "@material-ui/icons/BorderColor";
-import Avatar from "@material-ui/core/Avatar";
-import Card from "@material-ui/core/Card";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  ThemeProvider,
-  makeStyles,
-} from "@material-ui/core/styles";
+
 import * as moment from "moment";
 import * as reviewAPI from "../../api/reviewAPI";
+import * as rateAPI from "../../api/rateAPI";
 const jwt = require("jwt-simple");
 const myDate = new Date();
 
@@ -103,6 +95,22 @@ export default function Preview(props) {
         localStorage.removeItem(reviewKey);
       }
     }
+    if(reviewValue.rated){
+      const data = {
+        'uid' : decoded.id,
+        'movie_id' : movieid,
+        'rating' : reviewValue.rating
+      }
+      const res = await rateAPI.updateRate(data)
+    }
+    else{
+      const data = {
+        'uid' : decoded.id,
+        'movie_id' : movieid,
+        'rating' : reviewValue.rating
+      }
+      const res = await rateAPI.addRate(data)
+    }
     
   };
 
@@ -138,7 +146,7 @@ export default function Preview(props) {
               color="primary"
               onClick={handleSend}
               component={Link}
-              to={{ pathname: `/home` }}
+              to={{ pathname: `/movieDetail/${movieid}` }}
             >
               {update?'Update':'Send'}
             </Button>

@@ -12,8 +12,8 @@ import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import * as moment from "moment";
 import CommentArea from "./CommentArea";
 import * as Empty from "../../../component/Empty";
-import Logindialog from "../../Login & Sign up/Login";
 import * as commentAPI from "../../../api/commentAPI";
+import * as blackAPI from "../../../api/blackAPI";
 export default function Comment(props) {
   const [value, setValue] = useState("");
   const [sended, setSend] = useState([]);
@@ -39,12 +39,22 @@ export default function Comment(props) {
         setSend(result)
       });
   };
+  const handleBan = async (uid) => {
+    const ban = await blackAPI.addBlack({
+      uid: decoded.id,
+      banned_uid: uid,
+    });
+    const res = commentAPI.getAll(movieId,decoded?decoded.id:-1);
+    var a = Promise.resolve(res);
+    a.then(function (result) {
+      setSend(result)
+    });
+  };
   function handleSend() {
     const sendComment = async () => {
       const data = {
         uid: decoded.id,
         movie_id: movieId,
-        n_likes: 0,
         content: value,
       };
       const add_res = await commentAPI.sendComment(data);
@@ -126,6 +136,7 @@ export default function Comment(props) {
             handleRemove={handleRemove}
             decoded={decoded}
             handleLike={handleLike}
+            handleBan={handleBan}
           />
         </Grid>
       </Grid>
