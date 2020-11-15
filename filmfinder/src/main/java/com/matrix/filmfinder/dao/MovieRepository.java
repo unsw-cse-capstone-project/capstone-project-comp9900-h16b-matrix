@@ -108,14 +108,14 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
                     "left join (select * from rate r2 where r2.user_id = ?1) as r2 " +
                     "on m.id = r2.movie_id " +
                     "left join movie_to_genre mtg on m.id = mtg.movie_id " +
-                    "where mtg.genre_id in " +
-                    "((select g.genre_id from movie mo right join movie_to_genre g on mo.id = g.movie_id where mo.id = ?2) " +
-                    "or m.director in " +
-                    "(select mov.director from movie mov where mov.id = ?2)) " +
-                    "and m.id != ?2 " +
+                    "where m.id != ?2 " +
                     "and c.id is null " +
                     "and r.id is null " +
                     "and r2.id is null " +
+                    "and (mtg.genre_id in " +
+                    "(select g.genre_id from movie mo right join movie_to_genre g on mo.id = g.movie_id where mo.id = ?2) " +
+                    "or m.director in " +
+                    "(select mov.director from movie mov where mov.id = ?2)) " +
                     "order by m.popularity desc " +
                     "limit 8 "
     )
