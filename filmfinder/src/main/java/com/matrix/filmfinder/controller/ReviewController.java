@@ -37,11 +37,10 @@ public class ReviewController {
     }
 
     // get all review by movie_id
-    @GetMapping(path = "getall")
+    @GetMapping(path = "/getall")
     public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie_id){
         try {
             List<Review> reviews = reviewRepository.findReviewsByMovie(movie_id);
-//            List<User> banned_users = blacklistRepository.findBannedUsersByUser(user);
             return new ResponseEntity<>(
                     reviews,
                     HttpStatus.OK
@@ -55,7 +54,7 @@ public class ReviewController {
     }
 
     // get data
-    @GetMapping(path = "get")
+    @GetMapping(path = "/get")
     public ResponseEntity<Object> findReviewByUserAndMovie(@RequestParam User user, @RequestParam Movie movie){
         try {
             Review review = reviewRepository.getByUserAndMovie(user,movie);
@@ -177,44 +176,6 @@ public class ReviewController {
             );
         }
     }
-//
-//    //  update Like and unlike
-//    @PutMapping(value = "/like")
-//    public ResponseEntity<Object> reviewLikes(@RequestParam User user, @RequestParam Review review) {
-//        ReviewLike reviewLike = reviewLikeRepository.getByUserAndReview(user, review);
-//        if (reviewLike == null) {
-//            reviewLike = new ReviewLike(user, review);
-//            reviewLikeRepository.saveAndFlush(reviewLike);
-//            if (reviewLike.getJud()) {
-//                review.setLikes(reviewLikeRepository.countByReviewAndReviewLike(review,reviewLike));
-//            } if (!reviewLike.getJud()){
-//                review.setUnLikes(reviewLikeRepository.countByReviewAndReviewLike(review, reviewLike));
-//            }
-//            reviewRepository.save(review);
-//        }
-//        return new ResponseEntity<>(
-//                review,
-//                HttpStatus.OK
-//        );
-//    }
-
-    // update cancel like or unlike
-//    @PutMapping(value = "/cancel")
-//    public ResponseEntity<Object> cancellikeorunlike(@RequestParam User user, @RequestParam Review review) {
-//        ReviewLike reviewLike = reviewLikeRepository.findByUserAndReview(user, review);
-//        if (reviewLike != null) {
-//            reviewLikeRepository.delete(reviewLike);
-////            Review r = reviewRepository.getOne(review.getId());
-//            return new ResponseEntity<>(
-//                    HttpStatus.OK
-//            );
-//        } else {
-//            return new ResponseEntity<>(
-//                    "Unsuccessfully to cancel coz no detail can be found",
-//                    HttpStatus.NOT_FOUND
-//            );
-//        }
-//    }
 
     // Delete this review
     @DeleteMapping(value = "/delete")

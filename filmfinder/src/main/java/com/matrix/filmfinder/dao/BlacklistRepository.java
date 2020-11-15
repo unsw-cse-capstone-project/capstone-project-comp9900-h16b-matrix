@@ -13,5 +13,4 @@ public interface BlacklistRepository extends CrudRepository<Blacklist, Integer> 
     List<Blacklist> getBlacklistByUser(User u);
     List<Blacklist> findBlacklistByUser(User u);
 
-//    List<User> findBannedUsersByUser(User user);
 }
