@@ -37,7 +37,7 @@ public class ReviewController {
     }
 
     // get all review by movie_id
-    @GetMapping(path = "getall")
+    @GetMapping(path = "/getall")
     public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie_id){
         try {
             List<Review> reviews = reviewRepository.findReviewsByMovie(movie_id);
@@ -54,7 +54,7 @@ public class ReviewController {
     }
 
     // get data
-    @GetMapping(path = "get")
+    @GetMapping(path = "/get")
     public ResponseEntity<Object> findReviewByUserAndMovie(@RequestParam User user, @RequestParam Movie movie){
         try {
             Review review = reviewRepository.getByUserAndMovie(user,movie);
