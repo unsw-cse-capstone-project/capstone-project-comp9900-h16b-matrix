@@ -36,8 +36,6 @@ public class User {
     @Column
     private Boolean director = false;
 
-    private Boolean isYourComment;
-
     public User() {
         this.isActive = true;
     }
@@ -112,13 +110,6 @@ public class User {
         this.oauth2_token = oauth2_token;
     }
 
-    public Boolean getYourComment() {
-        return isYourComment;
-    }
-
-    public void setYourComment(Boolean yourComment) {
-        isYourComment = yourComment;
-    }
 
     @Override
     public boolean equals(Object o) {
