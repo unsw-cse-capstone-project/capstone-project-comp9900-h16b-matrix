@@ -31,8 +31,10 @@ public class User {
     @Column
     @JsonIgnore
     private Boolean isActive;
-
-    private Boolean isYourComment;
+    @Column
+    private Boolean genre = true;
+    @Column
+    private Boolean director = false;
 
     public User() {
         this.isActive = true;
@@ -41,6 +43,22 @@ public class User {
     public User(Integer id) {
         this.id = id;
         this.isActive = true;
+    }
+
+    public Boolean getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Boolean genre) {
+        this.genre = genre;
+    }
+
+    public Boolean getDirector() {
+        return director;
+    }
+
+    public void setDirector(Boolean director) {
+        this.director = director;
     }
 
     public String getName() { return name;
@@ -92,13 +110,6 @@ public class User {
         this.oauth2_token = oauth2_token;
     }
 
-    public Boolean getYourComment() {
-        return isYourComment;
-    }
-
-    public void setYourComment(Boolean yourComment) {
-        isYourComment = yourComment;
-    }
 
     @Override
     public boolean equals(Object o) {

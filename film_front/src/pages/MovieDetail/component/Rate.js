@@ -23,30 +23,27 @@ export default function Rate(props) {
   const [lastValue,setLast] = useState(0);
   const [hover, setHover] = useState(-1);
   const { decoded, vote_average, vote_count,handleClickOpen,movieId } = props;
-  const [average, setAverage] = useState(vote_average / 2);
-  const [count, setCount] = useState(vote_count);
+  const [average, setAverage] = useState(0);
+  const [count, setCount] = useState(0);
   const [newRate,setNew] = useState(true)
   useEffect(() => {
     const getAll = async()=>{
-      const res = await rateAPI.getAll(movieId)
+      const res = await rateAPI.getAvg(decoded?decoded.id:-1,movieId)
       console.log('initavg',res)
-      if(res.avg){
-        const avg = (res.avg*(res.count)+vote_average*vote_count)/(vote_count+res.count)
-        const count = vote_count+res.count
+      if(res){
+        const avg = res[0]
+        const count = res[1]
         console.log("initial", average, count, vote_average,vote_count );
         setAverage(avg);
         setCount(count);
       }
-      else{
-        setAverage(vote_average);
-        setCount(vote_count);
-      }
+     
       
     }
     
     getAll()
     
-  }, [movieId]);
+  }, [movieId,decoded,value]);
   useEffect(()=>{
     const getRate=async()=>{
       console.log('init rate',decoded)
@@ -68,10 +65,7 @@ export default function Rate(props) {
     getRate()
 
   },[decoded])
-  const updateRating=(newValue) => {
-    const newAvg = (average * count-lastValue + newValue) / (count + (newRate?1:0));
-    const newCount = count +  (newRate?1:0)
-    console.log('test rate',newCount,newRate,(newRate?1:0))
+  const updateRating=async(newValue) => {
     const addRate = async()=>{
       const data = {
         'uid' : decoded.id,
@@ -100,10 +94,17 @@ export default function Rate(props) {
     else if(newRate==false&&decoded){
       updateRate()
     }
-    
     setValue(newValue)
-    setAverage(newAvg.toFixed(1));
-    setCount(newCount);
+    const res = await rateAPI.getAvg(decoded?decoded.id:-1,movieId)
+      console.log('initavg',res)
+      if(res){
+        const avg = res[0]
+        const count = res[1]
+        console.log("initial", average, count, vote_average,vote_count);
+        setAverage(avg);
+        setCount(count);
+      }
+    
     
   };
   return (

@@ -13,20 +13,20 @@ import React, { useEffect, useState } from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NavBar from "../NavBar/NavBar";
-import default_img from "../../image/No_picture_available.png";
+import default_img from "../../image/No_Image_Available.png";
 import poster from "../../image/poster.jpeg";
 import Rate from "./component/Rate";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import CRTabs from "./component/CRTabs";
+import Similar from "./component/Similar";
 import { Link as RouteLink } from "react-router-dom";
 import * as Empty from "../../component/Empty";
-import Logindialog from "../Login & Sign up/Login";
 import * as movieAPI from "../../api/movieAPI";
 import * as wishAPI from "../../api/wishAPI"
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "90%",
+    width: "98%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
     borderStyle: "groove",
@@ -80,17 +80,17 @@ export default function MovieDetail(props) {
       const data = await res.json();
       console.log("detail", data);
       setInfo(data);
-      const movie_res = await movieAPI.getMovieByTid(id);
-      setMovieId(movie_res.id)
-      if (!movie_res.description) {
-        const update_res = await movieAPI.updateDetail({
-          id: movie_res.id,
-          description: data.overview,
-          title: data.title,
-          poster: `http://image.tmdb.org/t/p/w185${data.poster_path}`,
-        });
-        console.log(update_res);
-      }
+      // const movie_res = await movieAPI.getMovieByTid(id);
+      setMovieId(id)
+      // if (!movie_res.description) {
+      //   const update_res = await movieAPI.updateDetail({
+      //     id: movie_res.id,
+      //     description: data.overview,
+      //     title: data.title,
+      //     poster: `http://image.tmdb.org/t/p/w185${data.poster_path}`,
+      //   });
+      //   console.log(update_res);
+      // }
       
 
       const cre = await fetch(
@@ -120,11 +120,9 @@ export default function MovieDetail(props) {
           break;
         }
       }
-
-      // }
     };
     getInfo();
-  }, []);
+  }, [id]);
   useEffect(()=>{
     const getWish = async()=>{
       if(decoded){
@@ -180,6 +178,7 @@ export default function MovieDetail(props) {
             SignupOpen={SignupOpen}
             handleSignupOpen={handleSignupOpen}
             rederLogout={rederLogout}
+            history = {props.history}
           />
         </Grid>
         <Grid item xs={12}>
@@ -197,8 +196,8 @@ export default function MovieDetail(props) {
                   }
                 />
                 {video.key ? (
-                  <div className={classes.root}>
-                    <Typography variant="body2">Trailer</Typography>
+                  <div className={classes.root} > 
+                    <Typography variant="body2" style={{backgroundColor:'LightGray'}}>Trailer</Typography>
                     <Typography>
                       <IconButton>
                         {/* <ListItemIcon> */}
@@ -354,6 +353,13 @@ export default function MovieDetail(props) {
                       {hidden ? "Show All Casts" : "Hidden"}{" "}
                     </Link>
                   </Typography>
+                  <Divider/>
+                </Grid>
+                <Grid item xs={12} >
+                  <Typography variant='h5'>
+                    Similar Moview
+                  </Typography>
+                  <Similar history={props.history} movieId={movieId}  decoded={decoded}/>
                 </Grid>
                 <Grid item xs={12} justify="center">
                   <br />
@@ -377,20 +383,14 @@ export default function MovieDetail(props) {
                   vote_count={info.vote_count}
                   handleClickOpen={handleClickOpen}
                   movieId={movieId}
+                  
                 />
               </div>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Logindialog
-        handleClose={handleClose}
-        open={open}
-        handleClickOpen={handleClickOpen}
-        SignupClose={SignupClose}
-        SignupOpen={SignupOpen}
-        handleSignupOpen={handleSignupOpen}
-      />
+    
     </div>
   );
 }

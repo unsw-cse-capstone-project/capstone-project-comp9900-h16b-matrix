@@ -30,7 +30,11 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
                    "LEFT JOIN " +
                    "(Select cl.user_id AS your_user_id, cl.comment_id from comment_like cl where cl.user_id = ?2) cl " +
                    "on c.id = cl.comment_id " +
-                   "where c.movie_id = ?1"
+                   "left join" +
+                   "(Select * from blacklist b where ?2 = b.user_id) b " +
+                   "on c.user_id = b.banned_user_id " +
+                   "where c.movie_id = ?1 " +
+                   "and b.banned_user_id is null "
    )
    @Transactional
    List<CommentMessageInterface> findCommentsByMovieWithLikedUser(Movie m, User u);

@@ -9,7 +9,6 @@ import java.util.Objects;
 @Table(
         name = "wishlist",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "movie_id"})}
-
 )
 public class Wishlist {
     @Id
@@ -17,7 +16,11 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne
+    @NonNull
+    @JoinColumn(name = "movie_id")
     private Movie movie;
+    @NonNull
+    @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
 

@@ -54,7 +54,7 @@ gradle-app.setting
 **/build/
 
 ### application properties ###
-#application.properties
+application.properties
 
 ### vscode ###
 bin/
@@ -71,3 +71,11 @@ bin/
 
 ### idea ###
 .idea/
+
+*.iml
+*.ipr
+*.iws
+.gradle/
+/data
+*.csv
+*.json

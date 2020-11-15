@@ -1,30 +1,40 @@
 package com.matrix.filmfinder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "Movie")
+@Table(name = "movie" )
 public class Movie {
     @Id
-    @GeneratedValue
+    @Column(name = "id")
     private Integer id;
-    @Column(unique = true)
+    @Column
     @JsonIgnore
-    @NonNull
-    private String tmdb_id;
-    @Column
     private Long n_hits = 0L;
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "LONGTEXT", name = "description")
     private String description;
-    @Column
+    @Column(name = "poster")
     private String poster;
-    @Column
+    @Column(name = "title")
     private String title;
+    @Column(name = "rating")
+    private Double tmdb_rates;
+    @Column(name = "rating_count")
+    private Integer tmdb_rates_count;
+    @Column(name = "popularity")
+    private Double popularity;
+
+    @Column(name = "release_date")
+    private Date release_date;
+    @OneToOne
+    @JoinColumn(name = "director")
+    private Director director;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
     @JsonIgnore
@@ -36,9 +46,8 @@ public class Movie {
 
     public Movie() {
     }
-    public Movie(String tmdb_id) {
-        this.tmdb_id = tmdb_id;
-    }
+
+
 
     public Movie(String description, String poster) {
         this.description = description;
@@ -73,10 +82,6 @@ public class Movie {
         return id;
     }
 
-    public String getTmdb_id() {
-        return tmdb_id;
-    }
-
     public Long getN_hits() {
         return n_hits;
     }
@@ -90,11 +95,9 @@ public class Movie {
     }
 
     public void incN_hits() {
+        if(n_hits == null)
+            n_hits = 0L;
         this.n_hits++;
-    }
-
-    public void setTmdb_id(String tmdb_id) {
-        this.tmdb_id = tmdb_id;
     }
 
     public String getDescription() {
@@ -113,6 +116,46 @@ public class Movie {
         this.poster = poster;
     }
 
+    public Double getTmdb_rates() {
+        return tmdb_rates;
+    }
+
+    public void setTmdb_rates(Double tmdb_rates) {
+        this.tmdb_rates = tmdb_rates;
+    }
+
+    public Integer getTmdb_rates_count() {
+        return tmdb_rates_count;
+    }
+
+    public void setTmdb_rates_count(Integer tmdb_rates_count) {
+        this.tmdb_rates_count = tmdb_rates_count;
+    }
+
+    public Double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
+    }
+
+    public Date getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(Date release_date) {
+        this.release_date = release_date;
+    }
+
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -122,17 +165,20 @@ public class Movie {
     }
 
     @Override
-    public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", tmdb_id='" + tmdb_id + '\'' +
-                ", n_hits=" + n_hits +
-                ", comments=" + comments +
-                '}';
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", n_hits=" + n_hits +
+                ", description='" + description + '\'' +
+                ", poster='" + poster + '\'' +
+                ", title='" + title + '\'' +
+                ", popularity=" + popularity +
+                ", release_date=" + release_date +
+                '}';
     }
 }

@@ -12,9 +12,7 @@ export default function Wish(props) {
   } 
   const { history } = props;
   const { id } = props.match.params;
-  //const { query } = props.location;
   const { Wish } = "matrix";//props.match.params;
-
   console.log("Wishlist", Wish, props);
   console.log(history);
   const [open, setOpen] = useState(false);
@@ -34,9 +32,6 @@ export default function Wish(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  {/*useEffect(() => {
-    setName(Wish);
-  }, [Wish]);*/}
   return (
     <div>
       <Grid container justify="center">
@@ -48,6 +43,7 @@ export default function Wish(props) {
         SignupOpen={SignupOpen}
         handleSignupOpen={handleSignupOpen}
         rederLogout={rederLogout}
+        history = {props.history}
         />
         </Grid>
       <Grid item xs={11}>

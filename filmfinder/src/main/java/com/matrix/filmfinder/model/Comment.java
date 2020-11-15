@@ -15,11 +15,7 @@ public class Comment {
     @NonNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-//    @Column
-//    @NotEmpty
 
-
-//    @Basic(optional = false)
     @Column(name = "submit_time")
     @Temporal(TemporalType.DATE)
     private Date submitTime;
@@ -29,9 +25,9 @@ public class Comment {
 //    @NotBlank
     private String content;
 
-    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<CommentLike> likes = new HashSet<>();
+//    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
+//    @JsonIgnore
+//    private Set<CommentLike> likes = new HashSet<>();
 
     @ManyToOne (fetch = FetchType.EAGER, optional = false)
     private User user;
@@ -120,20 +116,19 @@ public class Comment {
         this.nLikes -= 1;
     }
 
-    public Set<CommentLike> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Set<CommentLike> likes) {
-        this.likes = likes;
-    }
+//    public Set<CommentLike> getLikes() {
+//        return likes;
+//    }
+//
+//    public void setLikes(Set<CommentLike> likes) {
+//        this.likes = likes;
+//    }
 
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", user=" + user +
-                ", movie=" + movie.getTmdb_id() +
                 ", submit_time=" + submitTime +
                 ", n_likes=" + nLikes +
                 ", content='" + content + '\'' +

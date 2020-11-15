@@ -18,6 +18,7 @@ public class CommentLike {
     @ManyToOne
     private User user;
     @ManyToOne
+    @JoinColumn(name = "comment_id")
     private Comment comment;
 
     public CommentLike() {

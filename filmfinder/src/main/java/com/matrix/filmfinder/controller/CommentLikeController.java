@@ -6,6 +6,8 @@ import com.matrix.filmfinder.dao.MovieRepository;
 import com.matrix.filmfinder.model.Comment;
 import com.matrix.filmfinder.model.CommentLike;
 import com.matrix.filmfinder.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ public class CommentLikeController {
     private CommentLikeRepository commentLikeRepository;
     private CommentRepository commentRepository;
     private MovieRepository movieRepository;
+    private final Logger logger = LoggerFactory.getLogger(CommentLikeController.class);
 
     public CommentLikeController(CommentLikeRepository commentLikeRepository, CommentRepository commentRepository, MovieRepository movieRepository) {
         this.commentLikeRepository = commentLikeRepository;
@@ -69,6 +72,9 @@ public class CommentLikeController {
     public ResponseEntity<Object> unLike(@RequestParam(name = "commentLike") CommentLike cl) {
         try {
             commentLikeRepository.delete(cl);
+            Comment c = cl.getComment();
+            c.setNLikes(commentLikeRepository.countCommentLikesByComment(c));
+            commentRepository.save(c);
             return new ResponseEntity<>(
                     HttpStatus.OK
             );
@@ -76,6 +82,12 @@ public class CommentLikeController {
             return new ResponseEntity<>(
                     "unlike failed or you already unliked it",
                     HttpStatus.BAD_REQUEST
+            );
+        } catch (Exception e) {
+            logger.error("Something wrong in unlike");
+            return new ResponseEntity<>(
+                    e.getMessage(),
+                    HttpStatus.OK
             );
         }
     }

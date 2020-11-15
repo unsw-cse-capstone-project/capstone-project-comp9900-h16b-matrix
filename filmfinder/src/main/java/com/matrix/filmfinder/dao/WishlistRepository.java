@@ -16,9 +16,8 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
 //    List<Wishlist> findByUidAndMovie(Integer uid, Integer movie_id);
 //    Wishlist findByUidAndMovie_id(Integer uid, Integer movie_id);
     Wishlist getWishlistByUserAndMovie(User u, Movie m);
-
     @Query(
-            value = "select w.id as wishlist_id, m.tmdb_id as tmdb_id, m.title as title, m.description as description, m.poster as poster " +
+            value = "select w.id as wishlist_id, m.id as id, m.title as title, m.description as description, m.poster as poster " +
                     "from Movie m, Wishlist w " +
                     "where m = w.movie " +
                     "and w.user = ?1"

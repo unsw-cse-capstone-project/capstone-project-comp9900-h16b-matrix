@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Typography,Tooltip } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,7 +19,7 @@ import * as wishAPI from "../../../api/wishAPI"
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    height: 450,
+    height: 530,
   },
   media: {
     height: 350,
@@ -83,18 +83,23 @@ export default function WishList(props) {
         {movie.length > 0
           ? movie.map((item) => (
               <Grid item xs={4}>
-                <Card>
-                  <CardActionArea className={classes.root}>
+                <Card className={classes.root}>
+                  {/* <CardActionArea > */}
                     <CardMedia
                       className={classes.media}
                       image={
                         item.poster
-                          ? item.poster
+                          ? `http://image.tmdb.org/t/p/w185${item.poster}`
                           : default_img
                       }
                       title={item.title}
                     />
                     <CardContent>
+                      <Tooltip title={
+                          <React.Fragment>
+                            <Typography>{item.title}</Typography>
+                          </React.Fragment>
+                        }>
                       <Typography
                         gutterBottom
                         variant="h5"
@@ -103,6 +108,12 @@ export default function WishList(props) {
                       >
                         {item.title}
                       </Typography>
+                      </Tooltip>
+                      <Tooltip title={
+                          <React.Fragment>
+                            <Typography>{item.description}</Typography>
+                          </React.Fragment>
+                        }>
                       <Typography
                         variant="body2"
                         color="textSecondary"
@@ -111,14 +122,15 @@ export default function WishList(props) {
                       >
                         {item.description}
                       </Typography>
+                      </Tooltip>
                     </CardContent>
-                  </CardActionArea>
+                  {/* </CardActionArea> */}
                   <CardActions>
                     <Button
                       size="small"
                       color="primary"
                       component={Link}
-                      to={{ pathname: `/movieDetail/${item.tmdb_id}` }}
+                      to={{ pathname: `/movieDetail/${item.id}` }}
                     >
                       Learn More
                     </Button>
