@@ -31,6 +31,10 @@ public class User {
     @Column
     @JsonIgnore
     private Boolean isActive;
+    @Column
+    private Boolean genre = true;
+    @Column
+    private Boolean director = false;
 
     private Boolean isYourComment;
 
@@ -41,6 +45,22 @@ public class User {
     public User(Integer id) {
         this.id = id;
         this.isActive = true;
+    }
+
+    public Boolean getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Boolean genre) {
+        this.genre = genre;
+    }
+
+    public Boolean getDirector() {
+        return director;
+    }
+
+    public void setDirector(Boolean director) {
+        this.director = director;
     }
 
     public String getName() { return name;

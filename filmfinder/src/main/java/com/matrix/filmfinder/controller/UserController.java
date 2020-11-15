@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+
 @Controller
 @RequestMapping(path="/user")
 public class UserController {
@@ -60,7 +62,7 @@ public class UserController {
                 userJson = mapper.writeValueAsString(user);
             }
             catch (JsonProcessingException e){
-                return "error" ;
+                return "Json error";
             }
 
         }
@@ -71,6 +73,7 @@ public class UserController {
         return userJson;
     }
 
+    // update password
     @PostMapping(path="/update")
     public ResponseEntity<Object>  updatePassword(@RequestBody JsonNode jsonNode){
         Integer uid = jsonNode.get("id").asInt();
@@ -100,6 +103,28 @@ public class UserController {
     @GetMapping(path="/name/{name}")
     public @ResponseBody User returnUser(@PathVariable("name") String name) {
         return userRepository.findByName(name);
+    }
+
+    @PutMapping(path = "/recommendtype")
+    public ResponseEntity<Object> updateRecommendType(@RequestBody JsonNode jsonNode) {
+        Integer uid = jsonNode.get("id").asInt();
+        Boolean genre = jsonNode.get("genre").asBoolean();
+        Boolean director = jsonNode.get("director").asBoolean();
+        User user = userRepository.getUserById(uid);
+        try {
+            user.setGenre(genre);
+            user.setDirector(director);
+            userRepository.save(user);
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<> (
+                    "User not found or saving error",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+        return new ResponseEntity<>(
+                user,
+                HttpStatus.OK
+        );
     }
 
 }
