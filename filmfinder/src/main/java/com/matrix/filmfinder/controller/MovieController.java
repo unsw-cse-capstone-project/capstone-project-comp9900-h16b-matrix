@@ -14,10 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.Predicate;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -65,15 +68,15 @@ public class MovieController {
                                          @RequestParam Integer page,
                                          @RequestParam(name = "page_size") Integer pageSize,
                                          @RequestParam(name = "is_ascending") Boolean isAscending,
-                                         @RequestBody(required = false) GenresWrapper genres) {
+                                         @RequestParam List<Integer> genres) {
         try {
             return new ResponseEntity<>(
-                    movieService.searchMovie(user, keyword, searchField, genres.getGenres(), sortedBy, page, pageSize, isAscending),
+                    movieService.searchMovie(user, keyword, searchField, genres, sortedBy, page, pageSize, isAscending),
                     HttpStatus.OK
             );
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(
-                    e.getReason(),
+                    e.getMessage(),
                     e.getStatus()
             );
         } catch (Exception ee) {

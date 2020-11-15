@@ -68,7 +68,6 @@ public class UserController {
         }
         else {
             return  "Wrong password";
-
         }
         return userJson;
     }

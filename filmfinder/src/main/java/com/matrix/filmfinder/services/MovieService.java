@@ -1,6 +1,7 @@
 package com.matrix.filmfinder.services;
 
 import com.matrix.filmfinder.dao.CommentRepository;
+import com.matrix.filmfinder.dao.GenreRepository;
 import com.matrix.filmfinder.dao.MovieRepository;
 
 import com.matrix.filmfinder.message.MovieWrapper;
@@ -34,13 +35,15 @@ public class MovieService {
     private MovieRepository movieRepository;
     private CommentRepository commentRepository;
     private RateService rateService;
+    private GenreRepository genreRepository;
     static final Logger logger = LoggerFactory.getLogger(MovieService.class);
 
     @Autowired
-    public MovieService(MovieRepository movieRepository, CommentRepository commentRepository, RateService rateService) {
+    public MovieService(MovieRepository movieRepository, CommentRepository commentRepository, RateService rateService, GenreRepository genreRepository) {
         this.movieRepository = movieRepository;
         this.commentRepository = commentRepository;
         this.rateService = rateService;
+        this.genreRepository = genreRepository;
     }
 
 
@@ -71,8 +74,10 @@ public class MovieService {
             );
         }
     }
-    public SearchResult searchMovie(User user, String keyword, String searchField, List<Genre> genres, String ordered_by, Integer page, Integer batchSize, Boolean isAscending) {
+    public SearchResult searchMovie(User user, String keyword, String searchField, List<Integer> genre_ids, String ordered_by, Integer page, Integer batchSize, Boolean isAscending) {
         try {
+            logger.info("Get genres");
+            List<Genre> genres = genreRepository.mapIdListToGenreList(genre_ids);
             logger.info("Search movie by title with keyword {}", keyword);
             Sort sort;
             if(isAscending) {
@@ -107,9 +112,10 @@ public class MovieService {
                     );
             }
             if (moviePage.isEmpty()) {
+                logger.info("empty string");
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Page request exceed maximum page"
+                        "Page is empty"
                 );
             }
             List<Movie> movies = moviePage.getContent();
@@ -133,14 +139,6 @@ public class MovieService {
                     HttpStatus.NO_CONTENT,
                     "No results of " + keyword,
                     ex
-            );
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            e.printStackTrace();
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Internal sever error during searching",
-                    e
             );
         }
     }
