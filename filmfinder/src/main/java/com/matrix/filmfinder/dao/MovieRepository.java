@@ -72,7 +72,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             value = "Select distinct(m.id), description, popularity, poster, release_date, m.title, m.rating, rating_count, director, n_hits " +
                     "from movie m right join movie_to_genre mtg on m.id = mtg.movie_id " +
                     "where mtg.genre_id in " +
-                    "(select g.genre_id from movie mo right join movie_to_genre g on mo.id = g.movie_id where mo.id = ?2) " +
+                    "(select g.genre_id from movie mo right join movie_to_genre g on mo.id = g.movie_id where mo.id = ?1) " +
                     "order by m.popularity desc " +
                     "limit 8 "
     )
