@@ -36,3 +36,39 @@ export function register(data) {
         .catch(reject);
     });
   }
+  export function update(data) {
+    console.log(API_URL)
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`/user/update`,data)
+        .then(response => {
+            console.log(response)
+          if (response.status >= 200 && response.status < 300) {
+            console.log("Registerd");
+            console.log(response.data);
+            resolve(response.data);
+          } else {
+            reject(response.response);
+          }
+        })
+        .catch(reject);
+    });
+  }
+
+  export function updateType(data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`/user/recommendtype`,data)
+        .then(response => {
+            console.log(response)
+          if (response.status >= 200 && response.status < 300) {
+            console.log("Registerd");
+            console.log(response.data);
+            resolve(response.data);
+          } else {
+            reject(response.response);
+          }
+        })
+        .catch(reject);
+    });
+  }
