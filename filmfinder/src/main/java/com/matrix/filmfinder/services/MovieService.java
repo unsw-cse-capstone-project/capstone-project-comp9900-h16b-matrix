@@ -107,6 +107,7 @@ public class MovieService {
                     );
             }
             if (moviePage.isEmpty()) {
+                logger.error("page empty");
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Page request exceed maximum page"

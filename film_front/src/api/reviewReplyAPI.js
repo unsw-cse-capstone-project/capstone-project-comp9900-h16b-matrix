@@ -1,6 +1,7 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
 export function sendReply(data) {
+  console.log(data)
     return new Promise((resolve, reject) => {
       axios
         .post(`/reply/add`, data)

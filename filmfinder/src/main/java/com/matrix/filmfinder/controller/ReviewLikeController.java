@@ -54,7 +54,7 @@ public class ReviewLikeController {
         Review review = new Review();
         Integer uid;
         Integer review_id;
-        Boolean jud = null; // true is like, false is unlike
+        Boolean jud = true; // true is like, false is unlike
 
         // unpack json packets
         uid = jsonNode.get("uid").asInt();

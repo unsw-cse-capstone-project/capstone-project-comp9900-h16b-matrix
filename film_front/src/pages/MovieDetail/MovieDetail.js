@@ -79,17 +79,17 @@ export default function MovieDetail(props) {
       const data = await res.json();
       console.log("detail", data);
       setInfo(data);
-      const movie_res = await movieAPI.getMovieByTid(id);
-      setMovieId(movie_res.id)
-      if (!movie_res.description) {
-        const update_res = await movieAPI.updateDetail({
-          id: movie_res.id,
-          description: data.overview,
-          title: data.title,
-          poster: `http://image.tmdb.org/t/p/w185${data.poster_path}`,
-        });
-        console.log(update_res);
-      }
+      // const movie_res = await movieAPI.getMovieByTid(id);
+      setMovieId(id)
+      // if (!movie_res.description) {
+      //   const update_res = await movieAPI.updateDetail({
+      //     id: movie_res.id,
+      //     description: data.overview,
+      //     title: data.title,
+      //     poster: `http://image.tmdb.org/t/p/w185${data.poster_path}`,
+      //   });
+      //   console.log(update_res);
+      // }
       
 
       const cre = await fetch(

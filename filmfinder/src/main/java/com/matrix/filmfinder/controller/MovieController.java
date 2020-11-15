@@ -65,15 +65,15 @@ public class MovieController {
                                          @RequestParam Integer page,
                                          @RequestParam(name = "page_size") Integer pageSize,
                                          @RequestParam(name = "is_ascending") Boolean isAscending,
-                                         @RequestBody(required = false) GenresWrapper genres) {
+                                         @RequestParam List<Genre> genres) {
         try {
             return new ResponseEntity<>(
-                    movieService.searchMovie(user, keyword, searchField, genres.getGenres(), sortedBy, page, pageSize, isAscending),
+                    movieService.searchMovie(user, keyword, searchField, genres, sortedBy, page, pageSize, isAscending),
                     HttpStatus.OK
             );
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(
-                    e.getReason(),
+                    e.getMessage(),
                     e.getStatus()
             );
         } catch (Exception ee) {

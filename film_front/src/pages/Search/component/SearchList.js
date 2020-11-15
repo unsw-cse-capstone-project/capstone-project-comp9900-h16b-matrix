@@ -16,6 +16,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Rating from "@material-ui/lab/Rating";
+import * as movieAPI from '../../../api/movieAPI'
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -46,7 +47,13 @@ const mapId = {
   western: 37,
   adventure: 12,
 };
+const jwt = require("jwt-simple");
 export default function SearchList(props) {
+  let decoded;
+  const token = localStorage.getItem("userInfo");
+  if (token) {
+    decoded = jwt.decode(token, process.env.REACT_APP_TOKEN_SECRET);
+  } 
   const { queryValue } = props;
   const [movie, setMovie] = useState([]);
   const apiKey = process.env.REACT_APP_KEY;
@@ -126,24 +133,32 @@ export default function SearchList(props) {
 
   useEffect(() => {
     const getMovie = async () => {
-      console.log(apiKey);
-      if (queryValue != -1) {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryValue}`
-        );
-        const data = await res.json();
-        console.log(data);
-        const defaultSort = data.results.sort(function (a, b) {
-          if (a.popularity > b.popularity) {
-            return -1;
-          }
-          // if (nameA > nameB) {
-          //   return 1;
-          // }
-          return 1;
-        });
-        setMovie(defaultSort);
+      // console.log(apiKey);
+      // if (queryValue != -1) {
+      //   const res = await fetch(
+      //     `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryValue}`
+      //   );
+      //   const data = await res.json();
+      //   console.log(data);
+      //   const defaultSort = data.results.sort(function (a, b) {
+      //     if (a.popularity > b.popularity) {
+      //       return -1;
+      //     }
+      //     // if (nameA > nameB) {
+      //     //   return 1;
+      //     // }
+      //     return 1;
+      //   });
+      //   setMovie(defaultSort);
+      // }
+      const data={
+        user:decoded.id,
+        keyword:queryValue,
+        sorted_by:'popularity',
+        genres: JSON.stringify([12])
       }
+      const res = movieAPI.searchMovie(data)
+      console.log(res)
     };
     getMovie();
   }, [queryValue]);
