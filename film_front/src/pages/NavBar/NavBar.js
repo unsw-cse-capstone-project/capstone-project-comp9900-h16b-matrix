@@ -49,7 +49,7 @@ const NavBar = (props) => {
   } 
   const classes = useStyles();
   const [menu,setMenu] = useState(null)
-  const {open,handleClose,handleClickOpen,SignupClose,SignupOpen,handleSignupOpen,rederLogout}=props
+  const {open,handleClose,handleClickOpen,SignupClose,SignupOpen,handleSignupOpen,rederLogout,history}=props
     const handleLogout = ()=>{
       setMenu(null)
       rederLogout()
@@ -71,7 +71,7 @@ const NavBar = (props) => {
           </IconButton>
           <Typography variant="h6" className={classes.title} />
 
-         <SearchBar />
+         <SearchBar history={history}/>
           &nbsp;&nbsp;
           {decoded?<Button onClick={e=>setMenu(e.currentTarget)}> <Avatar  /></Button> :  <Button onClick={handleClickOpen} color="inherit">Login/Sign up</Button>}
         {decoded?  <Menu
@@ -81,8 +81,8 @@ const NavBar = (props) => {
         open={Boolean(menu)}
         onClose={()=>setMenu(null)}
       >
-        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {'/Setting'}>setting </MenuItem>
-        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {`/wish/${decoded.id}`}>wish list</MenuItem>
+        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {'/Setting'}>Settings </MenuItem>
+        <MenuItem onClick={()=>setMenu(null)} component={Link} to = {`/wish/${decoded.id}`}>Wish list</MenuItem>
         <MenuItem onClick={()=>handleLogout()}>Logout</MenuItem>
 
       </Menu>:null}

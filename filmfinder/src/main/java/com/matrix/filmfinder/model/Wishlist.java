@@ -9,7 +9,6 @@ import java.util.Objects;
 @Table(
         name = "wishlist",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "movie_id"})}
-
 )
 public class Wishlist {
     @Id

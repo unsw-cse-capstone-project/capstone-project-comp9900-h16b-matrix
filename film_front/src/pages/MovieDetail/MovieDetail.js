@@ -21,12 +21,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import CRTabs from "./component/CRTabs";
 import { Link as RouteLink } from "react-router-dom";
 import * as Empty from "../../component/Empty";
-import Logindialog from "../Login & Sign up/Login";
 import * as movieAPI from "../../api/movieAPI";
 import * as wishAPI from "../../api/wishAPI"
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "90%",
+    width: "98%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
     borderStyle: "groove",
@@ -120,8 +119,6 @@ export default function MovieDetail(props) {
           break;
         }
       }
-
-      // }
     };
     getInfo();
   }, []);
@@ -180,6 +177,7 @@ export default function MovieDetail(props) {
             SignupOpen={SignupOpen}
             handleSignupOpen={handleSignupOpen}
             rederLogout={rederLogout}
+            history = {props.history}
           />
         </Grid>
         <Grid item xs={12}>
@@ -197,8 +195,8 @@ export default function MovieDetail(props) {
                   }
                 />
                 {video.key ? (
-                  <div className={classes.root}>
-                    <Typography variant="body2">Trailer</Typography>
+                  <div className={classes.root} > 
+                    <Typography variant="body2" style={{backgroundColor:'LightGray'}}>Trailer</Typography>
                     <Typography>
                       <IconButton>
                         {/* <ListItemIcon> */}
@@ -383,14 +381,7 @@ export default function MovieDetail(props) {
           </Grid>
         </Grid>
       </Grid>
-      <Logindialog
-        handleClose={handleClose}
-        open={open}
-        handleClickOpen={handleClickOpen}
-        SignupClose={SignupClose}
-        SignupOpen={SignupOpen}
-        handleSignupOpen={handleSignupOpen}
-      />
+    
     </div>
   );
 }

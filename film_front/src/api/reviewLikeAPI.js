@@ -1,51 +1,14 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
-export function register(data) {
+export function likeorunlike(data) {
     console.log(data,API_URL)
     return new Promise((resolve, reject) => {
       axios
-        .post(`/user/registration`, data)
+        .post(`/reviewlike/likeorunlike`, data)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
-            resolve(response.data);
-          } else {
-            reject(response.response);
-          }
-        })
-        .catch(reject);
-    });
-  }
-  export function login(data) {
-    console.log(API_URL)
-    return new Promise((resolve, reject) => {
-      axios
-        .post(`/user/login`,data)
-        .then(response => {
-            console.log(response)
-          if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
-            resolve(response.data);
-          } else {
-            reject(response.response);
-          }
-        })
-        .catch(reject);
-    });
-  }
-  export function update(data) {
-    console.log(API_URL)
-    return new Promise((resolve, reject) => {
-      axios
-        .post(`/user/update`,data)
-        .then(response => {
-            console.log(response)
-          if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
+           
             resolve(response.data);
           } else {
             reject(response.response);
@@ -55,15 +18,31 @@ export function register(data) {
     });
   }
 
-  export function updateType(data) {
+  export function cancellikeorunlike(id) {
     return new Promise((resolve, reject) => {
       axios
-        .put(`/user/recommendtype`,data)
+        .delete(`/reviewlike/cancellikeorunlike?r=${id}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
+           
+            resolve(response.data);
+          } else {
+            reject(response.response);
+          }
+        })
+        .catch(reject);
+    });
+  }
+
+  export function getByID(uid,rid) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/reviewlike/get?user=${uid}&review=${rid}`)
+        .then(response => {
+            console.log(response)
+          if (response.status >= 200 && response.status < 300) {
+           
             resolve(response.data);
           } else {
             reject(response.response);

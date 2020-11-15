@@ -1,15 +1,14 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
-export function register(data) {
+export function sendReview(data) {
     console.log(data,API_URL)
     return new Promise((resolve, reject) => {
       axios
-        .post(`/user/registration`, data)
+        .post(`/review/add`, data)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
+           
             resolve(response.data);
           } else {
             reject(response.response);
@@ -18,16 +17,14 @@ export function register(data) {
         .catch(reject);
     });
   }
-  export function login(data) {
-    console.log(API_URL)
+  export function getByUidMid(uid,mid) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`/user/login`,data)
+        .get(`/review/get?user=${uid}&movie=${mid}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
+           
             resolve(response.data);
           } else {
             reject(response.response);
@@ -37,15 +34,13 @@ export function register(data) {
     });
   }
   export function update(data) {
-    console.log(API_URL)
     return new Promise((resolve, reject) => {
       axios
-        .post(`/user/update`,data)
+        .post(`/review/update`,data)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
+           
             resolve(response.data);
           } else {
             reject(response.response);
@@ -54,16 +49,28 @@ export function register(data) {
         .catch(reject);
     });
   }
-
-  export function updateType(data) {
+  export function getAll(mid) {
     return new Promise((resolve, reject) => {
       axios
-        .put(`/user/recommendtype`,data)
+        .get(`/review/getall?movie_id=${mid}`)
         .then(response => {
             console.log(response)
           if (response.status >= 200 && response.status < 300) {
-            console.log("Registerd");
-            console.log(response.data);
+           
+            resolve(response.data);
+          } else {
+            reject(response.response);
+          }
+        })
+        .catch(reject);
+    });
+  }
+  export function deleteReview(id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/review/delete?id=${id}`)
+        .then(response => {
+          if (response.status >= 200 && response.status < 300) {
             resolve(response.data);
           } else {
             reject(response.response);

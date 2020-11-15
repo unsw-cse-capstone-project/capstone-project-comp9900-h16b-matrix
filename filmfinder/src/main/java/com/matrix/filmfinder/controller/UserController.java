@@ -1,6 +1,7 @@
 package com.matrix.filmfinder.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.matrix.filmfinder.dao.UserRepository;
@@ -10,104 +11,120 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+
 @Controller
 @RequestMapping(path="/user")
 public class UserController {
-    @Autowired
+//    @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    public UserController(UserRepository userRepository){
-//        this.userRepository = userRepository;
-//    }
-
-//    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired //Constructor
+    public UserController(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     @Bean
     private final PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
-
+    // registration
     @PostMapping(path="/registration")
     public @ResponseBody String addNewUser(@RequestBody ObjectNode jsonNode) {
-
         User user = new User();
         String name = jsonNode.get("name").asText();
-
         String email = jsonNode.get("email").asText();
         String password = jsonNode.get("password").asText();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(passwordEncoder().encode(password));
-        userRepository.save(user);
+        user.setPassword(passwordEncoder().encode(password));// not store the true password
+        userRepository.save(user); // update the information in user table
         String res = "User " + user.toString() + " saved.";
         return res;
     }
     //TODO
+    //login part
     @PostMapping(path="/login")
-    public ResponseEntity<String> loginWithUserName(@RequestBody ObjectNode jsonNode){
+    public @ResponseBody String loginWithUserName(@RequestBody ObjectNode jsonNode){
         String name = jsonNode.get("name").asText();
+        String password = jsonNode.get("password").asText();
+        User user = userRepository.findByName(name);
+        ObjectMapper mapper = new ObjectMapper();
+        String userJson = "";
+        if (passwordEncoder().matches(password, user.getPassword())) {
+            try {
+                userJson = mapper.writeValueAsString(user);
+            }
+            catch (JsonProcessingException e){
+                return "Json error";
+            }
+
+        }
+        else {
+            return  "Wrong password";
+
+        }
+        return userJson;
+    }
+
+    // update password
+    @PostMapping(path="/update")
+    public ResponseEntity<Object>  updatePassword(@RequestBody JsonNode jsonNode){
+        Integer uid = jsonNode.get("id").asInt();
         String password = jsonNode.get("password").asText();
         User user = new User();
         try {
-            user = userRepository.findByName(name);
+            user = userRepository.getUserById(uid);
         } catch (DataIntegrityViolationException e) {
             return new ResponseEntity<>(
                     "username doesn't exist",
                     HttpStatus.UNAUTHORIZED
             );
         }
-//        try {
-//            UserDetails userDetails = userDetails().loadUserByUsername(name);
-//        } catch(UsernameNotFoundException e) {
-//
-//        }v
-        ObjectMapper mapper = new ObjectMapper();
-        String userJson = "";
-        if (passwordEncoder().matches(password, user.getPassword())) {
-//
-            try {
-                userJson = mapper.writeValueAsString(user);
-            } catch (JsonProcessingException e){
-                return new ResponseEntity<>(
-                        "JSON processing error in loginWithUsername",
-                        HttpStatus.INTERNAL_SERVER_ERROR
-                );
-            }
-//        } else {
-//
-        }
-        else {
-            return new ResponseEntity<>(
-                    "Wrong password",
-                    HttpStatus.UNAUTHORIZED
-            );
-        }
+        user.setPassword(passwordEncoder().encode(password));
+        userRepository.save(user);
         return new ResponseEntity<>(
-               userJson,
-               HttpStatus.OK
+                user,
+                HttpStatus.OK
         );
     }
-//    @PostMapping(path="/addWithPassword")
-//    public@ResponseBody String
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
-//    @GetMapping(path="/{name}")
-//    public @ResponseBody String
+
     @GetMapping(path="/name/{name}")
     public @ResponseBody User returnUser(@PathVariable("name") String name) {
         return userRepository.findByName(name);
+    }
+
+    @PutMapping(path = "/recommendtype")
+    public ResponseEntity<Object> updateRecommendType(@RequestBody JsonNode jsonNode) {
+        Integer uid = jsonNode.get("id").asInt();
+        Boolean genre = jsonNode.get("genre").asBoolean();
+        Boolean director = jsonNode.get("director").asBoolean();
+        User user = userRepository.getUserById(uid);
+        try {
+            user.setGenre(genre);
+            user.setDirector(director);
+            userRepository.save(user);
+        } catch (EntityNotFoundException ee) {
+            return new ResponseEntity<> (
+                    "User not found or saving error",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+        return new ResponseEntity<>(
+                user,
+                HttpStatus.OK
+        );
     }
 
 }

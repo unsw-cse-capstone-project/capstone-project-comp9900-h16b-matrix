@@ -15,11 +15,7 @@ public class Comment {
     @NonNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-//    @Column
-//    @NotEmpty
 
-
-//    @Basic(optional = false)
     @Column(name = "submit_time")
     @Temporal(TemporalType.DATE)
     private Date submitTime;
