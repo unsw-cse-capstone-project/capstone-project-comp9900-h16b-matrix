@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NavBar from "../NavBar/NavBar";
-import default_img from "../../image/No_picture_available.png";
+import default_img from "../../image/No_Image_Available.png";
 import poster from "../../image/poster.jpeg";
 import Rate from "./component/Rate";
 import YouTubeIcon from "@material-ui/icons/YouTube";
@@ -359,7 +359,7 @@ export default function MovieDetail(props) {
                   <Typography variant='h5'>
                     Similar Moview
                   </Typography>
-                  <Similar history={props.history}/>
+                  <Similar history={props.history} movieId={movieId}  decoded={decoded}/>
                 </Grid>
                 <Grid item xs={12} justify="center">
                   <br />

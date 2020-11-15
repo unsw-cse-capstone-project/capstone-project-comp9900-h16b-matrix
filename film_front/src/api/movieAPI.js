@@ -49,3 +49,19 @@ export function getMovieByTid(id) {
     .catch(reject);
 });
 }
+export function recommend(uid,mid) {
+return new Promise((resolve, reject) => {
+  axios
+    .get(`/movie/recommend?user=${uid}&movie=${mid}`)
+    .then(response => {
+      console.log(response)
+    if (response.status >= 200 && response.status < 300) {
+     
+      resolve(response.data);
+    } else {
+      reject(response.response);
+    }
+  })
+  .catch(reject);
+});
+}
