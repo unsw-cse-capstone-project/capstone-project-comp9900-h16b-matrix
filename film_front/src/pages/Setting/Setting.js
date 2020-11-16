@@ -8,7 +8,6 @@ import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
 import { FaUserCircle } from "react-icons/fa";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -21,11 +20,9 @@ import IconButton from "@material-ui/core/IconButton";
 import NavBar from "../NavBar/NavBar";
 import * as userAPI from "../../api/userAPI";
 import * as blackAPI from "../../api/blackAPI";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Alert from "@material-ui/lab/Alert";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
@@ -86,7 +83,7 @@ export default function VerticalTabs(props) {
   } else {
     window.location.href = `${process.env.REACT_APP_HOST_URL}`;
   }
-  console.log('decoded',decoded)
+  console.log("decoded", decoded);
   const [alert, setAlert] = useState(false);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -106,11 +103,6 @@ export default function VerticalTabs(props) {
     const del_res = await blackAPI.delById(delId);
     const res = await blackAPI.getAll(decoded.id);
     setChipData(res);
-    // setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
-
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
   };
 
   const passwordChange = (e) => {
@@ -123,7 +115,7 @@ export default function VerticalTabs(props) {
   const [chipData, setChipData] = React.useState([]);
 
   const [dense, setDense] = React.useState(false);
-  const [type,setType] = useState('g')
+  const [type, setType] = useState("g");
   const [open, setOpen] = useState(false);
   const [SignupOpen, SignupsetOpen] = useState(false);
   const [logout, setLogout] = useState(false);
@@ -171,20 +163,21 @@ export default function VerticalTabs(props) {
       }
     }
   };
-  const handleType = async(e)=>{
-    setType(e.target.value)
+  const handleType = async (e) => {
+    setType(e.target.value);
     const data = {
-      id:decoded.id,
-      genre: e.target.value == 'g'?true:e.target.value=='gd'?true:false,
-      director: e.target.value == 'd'?true:e.target.value=='gd'?true:false,
+      id: decoded.id,
+      genre:
+        e.target.value == "g" ? true : e.target.value == "gd" ? true : false,
+      director:
+        e.target.value == "d" ? true : e.target.value == "gd" ? true : false,
+    };
+    const res = await userAPI.updateType(data);
+    if (res) {
+      const secreatInfo = jwt.encode(res, process.env.REACT_APP_TOKEN_SECRET);
+      localStorage.setItem("userInfo", secreatInfo);
     }
-    const res = await userAPI.updateType(data)
-    if(res){
-      const secreatInfo = jwt.encode(res, process.env.REACT_APP_TOKEN_SECRET)
-      localStorage.setItem("userInfo", secreatInfo)
-    }
-  }
- 
+  };
 
   useEffect(() => {
     const getBlack = async () => {
@@ -193,14 +186,12 @@ export default function VerticalTabs(props) {
       console.log(res);
     };
     getBlack();
-    if(decoded.genre&&decoded.director){
-      setType('gd')
-    }
-    else if(decoded.genre){
-      setType('g')
-    }
-    else{
-      setType('d')
+    if (decoded.genre && decoded.director) {
+      setType("gd");
+    } else if (decoded.genre) {
+      setType("g");
+    } else {
+      setType("d");
     }
   }, []);
   return (
@@ -355,7 +346,6 @@ export default function VerticalTabs(props) {
           </TabPanel>
 
           <TabPanel value={value} index={2}>
-        
             <Typography variant="h5" style={{ paddingLeft: "3%" }}>
               <br />
               Similar movie recommendation preference
@@ -372,25 +362,20 @@ export default function VerticalTabs(props) {
                   </FormLabel>
                   <RadioGroup row value={type} onChange={handleType}>
                     <FormControlLabel
-                      value='g'
+                      value="g"
                       control={<Radio />}
                       label="Genre"
                     />
                     <FormControlLabel
-                      value='d'
+                      value="d"
                       control={<Radio />}
                       label="Director"
                     />
                     <FormControlLabel
-                      value='gd'
+                      value="gd"
                       control={<Radio />}
                       label="Genre and Director"
                     />
-                    {/* <FormControlLabel
-                value="hottest"
-                control={<Radio />}
-                label="Hottest"
-              /> */}
                   </RadioGroup>
                 </FormControl>
               </Grid>

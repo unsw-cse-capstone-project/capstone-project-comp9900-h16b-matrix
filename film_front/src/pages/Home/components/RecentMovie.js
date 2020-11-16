@@ -5,11 +5,9 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Rating from "@material-ui/lab/Rating";
-import poster from "../../../image/poster.jpeg";
 import default_img from "../../../image/No_picture_available.png";
 import Tooltip from "@material-ui/core/Tooltip";
 const Media = (props) => {
-  // const { loading = false } = props;
   const { history, type } = props;
   const apiKey = process.env.REACT_APP_KEY;
   const [newMovie, setNew] = useState([]);

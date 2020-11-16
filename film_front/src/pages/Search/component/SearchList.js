@@ -17,7 +17,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Rating from "@material-ui/lab/Rating";
 import * as movieAPI from "../../../api/movieAPI";
-import * as Empty from "../../../component/Empty";
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -62,7 +61,6 @@ export default function SearchList(props) {
   }
   const { queryValue, type } = props;
   const [movie, setMovie] = useState([]);
-  const apiKey = process.env.REACT_APP_KEY;
   const classes = useStyles();
   const [genres, setGenres] = useState([]);
   const [value, setValue] = React.useState("default");
@@ -95,7 +93,7 @@ export default function SearchList(props) {
     setPage(value);
     const data = {
       page: value - 1,
-      user: decoded?decoded.id:'',
+      user: decoded ? decoded.id : "",
       keyword: queryValue,
       sorted_by: "popularity",
       genres: genres.join(","),
@@ -111,14 +109,13 @@ export default function SearchList(props) {
   };
   const handleChange = (event) => {
     setValue(event.target.value);
-   
   };
 
   useEffect(() => {
     const getMovie = async () => {
       const data = {
         page: 0,
-        user: decoded?decoded.id:'',
+        user: decoded ? decoded.id : "",
         keyword: queryValue,
         sorted_by: mapSort[value],
         genres: genres.join(","),
@@ -144,10 +141,10 @@ export default function SearchList(props) {
           array.push(gId);
         }
       }
-      setGenres(array)
+      setGenres(array);
       const data = {
         page: 0,
-        user: decoded?decoded.id:'',
+        user: decoded ? decoded.id : "",
         keyword: queryValue,
         sorted_by: mapSort[value],
         genres: array.join(","),
@@ -161,13 +158,13 @@ export default function SearchList(props) {
         setMovie(result);
       });
     };
-    updateGenres()
+    updateGenres();
   }, [state]);
-  useEffect(()=>{
+  useEffect(() => {
     const updateSort = async () => {
       const data = {
         page: 0,
-        user: decoded?decoded.id:'',
+        user: decoded ? decoded.id : "",
         keyword: queryValue,
         sorted_by: mapSort[value],
         genres: genres.join(","),
@@ -181,8 +178,8 @@ export default function SearchList(props) {
         setMovie(result);
       });
     };
-    updateSort()
-  },[value])
+    updateSort();
+  }, [value]);
   return (
     <div style={{ margin: "auto" }}>
       <Grid container spacing={4} justify="flex-start">
@@ -211,11 +208,6 @@ export default function SearchList(props) {
                 control={<Radio />}
                 label="Rating"
               />
-              {/* <FormControlLabel
-                value="hottest"
-                control={<Radio />}
-                label="Hottest"
-              /> */}
             </RadioGroup>
           </FormControl>
         </Grid>
@@ -521,7 +513,6 @@ export default function SearchList(props) {
         <Grid item xs={12}>
           <Grid container justify="center">
             <Grid item xs={10}>
-              {/* <div style={{left:50}}> */}
               {movie.total_element > 0 ? (
                 <Pagination
                   count={Math.ceil(movie.total_element / 12)}
@@ -529,7 +520,6 @@ export default function SearchList(props) {
                   onChange={handlePage}
                 />
               ) : null}
-              {/* </div> */}
             </Grid>
           </Grid>
         </Grid>

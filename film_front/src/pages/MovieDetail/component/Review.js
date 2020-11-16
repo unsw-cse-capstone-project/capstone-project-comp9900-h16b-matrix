@@ -16,14 +16,14 @@ export default function Review(props) {
       uid: decoded.id,
       banned_uid: uid,
     });
-    const res = await reviewAPI.getAll(decoded?decoded.id:-1,movieId);
+    const res = await reviewAPI.getAll(decoded ? decoded.id : -1, movieId);
     console.log("review page", res);
     setReviewList(res);
   };
- 
+
   useEffect(() => {
     const getAll = async () => {
-      const res = await reviewAPI.getAll(decoded?decoded.id:-1,movieId);
+      const res = await reviewAPI.getAll(decoded ? decoded.id : -1, movieId);
       console.log("review page", res);
       setReviewList(res);
     };
@@ -37,14 +37,19 @@ export default function Review(props) {
             <Button
               size="large"
               color="primary"
-              variant='outlined'
+              variant="outlined"
               component={RLink}
               to={{ pathname: `/editReview/${movieId}` }}
             >
               Edit Review
             </Button>
           ) : (
-            <Button size="large" color="primary" onClick={handleClickOpen}  variant='outlined'>
+            <Button
+              size="large"
+              color="primary"
+              onClick={handleClickOpen}
+              variant="outlined"
+            >
               Edit Review
             </Button>
           )}
@@ -77,7 +82,7 @@ export default function Review(props) {
                         </Grid>
                         <Grid item xs={4}>
                           <Typography align="right" color="textSecondary">
-                            {item.likes} likes,  {item.unLikes} unlikes 
+                            {item.likes} likes, {item.unLikes} unlikes
                           </Typography>
                         </Grid>
                       </Grid>
@@ -85,8 +90,14 @@ export default function Review(props) {
                     <Grid item xs={12}>
                       <Grid container justify="flex-end">
                         <Grid item xs={11}>
-                          <Link component="button" variant="h6" component={RLink}
-              to={{ pathname: `/reviewDetail/movieId=${movieId}/poster=${item.user.id}` }} >
+                          <Link
+                            component="button"
+                            variant="h6"
+                            component={RLink}
+                            to={{
+                              pathname: `/reviewDetail/movieId=${movieId}/poster=${item.user.id}`,
+                            }}
+                          >
                             {item.title}
                           </Link>
                         </Grid>
@@ -113,7 +124,6 @@ export default function Review(props) {
               )}
               <Grid container justify="center">
                 <Grid item xs={10}>
-                  {/* <div style={{left:50}}> */}
                   {reviewList.length > 0 ? (
                     <Pagination
                       count={Math.ceil(reviewList.length / 10)}
@@ -121,7 +131,6 @@ export default function Review(props) {
                       onChange={handleChange}
                     />
                   ) : null}
-                  {/* </div> */}
                 </Grid>
               </Grid>
             </Grid>

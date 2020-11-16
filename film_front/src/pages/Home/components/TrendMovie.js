@@ -3,10 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import Rating from "@material-ui/lab/Rating";
 import IconButton from "@material-ui/core/IconButton";
 import StarIcon from "@material-ui/icons/Star";
-import poster from "../../../image/poster.jpeg";
 import { Tooltip, Typography } from "@material-ui/core";
 import default_img from "../../../image/No_picture_available.png";
 const useStyles = makeStyles((theme) => ({
@@ -14,14 +12,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
-    // overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     flexWrap: "nowrap",
-    // width = 300,
-    // height = 400,
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
   },
   title: {
@@ -58,7 +52,6 @@ export default function TrendMovie(props) {
     console.log("click", id);
     history.push({
       pathname: `/movieDetail/${id}`,
-      // state: data
     });
   };
   return (
@@ -76,12 +69,6 @@ export default function TrendMovie(props) {
                 alt={item.title}
                 onClick={() => handleDetail(item.id)}
               />
-              {/* <Typography>
-            
-                      {tile.title}
-                      {tile.Rating}
-                      <Rating name="read-only" value={tile.rating} readOnly />
-            </Typography> */}
               <GridListTileBar
                 title={
                   <Tooltip
@@ -91,11 +78,7 @@ export default function TrendMovie(props) {
                       </React.Fragment>
                     }
                   >
-                    <div>
-                      {item.title}
-                      {/* {tile.Rating} */}
-                      {/* <Rating name="read-only" value={item.vote_average/2} readOnly style={{color:'yellow'}} /> */}
-                    </div>
+                    <div>{item.title}</div>
                   </Tooltip>
                 }
                 classes={{

@@ -1,12 +1,9 @@
 import {
   Box,
-  Button,
   Divider,
   Grid,
   IconButton,
   Link,
-  List,
-  ListSubheader,
   Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
@@ -14,16 +11,13 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NavBar from "../NavBar/NavBar";
 import default_img from "../../image/No_Image_Available.png";
-import poster from "../../image/poster.jpeg";
 import Rate from "./component/Rate";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import CRTabs from "./component/CRTabs";
 import Similar from "./component/Similar";
-import { Link as RouteLink } from "react-router-dom";
 import * as Empty from "../../component/Empty";
-import * as movieAPI from "../../api/movieAPI";
-import * as wishAPI from "../../api/wishAPI"
+import * as wishAPI from "../../api/wishAPI";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "98%",
@@ -45,8 +39,8 @@ export default function MovieDetail(props) {
   const [hidden, setHidden] = useState(true);
   const [video, setVideo] = useState({});
   const [like, setLike] = useState(false);
-  const [movieId,setMovieId] = useState(undefined);
-  const [wishId,setWishId] = useState(undefined)
+  const [movieId, setMovieId] = useState(undefined);
+  const [wishId, setWishId] = useState(undefined);
   const classes = useStyles();
   let decoded;
   const token = localStorage.getItem("userInfo");
@@ -73,26 +67,14 @@ export default function MovieDetail(props) {
   useEffect(() => {
     const getInfo = async () => {
       console.log(id);
-      
+
       const res = await fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
       );
       const data = await res.json();
       console.log("detail", data);
       setInfo(data);
-      // const movie_res = await movieAPI.getMovieByTid(id);
-      setMovieId(id)
-      // if (!movie_res.description) {
-      //   const update_res = await movieAPI.updateDetail({
-      //     id: movie_res.id,
-      //     description: data.overview,
-      //     title: data.title,
-      //     poster: `http://image.tmdb.org/t/p/w185${data.poster_path}`,
-      //   });
-      //   console.log(update_res);
-      // }
-      
-
+      setMovieId(id);
       const cre = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
       );
@@ -106,7 +88,6 @@ export default function MovieDetail(props) {
       setDirector(array_dir);
       setCasts(credits.cast);
       console.log(credits.cast);
-      // if(data.video){
       const vid = await fetch(
         `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${apiKey}`
       );
@@ -123,20 +104,21 @@ export default function MovieDetail(props) {
     };
     getInfo();
   }, [id]);
-  useEffect(()=>{
-    const getWish = async()=>{
-      if(decoded){
-        const res = await wishAPI.getByIds(decoded.id,movieId)
-        console.log('init wish',res)
-        if(res){
-          setLike(true)
+  useEffect(() => {
+    const getWish = async () => {
+      if (decoded) {
+        const res = await wishAPI.getByIds(decoded.id, movieId);
+        console.log("init wish", res);
+        if (res) {
+          setLike(true);
+          setWishId(res.id)
         }
       }
+    };
+    if (decoded) {
+      getWish();
     }
-    if(decoded){
-      getWish()
-    }
-  },[decoded])
+  }, [decoded]);
   const changeDateFormate = (day) => {
     if (!day) {
       return " ";
@@ -145,21 +127,20 @@ export default function MovieDetail(props) {
     let DateArray = date.toUTCString().split(" ");
     return `${DateArray[1]} ${DateArray[2]}, ${DateArray[3]}`;
   };
-  const handleLike = async() => {
+  const handleLike = async () => {
     if (decoded) {
-      if(like==false){
+      if (like == false) {
         const res = await wishAPI.addWish({
-          uid:decoded.id,
-          movie_id:movieId
-        })
-        console.log(res)
-        setWishId(res.id)
-        setLike(true)
-      }
-      else{
-        const res = await wishAPI.delWish(wishId)
-        console.log(res)
-        setLike(false)
+          uid: decoded.id,
+          movie_id: movieId,
+        });
+        console.log(res);
+        setWishId(res.id);
+        setLike(true);
+      } else {
+        const res = await wishAPI.delWish(wishId);
+        console.log(res);
+        setLike(false);
       }
     } else {
       handleClickOpen();
@@ -178,7 +159,7 @@ export default function MovieDetail(props) {
             SignupOpen={SignupOpen}
             handleSignupOpen={handleSignupOpen}
             rederLogout={rederLogout}
-            history = {props.history}
+            history={props.history}
           />
         </Grid>
         <Grid item xs={12}>
@@ -196,13 +177,16 @@ export default function MovieDetail(props) {
                   }
                 />
                 {video.key ? (
-                  <div className={classes.root} > 
-                    <Typography variant="body2" style={{backgroundColor:'LightGray'}}>Trailer</Typography>
+                  <div className={classes.root}>
+                    <Typography
+                      variant="body2"
+                      style={{ backgroundColor: "LightGray" }}
+                    >
+                      Trailer
+                    </Typography>
                     <Typography>
                       <IconButton>
-                        {/* <ListItemIcon> */}
                         <YouTubeIcon style={{ color: "red" }} />
-                        {/* </ListItemIcon> */}
                       </IconButton>
 
                       <a href={`https://www.youtube.com/watch?v=${video.key}`}>
@@ -353,13 +337,15 @@ export default function MovieDetail(props) {
                       {hidden ? "Show All Casts" : "Hidden"}{" "}
                     </Link>
                   </Typography>
-                  <Divider/>
+                  <Divider />
                 </Grid>
-                <Grid item xs={12} >
-                  <Typography variant='h5'>
-                    Similar Moview
-                  </Typography>
-                  <Similar history={props.history} movieId={movieId}  decoded={decoded}/>
+                <Grid item xs={12}>
+                  <Typography variant="h5">Similar Moview</Typography>
+                  <Similar
+                    history={props.history}
+                    movieId={movieId}
+                    decoded={decoded}
+                  />
                 </Grid>
                 <Grid item xs={12} justify="center">
                   <br />
@@ -383,14 +369,12 @@ export default function MovieDetail(props) {
                   vote_count={info.vote_count}
                   handleClickOpen={handleClickOpen}
                   movieId={movieId}
-                  
                 />
               </div>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    
     </div>
   );
 }
