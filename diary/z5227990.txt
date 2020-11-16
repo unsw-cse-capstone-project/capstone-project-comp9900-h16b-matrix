@@ -3,9 +3,30 @@ I join  the Jira.
 I join a meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest. 
 
 Week 2
-I joined meetings on Wednesday and weekends. We discussed about the features we should offer to users and drafted the user stories.
-As a team member, I drafted the user stories about how a user use his search page.
+I wrote the user stories about how a user use his search page.
 
 Week 3
-As a team member, I joined meetings to discussed about user story and UI/story board design. We discussed about the tool chains we plan to use and everything else which we should put in project proposal.
-As a team member, I mainly drafted story boards about search pages, helped teammates to finished user story and done the final check of the proposal. 
+I mainly wrote story boards about search pages, helped teammates to finished user story and done the final check of the proposal. 
+
+Week 4
+I accomplished the search page frontend development based on the UI designed in Figma.
+I learned the JavaScript language and explore the Material UI.
+
+Week 5
+I constructed the search page frontend with teammates.
+I joined the first presentation in the lab.
+
+Week 6
+Finished the retrospective with teammates. summary and reflection the inadequacy.
+Keep modifying the search page and started constructing the wishlist system. 
+
+Week 7
+Keep doing the fronted work and accomplished the construction of wishlist page.
+I constrcuted the preview page and review edit page.
+
+Week 8
+I improved the connection between the review and preview pages.
+
+Week 9
+I mainly wrote the final report about the review, comment and wishlist section.
+
