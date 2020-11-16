@@ -3,19 +3,10 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-
 import { Link } from "react-router-dom";
-import { Grid, Select } from "@material-ui/core";
+import { Select } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
-  root:{width: 400,},
-  type: {
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
-    width: 120,
-  },
   search: {
     padding: "2px 4px",
     display: "flex",
@@ -29,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButton: {
     padding: 10,
-
   },
 }));
 export default function SearchBar(props) {
@@ -38,19 +28,15 @@ export default function SearchBar(props) {
   const [name, setName] = useState("");
   const [type, setType] = useState(1);
   console.log("bar", history);
-  const handleChange = (e)=>{
-    setType(e.target.value)
-  }
+  const handleChange = (e) => {
+    setType(e.target.value);
+  };
   return (
     <Paper component="form" className={classes.search}>
-    <Select
-      native 
-      value={type}
-      onChange={handleChange}
-    >
-      <option value={1}>Title</option>
-      <option value={0}>Description</option>
-    </Select>
+      <Select native value={type} onChange={handleChange}>
+        <option value={1}>Title</option>
+        <option value={0}>Description</option>
+      </Select>
       <InputBase
         className={classes.input}
         placeholder="Search Movie"
@@ -59,20 +45,27 @@ export default function SearchBar(props) {
           setName(e.target.value);
           console.log(name);
         }}
-        onKeyDown = {(e)=>{
-          if(e.nativeEvent.keyCode === 13) {
-            history.push({pathname: `/search/${type==1?'title':'description'}/${name ? name : -1}` })
-           }
+        onKeyDown={(e) => {
+          if (e.nativeEvent.keyCode === 13) {
+            history.push({
+              pathname: `/search/${type == 1 ? "title" : "description"}/${
+                name ? name : -1
+              }`,
+            });
+          }
         }}
       />
-     
+
       <IconButton
         type="submit"
         className={classes.iconButton}
         aria-label="search"
         component={Link}
-        to={{ pathname: `/search/${type==1?'title':'description'}/${name ? name : -1}` }}
-        
+        to={{
+          pathname: `/search/${type == 1 ? "title" : "description"}/${
+            name ? name : -1
+          }`,
+        }}
       >
         <SearchIcon />
       </IconButton>

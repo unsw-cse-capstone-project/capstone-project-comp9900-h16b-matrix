@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 import {
-  Button,
   Grid,
   IconButton,
   Typography,
@@ -9,9 +8,6 @@ import {
   Divider,
 } from "@material-ui/core";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
-import * as blackAPI from "../../../api/blackAPI";
-import * as Empty from "../../../component/Empty";
-import * as moment from "moment";
 export default function CommentArea(props) {
   const { sended, handleRemove, decoded, handleLike ,handleBan} = props;
   console.log(sended);
@@ -95,7 +91,6 @@ export default function CommentArea(props) {
       ))}
       <Grid container justify="center">
         <Grid item xs={10}>
-          {/* <div style={{left:50}}> */}
           {sended.length>0?
           <Pagination
             count={Math.ceil(sended.length / 10)}
@@ -103,7 +98,6 @@ export default function CommentArea(props) {
             onChange={handleChange}
             
           />:null}
-          {/* </div> */}
         </Grid>
       </Grid>
     </div>

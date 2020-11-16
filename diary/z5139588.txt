@@ -2,3 +2,42 @@ Week1:
 I joined the Jira project of our group.
 
 Join the meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest. 
+
+Week2:
+I write User section of user stories in proposal.
+
+Week3:
+I constructed system architecture diagram and think about which tools we will use in program. And then write down this part in project proposal.
+
+Week4:
+I were responsible for the backend. Frist, I used DataGrip to create the draft database for considering the relationship between different tables.
+Then I spend some time to learn it and attempt to create data by jpa, because I were not very familiar sprint boot of java.
+
+Week5:
+Created Movie and Wishlist table by using jpa and do some basic operators.
+We finished the work that we show in demoA, such as login, sign up and add user to wishlist.
+
+Week6:
+I attempt to connect frontend and database. And I learn how to use jpa's entity to response Http request.
+
+Week7:
+I created Comment table and write some function in this class, such as how to select comment by using other table element.
+And I created a function to update the number of like for comment and the delete function.
+However, there are some unknown mistakes so I used try and catch structure to test it in backend.
+
+
+Week8:
+I created blacklist table and basic function, add, update, get and delete.
+And created wishlist table as well as setting the basic function.
+I finished the wishlist select which needs to select by user table and movie table, so the function is a little diffcult than basic function.
+We finished demoB.
+
+Week9:
+I completed all the review part in this week. I created review table and add like and dislike function for this part.
+I tried to use SQL to complete query for tables.
+And then, I added review_reply table and it's basic function for storing the data from front_end.
+Because report of project should be submitted in next week, we assigned the work of report and I tried to finish it.
+
+Week10:
+This is final week of our project. We finish and test the codes. Besides, we combine the report and modify mistakes, such as format.
+And we prepare the final demo in Tuesday.

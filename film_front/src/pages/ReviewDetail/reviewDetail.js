@@ -9,17 +9,7 @@ import {
   AiOutlineDislike,
   AiFillDislike,
 } from "react-icons/ai";
-import {
-  Button,
-  Grid,
-  Input,
-  Paper,
-  TextField,
-  Divider,
-  Typography,
-  IconButton,
-  Link,
-} from "@material-ui/core";
+import { Grid, Divider, Typography, IconButton, Link } from "@material-ui/core";
 import Reply from "./component/replyArea";
 const jwt = require("jwt-simple");
 export default function ReviewDetail(props) {
@@ -204,7 +194,6 @@ export default function ReviewDetail(props) {
                     >
                       Edit
                     </Link>
-                   
                   </Typography>
                 ) : null
               ) : null}

@@ -1,4 +1,3 @@
-// import { Divider } from '@material-ui/core'
 import React, { useState } from "react";
 import NavBar from "../NavBar/NavBar";
 import RecentMoive from "./components/RecentMovie";

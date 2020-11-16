@@ -4,19 +4,13 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import { FaApple } from "react-icons/fa";
 import Grid from '@material-ui/core/Grid';
 import { Link } from "@material-ui/core";
-import Logindialog from "../Login & Sign up/Login";
 import * as userAPI from "../../api/userAPI";
 // import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = (theme) => ({
@@ -51,50 +45,9 @@ const DialogContent = withStyles((theme) => ({
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
-
-// 文本框
-const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-    },
-}));
-
-// 第三方登录 带有icons的按钮
-const useStyles2 = makeStyles((theme) => ({
-    button: {
-      margin: theme.spacing(1)
-    },
-  }));
-
-
-// 栅格
-const useStyles3 = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-  }));
-
 export default function Signupdialog(props) {
     const {SignupOpen,SignupClose,handleClickOpen}=props
     console.log(props)
-    const classes = useStyles2();
-    const classes3 = useStyles3();
-    // const [processing,setProcessing] = useState(false)
     const [userInfo,setUserInfo]= useState({
       'name':"",
       'email':"",
@@ -127,7 +80,7 @@ export default function Signupdialog(props) {
   return (
     <div>
      
-      <Dialog onClose={SignupClose} aria-labelledby="customized-dialog-title" open={SignupOpen}>
+      <Dialog onClose={SignupClose} aria-labelledby="customized-dialog-title" open={SignupOpen} fullWidth={true} maxWidth='sm'>
         <DialogTitle id="customized-dialog-title" onClose={SignupClose}>
           Sign up
         </DialogTitle>
@@ -159,22 +112,6 @@ export default function Signupdialog(props) {
             Sign up
           </Button>
           
-
-          <Typography gutterBottom align='center'>
-            <br/>Or
-          </Typography>
-
-          <Button variant="contained" style={{background:'#FFFFFF'}} className={classes.button} startIcon={<FcGoogle />} fullWidth={true} >
-            Login with Google account
-          </Button>
-
-          <Button variant="contained" style={{background:'#FFFFFF'}} className={classes.button} startIcon={<FaFacebook color='#4267B2'/>} fullWidth={true} >
-            Login with Facebook account
-          </Button>
-
-          <Button variant="contained" style={{background:'#FFFFFF'}} className={classes.button} startIcon={<FaApple color='#555555'/>} fullWidth={true}>
-            Login with Apple account
-          </Button>
 
           <Typography gutterBottom align='center'>
             <br/>

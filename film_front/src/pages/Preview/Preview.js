@@ -1,9 +1,6 @@
 import {
   Button,
   Grid,
-  Input,
-  Paper,
-  TextField,
   Divider,
   Typography,
   IconButton,
@@ -20,9 +17,6 @@ const jwt = require("jwt-simple");
 const myDate = new Date();
 
 export default function Preview(props) {
-  //   var url = window.location.href;
-  //   var arrUrl = url.split("/");
-  //   const movieid = arrUrl[arrUrl.length - 1];
   let decoded;
   const token = localStorage.getItem("userInfo");
   if (token) {
@@ -35,7 +29,7 @@ export default function Preview(props) {
   const reviewJson = localStorage.getItem(reviewKey);
   const reviewValue = JSON.parse(reviewJson);
   const [update, setUpdate] = useState(false);
-  const [reviewId,setRid] = useState(-1)
+  const [reviewId, setRid] = useState(-1);
   console.log(reviewKey, reviewValue);
   const [open, setOpen] = useState(false);
   const [SignupOpen, SignupsetOpen] = useState(false);
@@ -57,10 +51,10 @@ export default function Preview(props) {
   useEffect(() => {
     const getReview = async () => {
       const res = await reviewAPI.getByUidMid(decoded.id, movieid);
-      console.log( 'update',res)
+      console.log("update", res);
       if (res) {
         setUpdate(true);
-        setRid(res.id)
+        setRid(res.id);
       }
     };
 
@@ -69,7 +63,7 @@ export default function Preview(props) {
     }
   }, [decoded]);
   const handleSend = async () => {
-    if (update){
+    if (update) {
       const data = {
         review_id: reviewId,
         uid: decoded.id,
@@ -81,8 +75,7 @@ export default function Preview(props) {
         console.log(res);
         localStorage.removeItem(reviewKey);
       }
-    }
-    else{
+    } else {
       const data = {
         uid: decoded.id,
         movie_id: movieid,
@@ -95,23 +88,21 @@ export default function Preview(props) {
         localStorage.removeItem(reviewKey);
       }
     }
-    if(reviewValue.rated){
+    if (reviewValue.rated) {
       const data = {
-        'uid' : decoded.id,
-        'movie_id' : movieid,
-        'rating' : reviewValue.rating
-      }
-      const res = await rateAPI.updateRate(data)
-    }
-    else{
+        uid: decoded.id,
+        movie_id: movieid,
+        rating: reviewValue.rating,
+      };
+      const res = await rateAPI.updateRate(data);
+    } else {
       const data = {
-        'uid' : decoded.id,
-        'movie_id' : movieid,
-        'rating' : reviewValue.rating
-      }
-      const res = await rateAPI.addRate(data)
+        uid: decoded.id,
+        movie_id: movieid,
+        rating: reviewValue.rating,
+      };
+      const res = await rateAPI.addRate(data);
     }
-    
   };
 
   return (
@@ -125,7 +116,7 @@ export default function Preview(props) {
           SignupOpen={SignupOpen}
           handleSignupOpen={handleSignupOpen}
           rederLogout={rederLogout}
-          history = {props.history}
+          history={props.history}
         />
       </Grid>
       <Grid item xs={8}>
@@ -148,65 +139,54 @@ export default function Preview(props) {
               component={Link}
               to={{ pathname: `/movieDetail/${movieid}` }}
             >
-              {update?'Update':'Send'}
+              {update ? "Update" : "Send"}
             </Button>
           </Grid>
-          {/*<Grid item style = {{ marginLeft: "3%" }}>*/}
         </Grid>
       </Grid>
       <Grid item xs={10}>
-        <Grid container >
-          {/* <div className={classes.root}> */}
-           
-              <Grid item xs={12} >
-                <Typography variant="h3">
-                  {reviewValue ? reviewValue.title : null}
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    align="right"
-                  >
-                    0
-                    <IconButton>
-                      <AiOutlineLike />
-                    </IconButton>{" "}
-                    0{" "}
-                    <IconButton>
-                      <AiOutlineDislike />
-                    </IconButton>
-                  </Typography>
-                </Typography>
-                <Divider />
-              </Grid>
-            
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography variant="h3">
+              {reviewValue ? reviewValue.title : null}
+              <Typography variant="body2" color="textSecondary" align="right">
+                0
+                <IconButton>
+                  <AiOutlineLike />
+                </IconButton>{" "}
+                0{" "}
+                <IconButton>
+                  <AiOutlineDislike />
+                </IconButton>
+              </Typography>
+            </Typography>
+            <Divider />
+          </Grid>
 
-              <Grid item xs={7}>
-                <Typography variant="body2">By {decoded.name},  {moment(myDate).format("YYYY-MM-DD")}</Typography>
+          <Grid item xs={7}>
+            <Typography variant="body2">
+              By {decoded.name}, {moment(myDate).format("YYYY-MM-DD")}
+            </Typography>
+          </Grid>
 
-              </Grid>
-             
-              <Grid item xs={12}>
-                <Divider />
+          <Grid item xs={12}>
+            <Divider />
 
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: reviewValue ? reviewValue.content : null,
-                  }}
-                ></div>
-              </Grid>
-          
+            <div
+              dangerouslySetInnerHTML={{
+                __html: reviewValue ? reviewValue.content : null,
+              }}
+            ></div>
+          </Grid>
         </Grid>
       </Grid>
       <Grid item xs={10}>
         <Grid container justify="center" spacing={3}>
           <Grid item xs={12}>
-            <Typography variant='h6'>
-            Comment
-            </Typography>
-            
+            <Typography variant="h6">Comment</Typography>
+
             <Divider />
           </Grid>
-         
         </Grid>
       </Grid>
     </Grid>

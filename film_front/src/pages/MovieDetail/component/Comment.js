@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import {
-  Button,
-  Grid,
-  IconButton,
-  Typography,
-  Link,
-  TextField,
-} from "@material-ui/core";
-import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
-import * as moment from "moment";
+import { Button, Grid, Typography, TextField } from "@material-ui/core";
 import CommentArea from "./CommentArea";
-import * as Empty from "../../../component/Empty";
 import * as commentAPI from "../../../api/commentAPI";
 import * as blackAPI from "../../../api/blackAPI";
 export default function Comment(props) {
@@ -20,34 +9,32 @@ export default function Comment(props) {
   const { decoded, handleClickOpen, movieId } = props;
   useEffect(() => {
     const getComments = async () => {
-      const res = commentAPI.getAll(movieId,decoded?decoded.id:-1);
+      const res = commentAPI.getAll(movieId, decoded ? decoded.id : -1);
       var a = Promise.resolve(res);
       a.then(function (result) {
-        setSend(result)
+        setSend(result);
       });
-
-      // console.log('comment',res)
     };
     getComments();
-  }, [movieId,decoded]);
+  }, [movieId, decoded]);
   const handleRemove = async (index) => {
     console.log(index);
     const del_res = await commentAPI.deleteComment(sended[index].comment_id);
-    const res = commentAPI.getAll(movieId,decoded.id);
-      var a = Promise.resolve(res);
-      a.then(function (result) {
-        setSend(result)
-      });
+    const res = commentAPI.getAll(movieId, decoded.id);
+    var a = Promise.resolve(res);
+    a.then(function (result) {
+      setSend(result);
+    });
   };
   const handleBan = async (uid) => {
     const ban = await blackAPI.addBlack({
       uid: decoded.id,
       banned_uid: uid,
     });
-    const res = commentAPI.getAll(movieId,decoded?decoded.id:-1);
+    const res = commentAPI.getAll(movieId, decoded ? decoded.id : -1);
     var a = Promise.resolve(res);
     a.then(function (result) {
-      setSend(result)
+      setSend(result);
     });
   };
   function handleSend() {
@@ -59,10 +46,10 @@ export default function Comment(props) {
       };
       const add_res = await commentAPI.sendComment(data);
       console.log(add_res);
-      const res = commentAPI.getAll(movieId,decoded.id);
+      const res = commentAPI.getAll(movieId, decoded.id);
       var a = Promise.resolve(res);
       a.then(function (result) {
-        setSend(result)
+        setSend(result);
       });
       setValue("");
     };
@@ -78,30 +65,25 @@ export default function Comment(props) {
     }
   }
   const handleLike = async (index) => {
-    if(decoded){
-      if(sended[index].your_user_id){
+    if (decoded) {
+      if (sended[index].your_user_id) {
         const nlike_res = await commentAPI.delNlike({
-        uid: decoded.id,
-        cid: sended[index].comment_id,
-       });
-      }
-      else{
+          uid: decoded.id,
+          cid: sended[index].comment_id,
+        });
+      } else {
         const nlike_res = await commentAPI.addNlike({
           uid: decoded.id,
           cid: sended[index].comment_id,
-         });
-      }
-      
-         
-      const res = commentAPI.getAll(movieId,decoded.id);
-        var a = Promise.resolve(res);
-        a.then(function (result) {
-          setSend(result)
         });
+      }
 
+      const res = commentAPI.getAll(movieId, decoded.id);
+      var a = Promise.resolve(res);
+      a.then(function (result) {
+        setSend(result);
+      });
     }
-    
-    
   };
   return (
     <div>
@@ -128,7 +110,13 @@ export default function Comment(props) {
           <Typography align="right" variant="body2" color="textSecondary">
             {value.length}/200
           </Typography>
-          <Button onClick={() => handleSend() } variant='outlined' color='primary'>send</Button>
+          <Button
+            onClick={() => handleSend()}
+            variant="outlined"
+            color="primary"
+          >
+            send
+          </Button>
         </Grid>
         <Grid item xs={12}>
           <CommentArea
