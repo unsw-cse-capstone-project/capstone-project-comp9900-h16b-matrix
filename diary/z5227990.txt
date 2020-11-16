@@ -25,8 +25,11 @@ Keep doing the fronted work and accomplished the construction of wishlist page.
 I constrcuted the preview page and review edit page.
 
 Week 8
-I improved the connection between the review and preview pages.
+I improved the message exchanging between the review and preview pages.
 
 Week 9
+I accomplished the connection of review, reply and design the UI of comment in preview page. Write report.
+
+Week 10
 I mainly wrote the final report about the review, comment and wishlist section.
 
