@@ -2,3 +2,30 @@ Week1:
 I joined the Jira project of our group.
 
 Join the meeting to discuss about the requirement and difficulty of all the optional projects in terms of choosing one project which is satisfied to our ability and interest. 
+
+Week2:
+I write User section of user stories in proposal.
+
+Week3:
+I constructed system architecture diagram and think about which tools we will use in program. And then write down this part in project proposal.
+
+Week4:
+I were responsible for the backend. Frist, I used DataGrip to create the draft database for considering the relationship between different tables.
+Then I spend some time to learn it and attempt to create data by jpa, because I were not very familiar sprint boot of java.
+
+Week5:
+Created Movie and Wishlist table by using jpa and do some basic operators.
+
+Week6:
+I attempt to connect frontend and database. And I learn how to use jpa's entity to response Http request.
+
+Week7:
+Created Comment table and write some function in this class, such as how to select comment by using other table element.
+
+Week8:
+Created blacklist table and modify Wishlist class.
+
+Week9:
+
+
+Week10:
