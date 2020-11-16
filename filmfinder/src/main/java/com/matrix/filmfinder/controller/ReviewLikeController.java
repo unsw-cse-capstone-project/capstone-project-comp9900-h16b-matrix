@@ -1,15 +1,14 @@
 package com.matrix.filmfinder.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.matrix.filmfinder.dao.ReviewLikeRepository;
 import com.matrix.filmfinder.dao.ReviewRepository;
 import com.matrix.filmfinder.dao.UserRepository;
 import com.matrix.filmfinder.model.Review;
 import com.matrix.filmfinder.model.ReviewLike;
 import com.matrix.filmfinder.model.User;
-import com.fasterxml.jackson.databind.JsonNode;
-
-import org.springframework.boot.json.JsonParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +29,13 @@ public class ReviewLikeController {
     }
 
     //  get
+
+    /**
+     * get reviewLike by user and review
+     * @param user
+     * @param review
+     * @return
+     */
     @GetMapping(path = "/get")
     public ResponseEntity<Object> getReviewLike(@RequestParam User user, @RequestParam Review review){
         try {
@@ -47,6 +53,12 @@ public class ReviewLikeController {
     }
 
     // Update like status
+
+    /**
+     * like or unlike a review
+     * @param jsonNode
+     * @return
+     */
     @PostMapping(path = "/likeorunlike")
     public ResponseEntity<Object> reviewlike(@RequestBody JsonNode jsonNode){
         // Initialization
@@ -125,6 +137,11 @@ public class ReviewLikeController {
         );
     }
 
+    /**
+     * delete like or unlike
+     * @param r
+     * @return
+     */
     @DeleteMapping(path = "/cancellikeorunlike")
     public ResponseEntity<Object> cancel(@RequestParam ReviewLike r) {
         try {
@@ -156,41 +173,4 @@ public class ReviewLikeController {
             );
         }
     }
-
-//    // count the number of like
-//    @GetMapping(path = "/count")
-//    public ResponseEntity<Object> getcountReviewLike(@RequestParam User user, @RequestParam Review review){
-//        ReviewLike rlike = reviewLikeRepository.getByUserAndReview(user, review);
-//        try {
-//            if (rlike.getJud()) { // jud == true
-////                Long count_true = reviewLikeRepository.countByReviewAndReviewLike(review, rlike);
-//                Long count_true = reviewLikeRepository.countByReviewAndJud(review, true);
-//                review.setLikes(count_true);
-//                reviewRepository.saveAndFlush(review);
-//                return new ResponseEntity<>(
-//                        review,
-//                        HttpStatus.OK
-//                );
-//            } if (!rlike.getJud()){ //jud == false
-//                Long count_false = reviewLikeRepository.countByReviewAndJud(review, false);
-//                review.setUnLikes(count_false);
-//                reviewRepository.saveAndFlush(review);
-//                return new ResponseEntity<>(
-//                        review,
-//                        HttpStatus.OK
-//                );
-//            } else {// no like and unlike
-//                return new ResponseEntity<>(
-//                        "check whether judgement is null in database",
-//                        HttpStatus.OK
-//                );
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(
-//                    e.getMessage(),
-//                    HttpStatus.INTERNAL_SERVER_ERROR
-//            );
-//        }
-//    }
-
 }

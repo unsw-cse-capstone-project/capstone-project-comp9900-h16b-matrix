@@ -4,10 +4,8 @@ import com.matrix.filmfinder.dao.BlacklistRepository;
 import com.matrix.filmfinder.model.Blacklist;
 import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,6 +18,13 @@ public class BlacklistController {
     private BlacklistRepository blacklistRepository;
 
     // search
+
+    /**
+     * get all banned uid by a given uid
+     * @param uid
+     * @return return all banned uid if 200
+     *
+     */
     @GetMapping(path = "/getAll")
     public ResponseEntity<Object> searchBlacklist(
             @RequestParam User uid
@@ -39,6 +44,13 @@ public class BlacklistController {
 
     }
     // add blacklist
+
+    /**
+     * ban user by a given user
+     * @param uid
+     * @param banned_uid
+     * @return
+     */
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addBlack(
             @RequestParam(name = "uid") User uid,
@@ -56,6 +68,12 @@ public class BlacklistController {
     }
 
     // delete blacklist
+
+    /**
+     * delete user from black list
+     * @param id
+     * @return
+     */
     @DeleteMapping(path = "/delete")
     public ResponseEntity<Object> deleteBlacklist(
             @RequestParam Integer id

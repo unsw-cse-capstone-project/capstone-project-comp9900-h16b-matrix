@@ -3,7 +3,6 @@ package com.matrix.filmfinder.dao;
 import com.matrix.filmfinder.model.Blacklist;
 import com.matrix.filmfinder.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

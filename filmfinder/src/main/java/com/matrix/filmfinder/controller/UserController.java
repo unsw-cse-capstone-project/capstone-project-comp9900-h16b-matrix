@@ -35,6 +35,12 @@ public class UserController {
     }
 
     // registration
+
+    /**
+     * controller for signup
+     * @param jsonNode
+     * @return
+     */
     @PostMapping(path="/registration")
     public @ResponseBody String addNewUser(@RequestBody ObjectNode jsonNode) {
         User user = new User();
@@ -48,8 +54,12 @@ public class UserController {
         String res = "User " + user.toString() + " saved.";
         return res;
     }
-    //TODO
-    //login part
+
+    /**
+     * login controller
+     * @param jsonNode
+     * @return
+     */
     @PostMapping(path="/login")
     public @ResponseBody String loginWithUserName(@RequestBody ObjectNode jsonNode){
         String name = jsonNode.get("name").asText();

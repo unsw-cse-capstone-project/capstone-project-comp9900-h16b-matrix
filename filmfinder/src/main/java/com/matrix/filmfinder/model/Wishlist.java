@@ -5,6 +5,9 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * An Entity Class for manage wishlist
+ */
 @Entity(name = "Wishlist")
 @Table(
         name = "wishlist",

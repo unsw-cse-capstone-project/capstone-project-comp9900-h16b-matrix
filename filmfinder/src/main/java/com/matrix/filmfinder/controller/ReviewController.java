@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.matrix.filmfinder.dao.*;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.Review;
-import com.matrix.filmfinder.model.ReviewLike;
 import com.matrix.filmfinder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
@@ -38,6 +37,13 @@ public class ReviewController {
     }
 
     // get all review by movie_id
+
+    /**
+     * get all reviews by movie id
+     * @param movie
+     * @param user
+     * @return
+     */
     @GetMapping(path = "/getall")
     public ResponseEntity<Object> getReviewsByMovieid(@RequestParam Movie movie, @RequestParam User user){
         try {
@@ -60,6 +66,13 @@ public class ReviewController {
     }
 
     // get data
+
+    /**
+     * get a review by user and movie
+     * @param user
+     * @param movie
+     * @return
+     */
     @GetMapping(path = "/get")
     public ResponseEntity<Object> findReviewByUserAndMovie(@RequestParam User user, @RequestParam Movie movie){
         try {
@@ -76,6 +89,12 @@ public class ReviewController {
         }
     }
     // add title and content
+
+    /**
+     * add review in a movie page
+     * @param jsonNode
+     * @return
+     */
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addReview(@RequestBody JsonNode jsonNode) {
         Review review = new Review();
@@ -132,13 +151,18 @@ public class ReviewController {
     }
 
     //  update existing review
+
+    /**
+     * get update review
+     * @param jsonNode
+     * @return
+     */
     @PostMapping(path = "/update")
     public ResponseEntity<Object> updateReview(@RequestBody JsonNode jsonNode) {
         int review_id;
         int uid;
         String title = "";
         String content = "";
-//        Review rv = new Review();
         User user = new User();
         try {
             review_id = jsonNode.get("review_id").asInt();
@@ -146,7 +170,6 @@ public class ReviewController {
             title = jsonNode.get("title").asText();
             content = jsonNode.get("content").asText();
             user = userRepository.getUserById(uid);
-//            rv = reviewRepository.getReviewById(review_id);
         } catch (EntityNotFoundException ee) {
             return new ResponseEntity<>(
                     "Entity not found.",
@@ -184,6 +207,12 @@ public class ReviewController {
     }
 
     // Delete this review
+
+    /**
+     * delete review
+     * @param review
+     * @return
+     */
     @DeleteMapping(value = "/delete")
     public ResponseEntity<Object> deleteReview(@RequestParam Review review) {
         try {

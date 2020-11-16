@@ -44,6 +44,13 @@ public class CommentLikeController {
             );
         }
     }
+
+    /**
+     * like a comment given user
+     * @param u
+     * @param c
+     * @return
+     */
     @PostMapping(path = "/like")
     public ResponseEntity<Object> like(@RequestParam(name = "user") User u, @RequestParam(name = "comment") Comment c) {
         try {
@@ -68,6 +75,12 @@ public class CommentLikeController {
             );
         }
     }
+
+    /**
+     * unlike given commentLike
+     * @param cl
+     * @return
+     */
     @DeleteMapping(path = "/unlike")
     public ResponseEntity<Object> unLike(@RequestParam(name = "commentLike") CommentLike cl) {
         try {

@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface ReviewReplyRepository extends JpaRepository<ReviewReply, Integer> {
     List<ReviewReply> findByReview(Review review);
-//    ReviewReply deleteByReviewReplyAndReply_user(ReviewReply reply, User reply_user);
     @Query(
             nativeQuery = true,
             value = "select r.id, content, rsubmit_time, reply_user_id, review_id, review_user_id " +

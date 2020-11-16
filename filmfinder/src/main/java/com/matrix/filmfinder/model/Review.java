@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * A Review Entity mapping to Review table
+ */
 @Entity(name = "Review")
 @Table(name = "review",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "movie_id"})})

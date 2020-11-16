@@ -3,6 +3,9 @@ package com.matrix.filmfinder.model;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * An Entity mapping to ReviewLike table, take user_id, review_id as foreign keys
+ */
 @Entity(name = "review_like")
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","review_id"})})
 public class ReviewLike {

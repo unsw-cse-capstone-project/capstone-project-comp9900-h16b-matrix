@@ -3,21 +3,15 @@ package com.matrix.filmfinder.services;
 import com.matrix.filmfinder.dao.BlacklistRepository;
 import com.matrix.filmfinder.dao.MovieRepository;
 import com.matrix.filmfinder.dao.RateRepository;
-import com.matrix.filmfinder.model.Blacklist;
 import com.matrix.filmfinder.model.Movie;
-import com.matrix.filmfinder.model.Rate;
 import com.matrix.filmfinder.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.integration.IntegrationGraphEndpoint;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class RateService {
@@ -32,6 +26,12 @@ public class RateService {
         this.movieRepository = movieRepository;
     }
 
+    /**
+     * get average rate and rate count for movie and excluded banned list user if user is not null
+     * @param user
+     * @param movie
+     * @return list[average_rate, rate_count]
+     */
     public List<Double> getAvgRate(User user, Movie movie) {
         List<Double> count_sum;
         List<Double> result = new ArrayList<>();

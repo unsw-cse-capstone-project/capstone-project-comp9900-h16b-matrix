@@ -7,6 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
+/**
+ * An Entity managing user table, it stores username, e-mail, and encrypted password
+ */
 @Entity(name = "User")
 public class User {
     @Id

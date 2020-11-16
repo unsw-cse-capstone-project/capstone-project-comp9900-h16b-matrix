@@ -3,6 +3,9 @@ package com.matrix.filmfinder.model;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * An entity comment_like, which takes id as Integer, user_id, comment_id as foreign key user and comment
+ */
 @Entity(
         name = "comment_like"
 )

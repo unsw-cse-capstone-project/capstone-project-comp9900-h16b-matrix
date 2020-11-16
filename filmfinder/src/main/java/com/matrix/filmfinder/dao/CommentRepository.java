@@ -13,15 +13,8 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
-//   @Query(
-//      value = "select * from Comment c,  " +
-//              "where c.movie_id = "
-//   )
-   List<Comment> getCommentsByUserAndMovie(User u, Movie m);
-   List<Comment> getCommentsByMovie(Movie m);
 
    List<Comment> findCommentsByUserAndMovie(User u, Movie m);
-   List<Comment> findCommentsByMovie(Movie m);
    @Query(
            nativeQuery = true,
            value = "Select c.id as comment_id, u.id as post_userid, u.name as post_username, c.content as content, c.movie_id as movie_id, c.n_likes as n_likes, c.submit_time as submit_time, cl.your_user_id " +

@@ -1,9 +1,11 @@
 package com.matrix.filmfinder.model;
 
 import javax.persistence.*;
-import javax.websocket.ClientEndpoint;
 import java.util.Objects;
 
+/**
+ * An entity links movie and genre together, take movie_id and genre_id as foreign key
+ */
 @Entity
 @Table(
         name = "movie_to_genre",

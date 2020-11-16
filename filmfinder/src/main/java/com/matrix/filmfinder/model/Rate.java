@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+
+
 @Entity(name = "Rate")
 @Table(
         name = "rate",
@@ -25,12 +27,6 @@ public class Rate {
 
     public Rate() {
     }
-
-//    public Rate(Integer uid, Integer movie_id, Integer rating) {
-//        this.uid = uid;
-//        this.movie_id = movie_id;
-//        this.rating = rating;
-//    }
 
     public Date getRateTime() {
         return rateTime;

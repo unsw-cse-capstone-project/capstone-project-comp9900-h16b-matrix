@@ -38,6 +38,12 @@ public class CommentController {
        this.commentLikeRepository = commentLikeRepository;
     }
 
+    /**
+     * find comments by user and movie
+     * @param movie
+     * @param user
+     * @return
+     */
     @GetMapping(path = "/getMine")
     public ResponseEntity<Object> findCommentsByUserAndMovie(@RequestParam Movie movie, @RequestParam User user) {
         try {
@@ -54,7 +60,12 @@ public class CommentController {
         }
     }
 
-
+    /**
+     * find All comments by movie
+     * @param movie
+     * @param user
+     * @return
+     */
     @GetMapping(path = "/getAll")
     public ResponseEntity<Object> findAllCommentsByMovie(@RequestParam Movie movie, @RequestParam User user) {
         try {
@@ -71,6 +82,12 @@ public class CommentController {
         }
     }
     // add comment
+
+    /**
+     * add comment from json contains user id and movie id
+     * @param jsonNode
+     * @return
+     */
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addComment(@RequestBody JsonNode jsonNode) {
         Comment comment = new Comment();
@@ -128,6 +145,13 @@ public class CommentController {
     }
 
     //    update n_likes
+
+    /**
+     * like a comment by a user given a comment
+     * @param user
+     * @param comment
+     * @return
+     */
     @PutMapping(value = "/like")
     public ResponseEntity<Object> like(@RequestParam User user, @RequestParam Comment comment) {
 //        comment = commentRepository.getOne(comment.getId());
@@ -145,6 +169,12 @@ public class CommentController {
 
     }
 
+    /**
+     * discard a like from comment
+     * @param user
+     * @param comment
+     * @return
+     */
     @PutMapping(value = "/unlike")
     public ResponseEntity<Object> unlike(@RequestParam User user, @RequestParam Comment comment) {
         CommentLike commentLike = commentLikeRepository.getCommentLikeByUserAndComment(user, comment);
@@ -164,15 +194,12 @@ public class CommentController {
         }
 
     }
-//    // Update comment
-//    @PutMapping(value = "udComment/{id}")
-//    public Comment updateComment(@PathVariable Integer id, @RequestParam("content") String content) {
-//        Comment record = commentRepository.findById(id).get();
-//        record.setContent((content));
-//        return commentRepository.save(record);
-//    }
 
-    // Delete data
+    /**
+     * delete comment
+     * @param id
+     * @return
+     */
     @DeleteMapping(value = "/delete")
     public ResponseEntity<Object> deleteComment(@RequestParam Integer id) {
         try {

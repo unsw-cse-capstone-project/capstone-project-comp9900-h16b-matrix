@@ -1,13 +1,10 @@
 package com.matrix.filmfinder.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Comment {
@@ -25,9 +22,6 @@ public class Comment {
 //    @NotBlank
     private String content;
 
-//    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
-//    @JsonIgnore
-//    private Set<CommentLike> likes = new HashSet<>();
 
     @ManyToOne (fetch = FetchType.EAGER, optional = false)
     private User user;
@@ -58,14 +52,6 @@ public class Comment {
     public Comment() {
     }
 
-//    public Comment(Integer id, Integer uid, Integer movie_id, Date submit_time, Integer n_likes, String content){
-//        this.id = id;
-//        this.uid = uid;
-//        this.movie_id = movie_id;
-//        this.submit_time = submit_time;
-//        this.n_likes = n_likes;
-//        this.content = content;
-//    }
 
     public Integer getId() {
         return id;
@@ -116,13 +102,6 @@ public class Comment {
         this.nLikes -= 1;
     }
 
-//    public Set<CommentLike> getLikes() {
-//        return likes;
-//    }
-//
-//    public void setLikes(Set<CommentLike> likes) {
-//        this.likes = likes;
-//    }
 
     @Override
     public String toString() {

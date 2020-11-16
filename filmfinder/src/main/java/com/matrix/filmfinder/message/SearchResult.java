@@ -1,7 +1,5 @@
 package com.matrix.filmfinder.message;
 
-import com.matrix.filmfinder.model.Movie;
-
 import java.util.List;
 
 public class SearchResult {

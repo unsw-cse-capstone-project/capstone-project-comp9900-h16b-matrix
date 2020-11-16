@@ -8,6 +8,14 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/*
+* Here is the Movie entity to manage movie details
+*
+ */
+
+/**
+ * A Entity manage movie class
+ */
 @Entity(name = "Movie")
 @Table(name = "movie" )
 public class Movie {

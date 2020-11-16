@@ -35,7 +35,13 @@ public class RateController {
         this.rateService = rateService;
     }
 
-
+    /**
+     * add rate
+     * @param user
+     * @param movie
+     * @param rating
+     * @return
+     */
     @PostMapping(path="/add")
     public ResponseEntity<Object> addRate(
             @RequestParam User user,
@@ -53,7 +59,13 @@ public class RateController {
         );
     }
 
-    //    update
+    /**
+     * update rate
+     * @param user
+     * @param movie
+     * @param rating
+     * @return
+     */
     @PutMapping(value = "/update")
     public ResponseEntity<Object> updateRate(@RequestParam User user,
                                              @RequestParam Movie movie,
@@ -85,6 +97,13 @@ public class RateController {
                HttpStatus.OK
        );
     }
+
+    /**
+     * get average marks
+     * @param user
+     * @param movie
+     * @return
+     */
     @GetMapping(value = "/getAvg")
     public ResponseEntity<Object> getAverageRateOfMovie(@RequestParam User user, @RequestParam Movie movie) {
         try {
@@ -99,6 +118,13 @@ public class RateController {
             );
         }
     }
+
+    /**
+     * get rate by user and movie
+     * @param movie
+     * @param user
+     * @return
+     */
     @GetMapping(value = "/get")
     public ResponseEntity<Object> getRateByUserAndMovie(@RequestParam Movie movie, @RequestParam User user ) {
         try {
@@ -115,6 +141,12 @@ public class RateController {
         }
 
     }
+
+    /**
+     * @deprecated
+     * @param movie
+     * @return
+     */
     @GetMapping(value = "/getAll")
     public ResponseEntity<Object> getAll(@RequestParam Movie movie) {
         Double avg = rateRepository.getAvgOfRateByMovie(movie);

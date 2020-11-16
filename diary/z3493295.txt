@@ -14,4 +14,46 @@ week 3
 
 As a scrum master, I organized meetings to discussed about user story and UI/story board design. We discussed about the tool chains we plan to use and everything else which we should put in project proposal.
 
-As a team member, I drafted serveral story boards, helped teammates to finished user story and done the final check of the proposal. 
+As a team member, I drafted serveral story boards, helped teammates to
+finished user stories and done the final check of the proposal. 
+
+Week 4
+
+As a scrum master, I organized meetings to discuss about assgined jobs to my teammates. 
+As a backend developer, I setup the backend environment, and loaded the
+initial files into the project directory. I also help my teammate to set up
+his environment
+
+Weeek 5
+
+As a scrum master, I made the Progressive Demo A for our team and lead the
+first Retrospective on the next day.
+
+As a developer, I finished the basic login/signup function
+
+Week 6
+
+As a scrum master, I assigned the jobs to my teammates.
+
+As a backend developer, I was trying to re-implement login/signup feature with
+Spring Security
+
+Week 7
+
+As a scrum master, I checked the progress with my team
+
+As a backend developer, I finished User, Movie, CommentLike Entities and
+controllers
+
+Week 8
+
+As a scrum master, I made the Progressive Demo B for our team
+
+As a backend developper, debugging CommentLike controller, and debugged
+wishlist and rate
+
+Week 9
+As a scrum master, I organized my team to work for the final code submission
+
+As a backend developer, use python script to crawling the data to AWS RDS
+server, fix the blacklist, implement the search and recommend funtion 

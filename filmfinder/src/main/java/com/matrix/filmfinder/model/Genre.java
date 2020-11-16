@@ -6,6 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+/**
+ * An entity mapping Genre table
+ */
 @Entity
 @Table(name = "genre")
 public class Genre {

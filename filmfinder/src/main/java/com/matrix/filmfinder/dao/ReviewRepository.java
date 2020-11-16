@@ -6,7 +6,6 @@ import com.matrix.filmfinder.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
@@ -25,12 +24,4 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
                     "on r.user_id = b.banned_user_id where b.banned_user_id is null and r.movie_id = ?1"
     )
     List<Review> findReviewsByMovieWithBlacklistFilter(Movie movie, User user);
-//    List<Review> findReviewsByBanned_Users(List<User> banned_users);
-
-//    @Query(
-//            nativeQuery = true,
-//            value =
-//    )
-//    @Transactional
-//    List<Review> findReviewsByMovieWithBannedUsers(Movie movie_id);
 }

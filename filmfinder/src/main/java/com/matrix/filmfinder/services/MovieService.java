@@ -3,7 +3,6 @@ package com.matrix.filmfinder.services;
 import com.matrix.filmfinder.dao.CommentRepository;
 import com.matrix.filmfinder.dao.GenreRepository;
 import com.matrix.filmfinder.dao.MovieRepository;
-
 import com.matrix.filmfinder.dao.UserRepository;
 import com.matrix.filmfinder.message.MovieWrapper;
 import com.matrix.filmfinder.message.SearchResult;
@@ -13,14 +12,11 @@ import com.matrix.filmfinder.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointDiscoverer;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -51,7 +47,11 @@ public class MovieService {
     }
 
 
-
+    /**
+     * fetch movie detail
+     * @param id
+     * @return movie
+     */
     public Movie getMovieDetail(Integer id) {
         try {
             logger.info("Get movie by movie id {}", id);
@@ -78,6 +78,19 @@ public class MovieService {
             );
         }
     }
+
+    /**
+     *
+     * @param user
+     * @param keyword
+     * @param searchField
+     * @param genre_ids
+     * @param ordered_by
+     * @param page
+     * @param batchSize
+     * @param isAscending
+     * @return a movie page filled with a list of movie, current page, maximum page, maximum movie numbers, page size
+     */
     public SearchResult searchMovie(User user, String keyword, String searchField, List<Integer> genre_ids, String ordered_by, Integer page, Integer batchSize, Boolean isAscending) {
         try {
             logger.info("Get genres");

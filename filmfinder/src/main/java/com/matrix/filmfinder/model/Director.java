@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Objects;
 
+/**
+ * An entity manage Director
+ */
 @Entity
 public class Director {
     @Id

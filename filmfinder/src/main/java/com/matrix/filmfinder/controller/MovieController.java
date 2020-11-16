@@ -1,26 +1,14 @@
 package com.matrix.filmfinder.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.matrix.filmfinder.dao.CommentRepository;
-import com.matrix.filmfinder.dao.MovieRepository;
-import com.matrix.filmfinder.message.GenresWrapper;
-import com.matrix.filmfinder.model.Genre;
 import com.matrix.filmfinder.model.Movie;
 import com.matrix.filmfinder.model.User;
 import com.matrix.filmfinder.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.yaml.snakeyaml.util.ArrayUtils;
 
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.Predicate;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -34,32 +22,28 @@ public class MovieController {
     }
 
 
-
+    /**
+     *
+     * @param id
+     * @return Movie
+     */
     @GetMapping(path = "/get")
     public ResponseEntity<Object> get(@RequestParam Integer id) {
         return new ResponseEntity<>(movieService.getMovieDetail(id), HttpStatus.OK);
     }
-//    @GetMapping(path = "/search/title")
-//    public ResponseEntity<Object> searchByTitle(@RequestParam String keyword,
-//                                                @RequestParam String sorted_by,
-//                                                @RequestParam Integer page,
-//                                                @RequestParam Boolean isAscending
-//    ) {
-//        return new ResponseEntity<>(
-//                movieService.searchMovieWithTitle(keyword, sorted_by, page, 16, isAscending),
-//                HttpStatus.OK
-//        );
-//    }
-//    @GetMapping(path = "/search/description")
-//    public ResponseEntity<Object> searchByDescription(@RequestParam String keyword,
-//                                                      @RequestParam String sorted_by,
-//                                                      @RequestParam Integer page,
-//                                                      @RequestParam Boolean isAscending) {
-//       return new ResponseEntity<>(
-//               movieService.searchByDescription(keyword, sorted_by, page, 16, isAscending),
-//               HttpStatus.OK
-//       );
-//    }
+
+    /**
+     * search movie
+     * @param searchField
+     * @param user
+     * @param keyword
+     * @param sortedBy
+     * @param page
+     * @param pageSize
+     * @param isAscending
+     * @param genres
+     * @return search result page
+     */
     @GetMapping(path = "/search/{search_field}")
     public ResponseEntity<Object> search(@PathVariable("search_field") String searchField,
                                          @RequestParam User user,
@@ -86,6 +70,13 @@ public class MovieController {
             );
         }
     }
+
+    /**
+     * recommend movie
+     * @param user
+     * @param movie
+     * @return movie lists
+     */
     @GetMapping(path = "/recommend")
     public ResponseEntity<Object> recommend(@RequestParam User user, @RequestParam Movie movie) {
         try {

@@ -5,6 +5,9 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * A Entity class manage blacklist, take id as primary key. User and banned_user as foreign key to User and banned_user
+ */
 @Entity(name = "Blacklist")
 public class Blacklist {
     @Id
@@ -12,20 +15,13 @@ public class Blacklist {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)//EAGER = Load at the same time as the main class
-//    @JoinColumn(name = "User_id")
     private User user;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-//    @JoinColumn(name = "User")
     private User banned_user;
 
     public Blacklist() {
     }
 
-//    public Blacklist(UUID id, UUID uid, UUID banned_id) {
-//        this.id = id;
-//        this.uid = uid;
-//        this.banned_id = banned_id;
-//    }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

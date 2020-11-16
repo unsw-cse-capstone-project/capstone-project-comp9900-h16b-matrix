@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * An entity match to ReviewReply, which take 2 User id as foreign key. take review as a foreign key
+ */
 @Entity(name = "ReviewReply")
 public class ReviewReply {
     @Id

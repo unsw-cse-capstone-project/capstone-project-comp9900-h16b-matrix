@@ -29,33 +29,16 @@ public class WishlistController {
         this.movieRepository =movieRepository;
         this.userRepository = userRepository;
     }
-
-    // Find whether add into wishlist
-//    @GetMapping(value = "/get")
-////    public ResponseEntity<Object> findMovieInWishlist(@RequestParam User user, @RequestParam Movie movie){
-//    public ResponseEntity<Object> findMovieInWishlist(@RequestParam Integer uid, @RequestParam Integer movie_id){
-//        try {
-//            Wishlist wishlist = wishlistRepository.findByUidAndMovie_id(uid, movie_id);
-////            List<Wishlist> wishlist = wishlistRepository.findByUidAndMovie(uid, movie_id);
-//            return new ResponseEntity<>(
-//                    wishlist,
-//                    HttpStatus.OK
-//            );
-//        } catch (EntityNotFoundException e) {
-//            return new ResponseEntity<>(
-//                    "EntityNotFound",
-//                    HttpStatus.NOT_FOUND
-//            );
-//        }
-//    }
-
     // Search all movie from wishlist
+
+    /**
+     * get all wishlist
+     * @param user
+     * @return
+     */
     @GetMapping(value = "/getAll")
     public ResponseEntity<Object> getWishlists(@RequestParam User user){
         try {
-//            User user = userRepository.getOne(uid);
-//            List<Wishlist> wishlists = wishlistRepository.getWishlistsByUser(user);
-//            List<Movie> movies = movieRepository.findByIdIn(wishlists);
             List<WishlistMessage> movies = wishlistRepository.getWishListsByUser(user);
 
             return new ResponseEntity<>(
@@ -69,6 +52,13 @@ public class WishlistController {
             );
         }
     }
+
+    /**
+     * get one wishlist
+     * @param user
+     * @param movie
+     * @return
+     */
     @GetMapping(value = "/get")
     public ResponseEntity<Object> getWishList(@RequestParam User user, @RequestParam Movie movie) {
         try {
@@ -85,6 +75,13 @@ public class WishlistController {
         }
     }
     // Add
+
+    /**
+     * add to wishlist
+     * @param uid
+     * @param movie_id
+     * @return
+     */
     @PostMapping(path = "/add")
     public ResponseEntity<Object> addWishlist(
             @RequestParam(name = "user") User uid,
@@ -101,6 +98,12 @@ public class WishlistController {
         );
     }
     // Delete
+
+    /**
+     * delete from wishlist
+     * @param id
+     * @return
+     */
     @DeleteMapping(value = "/delete")
     public ResponseEntity<Object> deleteWishlist(@RequestParam Integer id){
         try {

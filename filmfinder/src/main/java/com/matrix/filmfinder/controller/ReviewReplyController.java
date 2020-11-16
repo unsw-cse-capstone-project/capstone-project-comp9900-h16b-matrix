@@ -33,6 +33,12 @@ public class ReviewReplyController {
         this.reviewRepository = reviewRepository;
     }
 
+    /**
+     * get all reply for a review
+     * @param review
+     * @param user
+     * @return
+     */
     // find all replys for one review
     @GetMapping(path = "/getall")
     public ResponseEntity<Object> findAllReply(@RequestParam Review review, @RequestParam User user) {
