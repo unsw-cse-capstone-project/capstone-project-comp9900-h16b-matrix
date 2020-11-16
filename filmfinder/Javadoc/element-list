@@ -1,0 +1,7 @@
+com.matrix.filmfinder
+com.matrix.filmfinder.configure
+com.matrix.filmfinder.controller
+com.matrix.filmfinder.dao
+com.matrix.filmfinder.message
+com.matrix.filmfinder.model
+com.matrix.filmfinder.services

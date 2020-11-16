@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"com.matrix.filmfinder"},{"l":"com.matrix.filmfinder.configure"},{"l":"com.matrix.filmfinder.controller"},{"l":"com.matrix.filmfinder.dao"},{"l":"com.matrix.filmfinder.message"},{"l":"com.matrix.filmfinder.model"},{"l":"com.matrix.filmfinder.services"},{"l":"所有程序包","url":"allpackages-index.html"}]
