@@ -151,7 +151,6 @@ public class RateController {
     public ResponseEntity<Object> getAll(@RequestParam Movie movie) {
         Double avg = rateRepository.getAvgOfRateByMovie(movie);
         Integer count = rateRepository.countRatesByMovie(movie);
-        // List<Integer> rates = [oneStars, twoStars, threeStars, fourStars, fiveStars]
         List<Integer> rates = new ArrayList<>();
         for (int i = 1; i < 6; i++) {
            rates.add(rateRepository.countRatesByRating(i));
